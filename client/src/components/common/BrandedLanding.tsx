@@ -201,8 +201,8 @@ const BrandedLanding: React.FC = () => {
                       lineHeight: 1.5,
                     }}
                   >
-                    A comprehensive platform for career-transitioning developers to build, 
-                    track, and showcase portfolio projects while managing their entire job search process.
+                    A comprehensive platform designed to streamline your career transition journey. 
+                    Build projects, track applications, and showcase your skills to potential employers.
                   </Typography>
                   <Stack
                     direction={{ xs: 'column', sm: 'row' }}
@@ -422,10 +422,43 @@ const BrandedLanding: React.FC = () => {
         </Container>
       </Box>
 
-      {/* Stats Section */}
+      {/* Industry Facts Section */}
       <Container maxWidth="lg" sx={{ py: 6 }}>
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: brandConfig.typography.fontWeight.semiBold,
+              color: 'text.secondary',
+              mb: 2,
+            }}
+          >
+            Career Transition Reality Check
+          </Typography>
+        </Box>
         <Grid container spacing={4}>
-          {stats.map((stat, index) => (
+          {[
+            {
+              value: '6-12 months',
+              label: 'Average career transition time',
+              source: 'Industry average for career changers'
+            },
+            {
+              value: '200+',
+              label: 'Applications typically needed',
+              source: 'Without proper organization'
+            },
+            {
+              value: '3-5',
+              label: 'Portfolio projects recommended',
+              source: 'By hiring managers'
+            },
+            {
+              value: '40%',
+              label: 'Faster with structured approach',
+              source: 'Organized vs. unorganized job seekers'
+            }
+          ].map((stat, index) => (
             <Grid item xs={6} md={3} key={index}>
               <Box sx={{ textAlign: 'center' }}>
                 <Typography
@@ -442,11 +475,21 @@ const BrandedLanding: React.FC = () => {
                 <Typography
                   variant="body2"
                   sx={{
-                    color: 'text.secondary',
+                    color: 'text.primary',
                     fontWeight: brandConfig.typography.fontWeight.medium,
+                    mb: 0.5,
                   }}
                 >
                   {stat.label}
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: 'text.secondary',
+                    fontSize: '0.75rem',
+                  }}
+                >
+                  {stat.source}
                 </Typography>
               </Box>
             </Grid>
@@ -489,6 +532,324 @@ const BrandedLanding: React.FC = () => {
         </Grid>
       </Container>
 
+      {/* How It Works Section */}
+      <Box sx={{ bgcolor: colors.grey[50], py: 8 }}>
+        <Container maxWidth="lg">
+          <Box sx={{ textAlign: 'center', mb: 6 }}>
+            <Typography
+              variant="h3"
+              component="h2"
+              sx={{
+                fontWeight: brandConfig.typography.fontWeight.bold,
+                mb: 2,
+              }}
+            >
+              How It Works
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: 'text.secondary',
+                maxWidth: 600,
+                mx: 'auto',
+                fontWeight: brandConfig.typography.fontWeight.medium,
+              }}
+            >
+              Three simple steps to transform your career
+            </Typography>
+          </Box>
+          <Grid container spacing={4} alignItems="center">
+            {[
+              {
+                step: '1',
+                title: 'Plan Your Projects',
+                description: 'Set up portfolio projects with clear timelines and track your progress daily.',
+                icon: '📋'
+              },
+              {
+                step: '2',
+                title: 'Apply & Track',
+                description: 'Use our resume builder and application tracker to manage your job search efficiently.',
+                icon: '🎯'
+              },
+              {
+                step: '3',
+                title: 'Land Your Dream Job',
+                description: 'Prepare for interviews and showcase your completed projects to employers.',
+                icon: '🚀'
+              }
+            ].map((step, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <Box sx={{ textAlign: 'center', position: 'relative' }}>
+                  <Box
+                    sx={{
+                      width: 80,
+                      height: 80,
+                      borderRadius: '50%',
+                      bgcolor: colors.primary.main,
+                      color: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      mx: 'auto',
+                      mb: 3,
+                      fontSize: '2rem',
+                    }}
+                  >
+                    {step.icon}
+                  </Box>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      fontWeight: brandConfig.typography.fontWeight.bold,
+                      mb: 2,
+                    }}
+                  >
+                    {step.title}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: 'text.secondary',
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {step.description}
+                  </Typography>
+                  {index < 2 && (
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: 40,
+                        right: -50,
+                        display: { xs: 'none', md: 'block' },
+                        fontSize: '2rem',
+                        color: colors.grey[300],
+                      }}
+                    >
+                      →
+                    </Box>
+                  )}
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Potential Impact Section */}
+      <Box sx={{ bgcolor: colors.grey[50], py: 8 }}>
+        <Container maxWidth="lg">
+          <Box sx={{ textAlign: 'center', mb: 6 }}>
+            <Typography
+              variant="h3"
+              component="h2"
+              sx={{
+                fontWeight: brandConfig.typography.fontWeight.bold,
+                mb: 2,
+              }}
+            >
+              How This Platform Could Help You
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: 'text.secondary',
+                maxWidth: 600,
+                mx: 'auto',
+                fontWeight: brandConfig.typography.fontWeight.medium,
+              }}
+            >
+              Based on industry research and best practices for career transitions
+            </Typography>
+          </Box>
+          <Grid container spacing={4}>
+            {[
+              {
+                title: 'Reduce Job Search Time',
+                projection: 'Potentially 2-4 months faster',
+                description: 'Organized tracking and structured approach can significantly reduce the typical 6-12 month transition period.',
+                icon: '⏰',
+                fact: 'Studies show organized job seekers find roles 40% faster'
+              },
+              {
+                title: 'Improve Application Success',
+                projection: 'Higher response rates',
+                description: 'Tailored resumes and tracked applications typically see 2-3x better response rates than generic approaches.',
+                icon: '📈',
+                fact: 'Customized applications get 3x more responses'
+              },
+              {
+                title: 'Build Portfolio Faster',
+                projection: 'Complete 3-5 projects efficiently',
+                description: 'Time-boxed project planning helps you build a compelling portfolio without getting stuck in tutorial hell.',
+                icon: '🚀',
+                fact: 'Hiring managers recommend 3-5 quality projects'
+              }
+            ].map((item, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    p: 3,
+                    textAlign: 'center',
+                    border: `1px solid ${colors.grey[200]}`,
+                    boxShadow: 'none',
+                    bgcolor: 'white',
+                  }}
+                >
+                  <Typography
+                    variant="h2"
+                    sx={{ mb: 2, fontSize: '3rem' }}
+                  >
+                    {item.icon}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: brandConfig.typography.fontWeight.semiBold,
+                      mb: 1,
+                    }}
+                  >
+                    {item.title}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ 
+                      color: colors.success.main,
+                      fontWeight: brandConfig.typography.fontWeight.semiBold,
+                      mb: 2,
+                    }}
+                  >
+                    {item.projection}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      mb: 2,
+                      color: 'text.secondary',
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {item.description}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{ 
+                      color: colors.primary.main,
+                      fontStyle: 'italic',
+                    }}
+                  >
+                    {item.fact}
+                  </Typography>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Why Choose This Platform Section */}
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Box sx={{ textAlign: 'center', mb: 6 }}>
+          <Typography
+            variant="h3"
+            component="h2"
+            sx={{
+              fontWeight: brandConfig.typography.fontWeight.bold,
+              mb: 2,
+            }}
+          >
+            Built by a Developer, For Developers
+          </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              color: 'text.secondary',
+              maxWidth: 600,
+              mx: 'auto',
+              fontWeight: brandConfig.typography.fontWeight.medium,
+            }}
+          >
+            This platform was created to solve the exact challenges I faced during my own career transition
+          </Typography>
+        </Box>
+        <Grid container spacing={4}>
+          {[
+            {
+              title: 'Real-World Tested',
+              description: 'Every feature was built to solve actual problems encountered during career transitions.',
+              icon: '🔬',
+              benefit: 'No theoretical fluff - just practical tools that work'
+            },
+            {
+              title: 'Developer-Focused',
+              description: 'Designed specifically for developers transitioning careers, not generic job seekers.',
+              icon: '💻',
+              benefit: 'Features tailored to tech industry requirements'
+            },
+            {
+              title: 'Continuously Improved',
+              description: 'Built with modern tech stack and best practices, constantly updated based on user needs.',
+              icon: '🚀',
+              benefit: 'Always evolving to meet current market demands'
+            }
+          ].map((item, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <Card
+                sx={{
+                  height: '100%',
+                  p: 3,
+                  textAlign: 'center',
+                  border: `1px solid ${colors.grey[200]}`,
+                  boxShadow: 'none',
+                  '&:hover': {
+                    boxShadow: brandConfig.shadows.md,
+                    transform: 'translateY(-2px)',
+                    transition: 'all 0.3s ease-in-out',
+                  },
+                }}
+              >
+                <Typography
+                  variant="h2"
+                  sx={{ mb: 2, fontSize: '3rem' }}
+                >
+                  {item.icon}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: brandConfig.typography.fontWeight.semiBold,
+                    mb: 2,
+                  }}
+                >
+                  {item.title}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    mb: 2,
+                    color: 'text.secondary',
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {item.description}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ 
+                    color: colors.primary.main,
+                    fontWeight: brandConfig.typography.fontWeight.medium,
+                  }}
+                >
+                  {item.benefit}
+                </Typography>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
       {/* CTA Section */}
       <Box
         sx={{
@@ -505,7 +866,7 @@ const BrandedLanding: React.FC = () => {
               sx={{
                 fontWeight: brandConfig.typography.fontWeight.bold,
                 mb: 2,
-                color: 'text.primary',
+                color: colors.grey[900], // Explicit dark color
               }}
             >
               Ready to Transform Your Career?
@@ -513,13 +874,23 @@ const BrandedLanding: React.FC = () => {
             <Typography
               variant="h6"
               sx={{
-                color: 'text.secondary',
-                mb: 4,
+                color: colors.grey[600], // Explicit medium grey
+                mb: 2,
                 fontWeight: brandConfig.typography.fontWeight.medium,
               }}
             >
-              Join thousands of developers who have successfully transitioned their careers 
-              using our comprehensive platform.
+              Start organizing your career transition with tools designed specifically 
+              for developers entering the tech industry.
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                color: colors.success.main,
+                mb: 4,
+                fontWeight: brandConfig.typography.fontWeight.semiBold,
+              }}
+            >
+              ✅ Free to start • ✅ No credit card required • ✅ Setup in 2 minutes
             </Typography>
             <BrandedButton
               variant="primary"

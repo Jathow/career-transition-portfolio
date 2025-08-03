@@ -3,7 +3,9 @@
 **A comprehensive full-stack platform I built to manage my career transition into software development. This project demonstrates my ability to design, develop, and deploy production-ready applications.**
 
 ## 🎯 **Live Application**
-**🌐 [View Live Portfolio Platform](https://your-railway-url.railway.app)** *(Replace with your actual Railway URL)*
+**🌐 [View Live Portfolio Platform](https://career-transition-portfolio-production.up.railway.app)** 
+
+> **Live Demo Available!** Experience the full platform with all features working.
 
 ## 👨‍💻 **About This Project**
 I created this platform to solve a real problem I faced during my career transition - the need for a comprehensive tool to manage portfolio projects, track job applications, and showcase my development skills to potential employers. This project itself serves as a demonstration of my full-stack development capabilities.
@@ -45,7 +47,7 @@ DATABASE_URL=file:./prisma/prod.db
 PORT=5001
 ADMIN_EMAIL=your-email@gmail.com
 ADMIN_PASSWORD=your-secure-password
-CORS_ORIGIN=https://your-actual-railway-url.railway.app
+CORS_ORIGIN=https://career-transition-portfolio-production.up.railway.app
 ```
 
 **Important:** Replace `your-email@gmail.com` and `your-secure-password` with your actual credentials!
@@ -80,7 +82,7 @@ git commit -m "Add Railway configuration"
 git push origin main
 ```
 
-**🎉 Your app is now live!** Access at your Railway URL and create your account.
+**🎉 Your app is now live!** Access at https://career-transition-portfolio-production.up.railway.app and create your account.
 
 **Cost:** ~$5/month
 
@@ -96,7 +98,7 @@ This repository demonstrates:
 - **Modern development practices** including testing, CI/CD, and security
 - **Problem-solving skills** through building a real-world application
 
-The live application at [your Railway URL] showcases the actual portfolio and projects.
+The live application at https://career-transition-portfolio-production.up.railway.app showcases the actual portfolio and projects.
 
 ---
 
@@ -234,7 +236,7 @@ REACT_APP_ENVIRONMENT=development
 
 ### Application Error
 - Check all environment variables are set
-- Verify `CORS_ORIGIN` matches your Railway URL exactly
+- Verify `CORS_ORIGIN` matches https://career-transition-portfolio-production.up.railway.app exactly
 - Review Railway application logs
 
 ### Database Issues
@@ -341,7 +343,7 @@ Railway automatically redeploys!
 npm run build && npm start
 
 # Check API health
-curl https://your-railway-url.com/health
+curl https://career-transition-portfolio-production.up.railway.app/health
 ```
 
 **Resources:**
@@ -363,7 +365,7 @@ This project showcases my ability to:
 ### 📞 **Let's Connect**
 I'm actively seeking full-stack developer opportunities where I can contribute my skills and continue growing. 
 
-- **Portfolio**: [Your Live Railway URL]
+- **Portfolio**: https://career-transition-portfolio-production.up.railway.app
 - **LinkedIn**: [Your LinkedIn Profile]
 - **Email**: [Your Professional Email]
 - **GitHub**: [Your GitHub Profile]

@@ -140,10 +140,10 @@ const BrandedLanding: React.FC = () => {
   ];
 
   const stats = [
-    { label: 'Projects Completed', value: '50+' },
-    { label: 'Applications Tracked', value: '200+' },
-    { label: 'Interviews Prepared', value: '100+' },
-    { label: 'Success Rate', value: '85%' },
+    { label: 'Unlimited Projects', value: '∞' },
+    { label: 'Complete Tracking', value: '100%' },
+    { label: 'Resume Templates', value: '5+' },
+    { label: 'Open Source', value: 'MIT' },
   ];
 
   return (
@@ -260,13 +260,160 @@ const BrandedLanding: React.FC = () => {
                       backdropFilter: 'blur(10px)',
                       border: '1px solid rgba(255, 255, 255, 0.2)',
                       display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      flexDirection: 'column',
+                      p: 3,
+                      position: 'relative',
+                      overflow: 'hidden',
                     }}
                   >
-                    <Typography variant="h6" sx={{ opacity: 0.8 }}>
-                      Platform Preview
-                    </Typography>
+                    {/* Header */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                      <Box sx={{ 
+                        width: 12, 
+                        height: 12, 
+                        borderRadius: '50%', 
+                        bgcolor: '#ff5f56', 
+                        mr: 1 
+                      }} />
+                      <Box sx={{ 
+                        width: 12, 
+                        height: 12, 
+                        borderRadius: '50%', 
+                        bgcolor: '#ffbd2e', 
+                        mr: 1 
+                      }} />
+                      <Box sx={{ 
+                        width: 12, 
+                        height: 12, 
+                        borderRadius: '50%', 
+                        bgcolor: '#27ca3f' 
+                      }} />
+                      <Typography variant="caption" sx={{ ml: 2, opacity: 0.8 }}>
+                        Career Portfolio Dashboard
+                      </Typography>
+                    </Box>
+
+                    {/* Dashboard Content */}
+                    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                      {/* Stats Row */}
+                      <Box sx={{ display: 'flex', gap: 1 }}>
+                        <Box sx={{ 
+                          flex: 1, 
+                          height: 40, 
+                          background: 'rgba(255, 255, 255, 0.2)', 
+                          borderRadius: 1,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          p: 1
+                        }}>
+                          <Typography variant="caption" sx={{ opacity: 0.9, fontSize: '0.7rem' }}>
+                            Projects
+                          </Typography>
+                          <Typography variant="h6" sx={{ opacity: 0.9, fontSize: '1rem' }}>
+                            12
+                          </Typography>
+                        </Box>
+                        <Box sx={{ 
+                          flex: 1, 
+                          height: 40, 
+                          background: 'rgba(255, 255, 255, 0.2)', 
+                          borderRadius: 1,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          p: 1
+                        }}>
+                          <Typography variant="caption" sx={{ opacity: 0.9, fontSize: '0.7rem' }}>
+                            Applications
+                          </Typography>
+                          <Typography variant="h6" sx={{ opacity: 0.9, fontSize: '1rem' }}>
+                            47
+                          </Typography>
+                        </Box>
+                        <Box sx={{ 
+                          flex: 1, 
+                          height: 40, 
+                          background: 'rgba(255, 255, 255, 0.2)', 
+                          borderRadius: 1,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          p: 1
+                        }}>
+                          <Typography variant="caption" sx={{ opacity: 0.9, fontSize: '0.7rem' }}>
+                            Interviews
+                          </Typography>
+                          <Typography variant="h6" sx={{ opacity: 0.9, fontSize: '1rem' }}>
+                            8
+                          </Typography>
+                        </Box>
+                      </Box>
+
+                      {/* Project List */}
+                      <Box sx={{ flex: 1 }}>
+                        <Typography variant="caption" sx={{ opacity: 0.8, mb: 1, display: 'block' }}>
+                          Recent Projects
+                        </Typography>
+                        {[
+                          { name: 'E-commerce Platform', progress: 85, status: 'In Progress' },
+                          { name: 'Task Management App', progress: 100, status: 'Completed' },
+                          { name: 'Weather Dashboard', progress: 60, status: 'In Progress' }
+                        ].map((project, index) => (
+                          <Box key={index} sx={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            mb: 1.5,
+                            p: 1,
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            borderRadius: 1
+                          }}>
+                            <Box sx={{ flex: 1 }}>
+                              <Typography variant="caption" sx={{ opacity: 0.9, fontSize: '0.75rem' }}>
+                                {project.name}
+                              </Typography>
+                              <Box sx={{ 
+                                width: '100%', 
+                                height: 4, 
+                                background: 'rgba(255, 255, 255, 0.2)', 
+                                borderRadius: 2,
+                                mt: 0.5
+                              }}>
+                                <Box sx={{ 
+                                  width: `${project.progress}%`, 
+                                  height: '100%', 
+                                  background: project.progress === 100 ? '#4caf50' : '#2196f3',
+                                  borderRadius: 2
+                                }} />
+                              </Box>
+                            </Box>
+                            <Typography variant="caption" sx={{ 
+                              opacity: 0.8, 
+                              ml: 1, 
+                              fontSize: '0.7rem',
+                              color: project.progress === 100 ? '#4caf50' : '#2196f3'
+                            }}>
+                              {project.progress}%
+                            </Typography>
+                          </Box>
+                        ))}
+                      </Box>
+
+                      {/* Bottom Action */}
+                      <Box sx={{ 
+                        display: 'flex', 
+                        justifyContent: 'center',
+                        pt: 1,
+                        borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+                      }}>
+                        <Typography variant="caption" sx={{ opacity: 0.7, fontSize: '0.7rem' }}>
+                          Built with React • Node.js • TypeScript
+                        </Typography>
+                      </Box>
+                    </Box>
                   </Box>
                 </Box>
               </Grid>

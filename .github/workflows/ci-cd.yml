@@ -1,0 +1,236 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  NODE_VERSION: '18'
+  POSTGRES_VERSION: '16'
+
+jobs:
+  # Lint and Format Check
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd server && npm ci
+          cd ../client && npm ci
+
+      - name: Run ESLint (Server)
+        run: cd server && npm run lint
+
+      - name: Run ESLint (Client)
+        run: cd client && npm run lint
+
+      - name: Check code formatting
+        run: |
+          cd server && npm run format:check
+          cd ../client && npm run format:check
+
+  # Unit and Integration Tests
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:${{ env.POSTGRES_VERSION }}
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd server && npm ci
+          cd ../client && npm ci
+
+      - name: Setup test database
+        run: |
+          cd server
+          npm run db:generate
+          npm run db:migrate:test
+
+      - name: Run server tests
+        run: cd server && npm test -- --coverage --watchAll=false
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+          JWT_SECRET: test-secret-key
+          NODE_ENV: test
+
+      - name: Run client tests
+        run: cd client && npm test -- --coverage --watchAll=false --passWithNoTests
+
+      - name: Upload test coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./server/coverage/lcov.info
+          flags: server
+          name: server-coverage
+
+      - name: Upload client coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./client/coverage/lcov.info
+          flags: client
+          name: client-coverage
+
+  # E2E Tests
+  e2e:
+    runs-on: ubuntu-latest
+    needs: test
+    services:
+      postgres:
+        image: postgres:${{ env.POSTGRES_VERSION }}
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: e2e_test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd server && npm ci
+          cd ../client && npm ci
+
+      - name: Setup E2E database
+        run: |
+          cd server
+          npm run db:generate
+          npm run db:migrate:test
+
+      - name: Build application
+        run: |
+          cd server && npm run build
+          cd ../client && npm run build
+
+      - name: Start application
+        run: |
+          cd server && npm start &
+          sleep 10
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/e2e_test_db
+          JWT_SECRET: e2e-test-secret-key
+          NODE_ENV: test
+
+  # Performance Tests
+  performance:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd server && npm ci
+
+      - name: Run performance tests
+        run: npm run test:performance
+
+  # Build and Deploy (only on main branch)
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    needs: [lint, test, e2e, performance]
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd server && npm ci
+          cd ../client && npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Build Docker images
+        run: |
+          docker build -t career-portfolio-server:latest ./server
+          docker build -t career-portfolio-client:latest ./client
+
+      - name: Deploy to staging
+        if: github.ref == 'refs/heads/develop'
+        run: |
+          echo "Deploying to staging environment"
+          # Add staging deployment logic here
+
+      - name: Deploy to production
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "Deploying to production environment"
+          # Add production deployment logic here 

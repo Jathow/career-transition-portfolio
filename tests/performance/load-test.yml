@@ -1,0 +1,139 @@
+config:
+  target: 'http://localhost:5001'
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm up phase"
+    - duration: 120
+      arrivalRate: 10
+      name: "Sustained load phase"
+    - duration: 60
+      arrivalRate: 20
+      name: "Peak load phase"
+  defaults:
+    headers:
+      Content-Type: 'application/json'
+  processor: './tests/performance/helpers.js'
+
+scenarios:
+  - name: "Authentication Flow"
+    weight: 30
+    flow:
+      - post:
+          url: "/api/auth/register"
+          json:
+            firstName: "{{ $randomString() }}"
+            lastName: "{{ $randomString() }}"
+            email: "{{ $randomString() }}@test.com"
+            password: "TestPassword123!"
+            targetJobTitle: "Full Stack Developer"
+            jobSearchDeadline: "2024-06-01"
+      - think: 2
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ $randomString() }}@test.com"
+            password: "TestPassword123!"
+      - think: 1
+
+  - name: "Project Management"
+    weight: 25
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "loadtest@example.com"
+            password: "TestPassword123!"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      - think: 1
+      - get:
+          url: "/api/projects"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+      - think: 1
+      - post:
+          url: "/api/projects"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            title: "Load Test Project {{ $randomString() }}"
+            description: "Project created during load testing"
+            techStack: ["React", "Node.js", "TypeScript"]
+            startDate: "{{ $isoTimestamp() }}"
+            targetEndDate: "{{ $isoTimestamp('+7d') }}"
+            status: "planning"
+
+  - name: "Job Applications"
+    weight: 20
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "loadtest@example.com"
+            password: "TestPassword123!"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      - think: 1
+      - get:
+          url: "/api/applications"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+      - think: 1
+      - post:
+          url: "/api/applications"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            companyName: "Load Test Company {{ $randomString() }}"
+            jobTitle: "Software Engineer"
+            jobUrl: "https://example.com/job/{{ $randomString() }}"
+            applicationDate: "{{ $isoTimestamp() }}"
+            status: "applied"
+
+  - name: "Resume Management"
+    weight: 15
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "loadtest@example.com"
+            password: "TestPassword123!"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      - think: 1
+      - get:
+          url: "/api/resumes"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+      - think: 1
+      - post:
+          url: "/api/resumes"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            versionName: "Load Test Resume {{ $randomString() }}"
+            templateId: "modern"
+            content:
+              personalInfo:
+                firstName: "Load"
+                lastName: "Test"
+                email: "loadtest@example.com"
+                phone: "123-456-7890"
+              summary: "Experienced developer"
+              experience: []
+              projects: []
+              skills: ["JavaScript", "React", "Node.js"]
+              education: []
+
+  - name: "Portfolio Access"
+    weight: 10
+    flow:
+      - get:
+          url: "/api/portfolio/loadtest"
+      - think: 2
+      - get:
+          url: "/api/portfolio/loadtest/analytics" 

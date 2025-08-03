@@ -1,0 +1,397 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  passwordHash      String
+  firstName         String
+  lastName          String
+  role              String   @default("USER")
+  targetJobTitle    String?
+  jobSearchDeadline DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  projects       Project[]
+  resumes        Resume[]
+  jobApplications JobApplication[]
+  dailyLogs      DailyLog[]
+  notifications  Notification[]
+  portfolios     Portfolio[]
+  goals          Goal[]
+  achievements   Achievement[]
+  motivationalFeedback MotivationalFeedback[]
+  preferences    UserPreferences?
+
+  @@map("users")
+}
+
+model UserPreferences {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  darkMode    Boolean  @default(true)
+  compactMode Boolean  @default(false)
+  autoSave    Boolean  @default(true)
+  showTutorials Boolean @default(true)
+  emailNotifications Boolean @default(true)
+  pushNotifications Boolean @default(true)
+  reminderNotifications Boolean @default(true)
+  updateNotifications Boolean @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_preferences")
+}
+
+model Project {
+  id               String    @id @default(cuid())
+  userId           String
+  title            String
+  description      String
+  techStack        String
+  startDate        DateTime  @default(now())
+  targetEndDate    DateTime
+  actualEndDate    DateTime?
+  status           String @default("PLANNING")
+  repositoryUrl    String?
+  liveUrl          String?
+  revenueTracking  Boolean   @default(false)
+  marketResearch   String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  marketResearchItems MarketResearch[]
+  revenueMetrics RevenueMetric[]
+  projectAnalytics ProjectAnalytics[]
+  monetizationStrategies MonetizationStrategy[]
+
+  @@map("projects")
+}
+
+model Resume {
+  id           String   @id @default(cuid())
+  userId       String
+  versionName  String
+  templateId   String
+  content      String
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobApplications JobApplication[]
+
+  @@map("resumes")
+}
+
+model JobApplication {
+  id               String            @id @default(cuid())
+  userId           String
+  resumeId         String
+  companyName      String
+  jobTitle         String
+  jobUrl           String
+  applicationDate  DateTime          @default(now())
+  status           String @default("APPLIED")
+  coverLetter      String?
+  notes            String?
+  followUpDate     DateTime?
+  companyResearch  String?
+  preparationNotes String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  // Relations
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resume     Resume      @relation(fields: [resumeId], references: [id])
+  interviews Interview[]
+
+  @@map("job_applications")
+}
+
+model Interview {
+  id               String        @id @default(cuid())
+  applicationId    String
+  interviewType    String
+  scheduledDate    DateTime
+  duration         Int           // in minutes
+  interviewerName  String?
+  preparationNotes String?
+  questionsAsked   String
+  feedback         String?
+  outcome          String @default("PENDING")
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  // Relations
+  application JobApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@map("interviews")
+}
+
+model DailyLog {
+  id            String   @id @default(cuid())
+  userId        String
+  date          DateTime @default(now())
+  codingMinutes Int      @default(0)
+  applicationsSubmitted Int @default(0)
+  learningMinutes Int    @default(0)
+  notes         String?
+  mood          String?  // excellent, good, okay, poor
+  energyLevel   Int?     // 1-10 scale
+  productivity  Int?     // 1-10 scale
+  challenges    String?
+  achievements  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@map("daily_logs")
+}
+
+model Goal {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  description String?
+  type        String   // weekly, monthly, custom
+  targetValue Int
+  currentValue Int     @default(0)
+  unit        String   // hours, applications, projects, etc.
+  startDate   DateTime @default(now())
+  endDate     DateTime
+  status      String   @default("ACTIVE") // ACTIVE, COMPLETED, FAILED, PAUSED
+  priority    String   @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("goals")
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  description String
+  type        String   // milestone, streak, completion, special
+  icon        String?  // emoji or icon identifier
+  unlockedAt  DateTime @default(now())
+  metadata    String?  // JSON string for additional data
+  createdAt   DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("achievements")
+}
+
+model MotivationalFeedback {
+  id          String   @id @default(cuid())
+  userId      String
+  type        String   // encouragement, celebration, guidance, warning
+  title       String
+  message     String
+  priority    String   @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
+  isRead      Boolean  @default(false)
+  expiresAt   DateTime?
+  metadata    String?  // JSON string for additional data
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("motivational_feedback")
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // deadline, milestone, progress, system
+  title     String
+  message   String
+  priority  String   // low, medium, high, critical
+  read      Boolean  @default(false)
+  metadata  String?  // JSON string for additional data
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model Portfolio {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  title             String
+  subtitle          String?
+  description       String?
+  theme             String   @default("default") // default, dark, minimal, professional
+  customDomain      String?
+  isPublic          Boolean  @default(true)
+  seoTitle          String?
+  seoDescription    String?
+  seoKeywords       String?
+  analyticsEnabled  Boolean  @default(true)
+  lastGenerated     DateTime @default(now())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assets    PortfolioAsset[]
+  analytics PortfolioAnalytics[]
+
+  @@map("portfolios")
+}
+
+model PortfolioAsset {
+  id          String   @id @default(cuid())
+  portfolioId String
+  type        String   // image, video, document, demo
+  filename    String
+  originalName String
+  mimeType    String
+  size        Int
+  url         String
+  altText     String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  portfolio Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+
+  @@map("portfolio_assets")
+}
+
+model PortfolioAnalytics {
+  id          String   @id @default(cuid())
+  portfolioId String
+  visitorIp   String?
+  userAgent   String?
+  referrer    String?
+  page        String
+  timestamp   DateTime @default(now())
+  sessionId   String?
+
+  // Relations
+  portfolio Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+
+  @@map("portfolio_analytics")
+}
+
+// New models for revenue tracking and market analysis
+
+model MarketResearch {
+  id                String   @id @default(cuid())
+  projectId         String
+  researchType      String   // market_analysis, competition_analysis, opportunity_assessment
+  title             String
+  description       String
+  targetMarket      String?
+  marketSize        String?  // small, medium, large, enterprise
+  competitionLevel  String?  // low, medium, high
+  entryBarriers     String?
+  monetizationPotential String? // low, medium, high
+  researchData      String   // JSON string for structured data
+  insights          String?
+  recommendations   String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("market_research")
+}
+
+model RevenueMetric {
+  id                String   @id @default(cuid())
+  projectId         String
+  metricType        String   // user_engagement, revenue, conversion, retention
+  metricName        String
+  value             Float
+  unit              String   // users, dollars, percentage, etc.
+  period            String   // daily, weekly, monthly
+  date              DateTime
+  notes             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("revenue_metrics")
+}
+
+model ProjectAnalytics {
+  id                String   @id @default(cuid())
+  projectId         String
+  analyticsType     String   // page_views, user_engagement, conversion, retention
+  metricName        String
+  value             Float
+  date              DateTime
+  metadata          String?  // JSON string for additional data
+  createdAt         DateTime @default(now())
+
+  // Relations
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_analytics")
+}
+
+model MonetizationStrategy {
+  id                String   @id @default(cuid())
+  projectId         String
+  strategyType      String   // subscription, freemium, ads, marketplace, saas
+  title             String
+  description       String
+  targetAudience    String?
+  pricingModel      String?
+  revenueProjection Float?
+  implementationPlan String?
+  status            String   @default("PLANNING") // PLANNING, IMPLEMENTING, ACTIVE, PAUSED
+  priority          String   @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("monetization_strategies")
+}
+
+// String enum values: PLANNING, IN_PROGRESS, COMPLETED, PAUSED
+
+// String enum values: APPLIED, SCREENING, INTERVIEW, OFFER, REJECTED, WITHDRAWN
+
+// String enum values: PHONE, VIDEO, ONSITE, TECHNICAL
+
+// String enum values: PENDING, PASSED, FAILED, CANCELLED

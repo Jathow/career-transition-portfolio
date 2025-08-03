@@ -1,0 +1,51 @@
+{
+  "name": "career-transition-portfolio",
+  "version": "1.0.0",
+  "description": "A comprehensive platform for managing career transitions and building developer portfolios",
+  "main": "server/dist/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "server:dev": "cd server && npm run dev",
+    "client:dev": "cd client && npm start",
+    "build": "npm run client:build && npm run server:build",
+    "client:build": "cd client && npm ci && npm run build",
+    "server:build": "cd server && npm ci && npm run build",
+    "start": "cd server && npm start",
+    "postinstall": "cd server && npx prisma generate && npx prisma migrate deploy",
+    "deploy:prepare": "npm run build && echo 'Ready for deployment!'",
+    "test": "npm run server:test && npm run client:test",
+    "server:test": "cd server && npm test",
+    "client:test": "cd client && npm test",
+    "test:e2e": "cypress run",
+    "test:performance": "artillery run tests/performance/load-test.yml",
+    "test:coverage": "npm run server:test:coverage && npm run client:test:coverage",
+    "server:test:coverage": "cd server && npm run test:coverage",
+    "client:test:coverage": "cd client && npm run test:coverage",
+    "lint": "npm run server:lint && npm run client:lint",
+    "server:lint": "cd server && npm run lint",
+    "client:lint": "cd client && npm run lint",
+    "format": "npm run server:format && npm run client:format",
+    "server:format": "cd server && npm run format",
+    "client:format": "cd client && npm run format",
+    "format:check": "npm run server:format:check && npm run client:format:check",
+    "server:format:check": "cd server && npm run format:check",
+    "client:format:check": "cd client && npm run format:check"
+  },
+  "keywords": [
+    "career",
+    "portfolio",
+    "job-search",
+    "developer",
+    "full-stack"
+  ],
+  "author": "Career Transition Developer",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cypress": "^13.6.0",
+    "artillery": "^2.0.0",
+    "lighthouse": "^11.4.0"
+  },
+  "dependencies": {
+  }
+}

@@ -1,0 +1,110 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      domain:
+        description: 'Domain name for deployment'
+        required: true
+        default: 'career-portfolio.yourdomain.com'
+      email:
+        description: 'Email for SSL certificates'
+        required: true
+        default: 'your-email@gmail.com'
+      force_deploy:
+        description: 'Force deployment even if tests fail'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Configure environment
+      run: |
+        echo "DOMAIN=${{ github.event.inputs.domain || 'career-portfolio.yourdomain.com' }}" >> $GITHUB_ENV
+        echo "EMAIL=${{ github.event.inputs.email || 'your-email@gmail.com' }}" >> $GITHUB_ENV
+        
+    - name: Generate environment file
+      run: |
+        # Generate secure secrets
+        JWT_SECRET=$(openssl rand -base64 64)
+        POSTGRES_PASSWORD=$(openssl rand -base64 32)
+        REDIS_PASSWORD=$(openssl rand -base64 32)
+        
+        cat > .env << EOF
+        # Database Configuration
+        POSTGRES_DB=career_portfolio
+        POSTGRES_USER=postgres
+        POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        
+        # Redis Configuration
+        REDIS_PASSWORD=${REDIS_PASSWORD}
+        
+        # JWT Configuration
+        JWT_SECRET=${JWT_SECRET}
+        
+        # Application Configuration
+        NODE_ENV=production
+        PORT=5001
+        CORS_ORIGIN=https://${DOMAIN}
+        
+        # Domain Configuration
+        DOMAIN=${DOMAIN}
+        ADMIN_EMAIL=${ADMIN_EMAIL}
+        ADMIN_PASSWORD=${ADMIN_PASSWORD}
+        EOF
+        
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.8.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+    - name: Add server to known hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+        
+    - name: Deploy to server
+      run: |
+        # Copy files to server
+        scp -r . ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/opt/career-portfolio/
+        
+        # Execute deployment script on server
+        ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+          cd /opt/career-portfolio
+          chmod +x deploy-production.sh
+          DOMAIN=${{ env.DOMAIN }} EMAIL=${{ env.EMAIL }} ./deploy-production.sh
+        EOF
+        
+    - name: Verify deployment
+      run: |
+        # Wait for deployment to complete
+        sleep 60
+        
+        # Test health endpoint
+        curl -f https://${{ env.DOMAIN }}/health || exit 1
+        
+        # Test API endpoint
+        curl -f https://${{ env.DOMAIN }}/api/health || exit 1
+        
+    - name: Notify deployment status
+      if: always()
+      run: |
+        if [ ${{ job.status }} == 'success' ]; then
+          echo "✅ Deployment successful!"
+          echo "🌐 Application URL: https://${{ env.DOMAIN }}"
+          echo "📊 Health Check: https://${{ env.DOMAIN }}/health"
+        else
+          echo "❌ Deployment failed!"
+        fi 

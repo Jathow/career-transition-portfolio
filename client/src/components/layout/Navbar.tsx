@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   AppBar,
-  Toolbar,
   IconButton,
   Menu,
   MenuItem,

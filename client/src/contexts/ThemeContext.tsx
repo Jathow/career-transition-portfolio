@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { preferencesAPI } from '../services/api';
 import { autoSaveManager } from '../utils/autoSave';
-import { getBrandConfig, brandConfig } from '../config/brand';
+import { getBrandConfig } from '../config/brand';
 
 interface ThemeContextType {
   darkMode: boolean;

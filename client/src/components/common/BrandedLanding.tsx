@@ -6,10 +6,7 @@ import {
   Grid,
   Card,
   CardContent,
-  Button,
   Stack,
-  Chip,
-  useTheme,
 } from '@mui/material';
 import {
   Code as CodeIcon,
@@ -18,7 +15,6 @@ import {
   Assignment as AssignmentIcon,
   Description as DescriptionIcon,
   Visibility as VisibilityIcon,
-  MonetizationOn as MonetizationIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { brandConfig } from '../../config/brand';
@@ -102,7 +98,6 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description, col
 
 const BrandedLanding: React.FC = () => {
   const navigate = useNavigate();
-  const theme = useTheme();
   const colors = brandConfig.colors;
 
   const features = [

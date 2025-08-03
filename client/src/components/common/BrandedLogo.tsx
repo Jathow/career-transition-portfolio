@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, SvgIcon } from '@mui/material';
-import { useTheme } from '../../contexts/ThemeContext';
+
 import { brandConfig } from '../../config/brand';
 
 interface BrandedLogoProps {

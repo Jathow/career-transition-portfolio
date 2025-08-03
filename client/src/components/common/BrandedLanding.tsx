@@ -358,6 +358,7 @@ const BrandedLanding: React.FC = () => {
               sx={{
                 fontWeight: brandConfig.typography.fontWeight.bold,
                 mb: 2,
+                color: 'text.primary',
               }}
             >
               Ready to Transform Your Career?

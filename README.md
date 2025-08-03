@@ -18,7 +18,7 @@ I created this platform to solve a real problem I faced during my career transit
 - **Testing Strategy**: Unit, integration, and E2E testing with Jest and Cypress
 - **Project Management**: From requirements gathering to production deployment
 
-## � Deiploy to Web (15 minutes)
+## 🚀 Deploy to Web (15 minutes)
 
 ### Step 1: Upload to GitHub
 1. Go to https://github.com/Jathow

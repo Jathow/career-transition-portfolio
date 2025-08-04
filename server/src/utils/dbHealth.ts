@@ -29,7 +29,7 @@ export const testDatabaseConnection = async () => {
     return { success: true, tables };
   } catch (error) {
     console.error('❌ Database connection failed:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
   } finally {
     await prisma.$disconnect();
   }

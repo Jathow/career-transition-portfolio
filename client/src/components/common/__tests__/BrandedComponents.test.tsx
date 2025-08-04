@@ -9,17 +9,17 @@ import BrandedLogo from '../BrandedLogo';
 import BrandedButton from '../BrandedButton';
 import BrandedCard from '../BrandedCard';
 import BrandedLanding from '../BrandedLanding';
-import BrandedEmailTemplate from '../BrandedEmailTemplate';
+import BrandedEmailTemplate, { 
+  WelcomeEmailTemplate, 
+  ProjectReminderEmailTemplate, 
+  InterviewReminderEmailTemplate 
+} from '../BrandedEmailTemplate';
 import { brandConfig } from '../../../config/brand';
 
 // Mock store
 const mockStore = configureStore({
   reducer: {
-    auth: {
-      isAuthenticated: false,
-      user: null,
-      isLoading: false,
-    },
+    auth: (state = { isAuthenticated: false, user: null, isLoading: false }) => state,
   },
 });
 
@@ -341,7 +341,7 @@ describe('BrandedEmailTemplate', () => {
   it('renders welcome email template correctly', () => {
     render(
       <TestWrapper>
-        <BrandedEmailTemplate.WelcomeEmailTemplate userName="John Doe" />
+        <WelcomeEmailTemplate userName="John Doe" />
       </TestWrapper>
     );
     
@@ -352,7 +352,7 @@ describe('BrandedEmailTemplate', () => {
   it('renders project reminder email template correctly', () => {
     render(
       <TestWrapper>
-        <BrandedEmailTemplate.ProjectReminderEmailTemplate 
+        <ProjectReminderEmailTemplate 
           userName="John Doe"
           projectName="Test Project"
           daysRemaining={3}
@@ -369,7 +369,7 @@ describe('BrandedEmailTemplate', () => {
   it('renders interview reminder email template correctly', () => {
     render(
       <TestWrapper>
-        <BrandedEmailTemplate.InterviewReminderEmailTemplate 
+        <InterviewReminderEmailTemplate 
           userName="John Doe"
           companyName="Tech Corp"
           position="Software Engineer"

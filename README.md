@@ -43,7 +43,7 @@ git push -u origin main
 ```
 NODE_ENV=production
 JWT_SECRET=your-super-long-random-jwt-secret-key-here-make-it-64-characters
-DATABASE_URL=file:./prisma/prod.db
+DATABASE_URL=postgresql://user:password@localhost:5432/career_portfolio
 PORT=5001
 ADMIN_EMAIL=your-email@gmail.com
 ADMIN_PASSWORD=your-secure-password
@@ -212,7 +212,7 @@ career-transition-portfolio/
 
 ### Backend (.env)
 ```bash
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://user:password@localhost:5432/career_portfolio_dev"
 JWT_SECRET="your-secret-key"
 PORT=5001
 NODE_ENV=development
@@ -240,7 +240,7 @@ REACT_APP_ENVIRONMENT=development
 - Review Railway application logs
 
 ### Database Issues
-- Confirm `DATABASE_URL=file:./prisma/prod.db`
+- Confirm `DATABASE_URL` is set to your PostgreSQL connection string
 - Check `postinstall` script runs migrations
 - Verify Prisma schema is correct
 

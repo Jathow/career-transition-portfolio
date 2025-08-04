@@ -231,9 +231,9 @@ const Navbar: React.FC = () => {
               sx={{ 
                 cursor: 'pointer', 
                 display: 'flex',
-                alignItems: 'flex-start',
-                height: 64,
-                pt: 2,
+                alignItems: 'center',
+                height: '100%',
+                mt: 0.5, // Push logo down slightly
                 '&:hover': { opacity: 0.8 } 
               }}
             >
@@ -273,9 +273,8 @@ const Navbar: React.FC = () => {
               <Box
                 sx={{
                   display: 'flex',
-                  alignItems: 'flex-start',
-                  height: 64,
-                  pt: 2,
+                  alignItems: 'center',
+                  height: '100%',
                 }}
               >
                 <GlobalSearch />
@@ -284,9 +283,8 @@ const Navbar: React.FC = () => {
             <Box
               sx={{
                 display: 'flex',
-                alignItems: 'flex-start',
-                height: 64,
-                pt: 2,
+                alignItems: 'center',
+                height: '100%',
               }}
             >
               <NotificationCenter />

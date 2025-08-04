@@ -233,7 +233,6 @@ const Navbar: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 height: '100%',
-                mt: 0.5, // Push logo down slightly
                 '&:hover': { opacity: 0.8 } 
               }}
             >
@@ -275,6 +274,7 @@ const Navbar: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   height: '100%',
+                  alignSelf: 'center',
                 }}
               >
                 <GlobalSearch />

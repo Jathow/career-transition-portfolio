@@ -5,4 +5,4 @@ Disallow: /dashboard
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://career-transition-portfolio-production.up.railway.app/sitemap.xml
+Sitemap: https://careerportfolio.dev/sitemap.xml

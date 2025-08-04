@@ -3,7 +3,7 @@
 **A comprehensive full-stack platform I built to manage my career transition into software development. This project demonstrates my ability to design, develop, and deploy production-ready applications.**
 
 ## 🎯 **Live Application**
-**🌐 [View Live Portfolio Platform](https://career-transition-portfolio-production.up.railway.app)** 
+**🌐 [View Live Portfolio Platform](https://careerportfolio.dev)** 
 
 > **Live Demo Available!** Experience the full platform with all features working.
 
@@ -47,7 +47,7 @@ DATABASE_URL=file:./prisma/prod.db
 PORT=5001
 ADMIN_EMAIL=your-email@gmail.com
 ADMIN_PASSWORD=your-secure-password
-CORS_ORIGIN=https://career-transition-portfolio-production.up.railway.app
+CORS_ORIGIN=https://careerportfolio.dev
 ```
 
 **Important:** Replace `your-email@gmail.com` and `your-secure-password` with your actual credentials!
@@ -82,7 +82,7 @@ git commit -m "Add Railway configuration"
 git push origin main
 ```
 
-**🎉 Your app is now live!** Access at https://career-transition-portfolio-production.up.railway.app and create your account.
+**🎉 Your app is now live!** Access at https://careerportfolio.dev and create your account.
 
 **Cost:** ~$5/month
 
@@ -98,7 +98,7 @@ This repository demonstrates:
 - **Modern development practices** including testing, CI/CD, and security
 - **Problem-solving skills** through building a real-world application
 
-The live application at https://career-transition-portfolio-production.up.railway.app showcases the actual portfolio and projects.
+The live application at https://careerportfolio.dev showcases the actual portfolio and projects.
 
 ---
 
@@ -236,7 +236,7 @@ REACT_APP_ENVIRONMENT=development
 
 ### Application Error
 - Check all environment variables are set
-- Verify `CORS_ORIGIN` matches https://career-transition-portfolio-production.up.railway.app exactly
+- Verify `CORS_ORIGIN` matches https://careerportfolio.dev exactly
 - Review Railway application logs
 
 ### Database Issues

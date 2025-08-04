@@ -1,6 +1,7 @@
 {
   "short_name": "Career Portfolio",
-  "name": "Career Transition Portfolio",
+  "name": "Career Transition Portfolio - Build Your Developer Career",
+  "description": "The complete platform for career-transitioning developers",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,18 +9,20 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
     },
     {
-      "src": "logo512.png",
+      "src": "apple-touch-icon.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "180x180"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#2563eb",
+  "background_color": "#ffffff",
+  "categories": ["productivity", "business", "education"],
+  "lang": "en"
 }

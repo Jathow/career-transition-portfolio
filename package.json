@@ -11,7 +11,7 @@
     "client:build": "cd client && npm ci && npm run build",
     "server:build": "cd server && npm ci && npm run build",
     "start": "cd server && npm start",
-    "postinstall": "cd server && npx prisma generate && npx prisma migrate deploy",
+    "postinstall": "cd server && npx prisma generate",
     "deploy:prepare": "npm run build && echo 'Ready for deployment!'",
     "test": "npm run server:test && npm run client:test",
     "server:test": "cd server && npm test",

@@ -65,6 +65,18 @@ async function checkDatabase(): Promise<HealthCheck> {
   const startTime = Date.now();
   
   try {
+    // Log DATABASE_URL status for debugging
+    const hasDatabaseUrl = !!process.env.DATABASE_URL;
+    const databaseUrlLength = process.env.DATABASE_URL?.length || 0;
+    const startsWithPostgres = process.env.DATABASE_URL?.startsWith('postgres');
+    
+    logger.info('Database health check - environment info', {
+      hasDatabaseUrl,
+      databaseUrlLength,
+      startsWithPostgres,
+      nodeEnv: process.env.NODE_ENV
+    });
+    
     // Test database connection with a simple query
     await prisma.$queryRaw`SELECT 1`;
     const responseTime = Date.now() - startTime;
@@ -86,7 +98,11 @@ async function checkDatabase(): Promise<HealthCheck> {
       details: { responseTimeMs: responseTime }
     };
   } catch (error: any) {
-    logger.error('Database health check failed', { error: error.message });
+    logger.error('Database health check failed', { 
+      error: error.message,
+      hasDatabaseUrl: !!process.env.DATABASE_URL,
+      databaseUrlLength: process.env.DATABASE_URL?.length || 0
+    });
     return {
       status: 'unhealthy',
       message: 'Database connection failed',

@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js",
-    "railway:start": "npx prisma generate && npx prisma migrate deploy && npm start",
+    "start": "node railway-start.js",
+    "railway:start": "npx prisma generate && npx prisma migrate deploy && node railway-start.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --watchAll=false",
@@ -20,7 +20,8 @@
     "lint:fix": "eslint src/**/*.ts --ext .ts --fix",
     "format": "prettier --write src/**/*.ts",
     "format:check": "prettier --check src/**/*.ts",
-    "admin:create": "node scripts/create-admin.js"
+    "admin:create": "node scripts/create-admin.js",
+    "test:env": "node test-env.js"
   },
   "dependencies": {
     "@prisma/client": "^5.6.0",

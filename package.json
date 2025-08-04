@@ -29,7 +29,8 @@
     "client:format": "cd client && npm run format",
     "format:check": "npm run server:format:check && npm run client:format:check",
     "server:format:check": "cd server && npm run format:check",
-    "client:format:check": "cd client && npm run format:check"
+    "client:format:check": "cd client && npm run format:check",
+    "railway:start": "cd server && npm run railway:start"
   },
   "keywords": [
     "career",

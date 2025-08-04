@@ -5,7 +5,6 @@
     "buildCommand": "npm run build"
   },
   "deploy": {
-    "startCommand": "npm run railway:start",
-    "healthcheckPath": "/health"
+    "startCommand": "npm run railway:start"
   }
 }

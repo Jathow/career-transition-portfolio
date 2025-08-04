@@ -542,6 +542,7 @@ const BrandedLanding: React.FC = () => {
               sx={{
                 fontWeight: brandConfig.typography.fontWeight.bold,
                 mb: 2,
+                color: colors.grey[900], // Explicit dark color
               }}
             >
               How It Works
@@ -603,6 +604,7 @@ const BrandedLanding: React.FC = () => {
                     sx={{
                       fontWeight: brandConfig.typography.fontWeight.bold,
                       mb: 2,
+                      color: colors.grey[900], // Explicit dark color
                     }}
                   >
                     {step.title}
@@ -647,6 +649,7 @@ const BrandedLanding: React.FC = () => {
               sx={{
                 fontWeight: brandConfig.typography.fontWeight.bold,
                 mb: 2,
+                color: colors.grey[900], // Explicit dark color
               }}
             >
               How This Platform Could Help You
@@ -709,6 +712,7 @@ const BrandedLanding: React.FC = () => {
                     sx={{
                       fontWeight: brandConfig.typography.fontWeight.semiBold,
                       mb: 1,
+                      color: colors.grey[900], // Explicit dark color
                     }}
                   >
                     {item.title}

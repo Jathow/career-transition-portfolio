@@ -7,7 +7,7 @@
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "start": "node railway-start.js",
-    "railway:start": "node minimal-server.js",
+    "railway:start": "node test-railway.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --watchAll=false",

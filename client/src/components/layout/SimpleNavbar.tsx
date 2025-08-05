@@ -135,9 +135,17 @@ const SimpleNavbar: React.FC = () => {
   return (
     <>
       <AppBar position="static" elevation={1} sx={{ backgroundColor: 'background.paper', color: 'text.primary' }}>
-        <Toolbar sx={{ minHeight: '64px !important', height: 64 }}>
+        <Toolbar 
+          sx={{ 
+            minHeight: '64px !important', 
+            height: 64,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+        >
           {/* Left: Menu + Logo */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, height: '100%' }}>
             {isMobile && (
               <IconButton onClick={handleDrawerToggle}>
                 <MenuIcon />
@@ -159,7 +167,7 @@ const SimpleNavbar: React.FC = () => {
 
           {/* Center: Navigation (Desktop) */}
           {!isMobile && (
-            <Box sx={{ display: 'flex', gap: 1, ml: 4 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 4, height: '100%' }}>
               {navigationItems.slice(0, 6).map((item) => (
                 <Button
                   key={item.path}
@@ -178,7 +186,7 @@ const SimpleNavbar: React.FC = () => {
           )}
 
           {/* Right: Search + Notifications + Profile */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto', height: '100%' }}>
             {!isMobile && (
               <TextField
                 size="small"

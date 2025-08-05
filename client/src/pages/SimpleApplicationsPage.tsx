@@ -68,11 +68,15 @@ const SimpleApplicationsPage: React.FC = () => {
             variant="outlined" 
             sx={{ 
               display: 'flex',
+              height: 64,
               '& .MuiButton-root': {
                 flex: 1,
+                height: '100%',
                 py: 1.5,
                 display: 'flex',
                 flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
                 gap: 0.5,
                 textTransform: 'none',
                 fontSize: '0.875rem'
@@ -100,24 +104,7 @@ const SimpleApplicationsPage: React.FC = () => {
               variant={activeView === 'followups' ? 'contained' : 'outlined'}
               startIcon={<NotificationsIcon />}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                Follow-ups
-                {getFollowUpCount() > 0 && (
-                  <Badge 
-                    badgeContent={getFollowUpCount()} 
-                    color="error"
-                    sx={{
-                      '& .MuiBadge-badge': {
-                        fontSize: '0.7rem',
-                        minWidth: 16,
-                        height: 16
-                      }
-                    }}
-                  >
-                    <Box />
-                  </Badge>
-                )}
-              </Box>
+              Follow-ups {getFollowUpCount() > 0 && `(${getFollowUpCount()})`}
             </Button>
           </ButtonGroup>
         </CardContent>

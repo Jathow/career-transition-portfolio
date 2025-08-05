@@ -270,27 +270,8 @@ const Navbar: React.FC = () => {
 
           {/* Right: Actions */}
           <Stack direction="row" alignItems="center" spacing={1}>
-            {!isMobile && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  height: '100%',
-                  alignSelf: 'center',
-                }}
-              >
-                <GlobalSearch />
-              </Box>
-            )}
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                height: '100%',
-              }}
-            >
-              <NotificationCenter />
-            </Box>
+            {!isMobile && <GlobalSearch />}
+            <NotificationCenter />
             {!isMobile && (
               <Tooltip title={`${user?.firstName} ${user?.lastName}`} arrow>
                 <IconButton onClick={handleMenu} sx={{ color: 'text.primary' }}>

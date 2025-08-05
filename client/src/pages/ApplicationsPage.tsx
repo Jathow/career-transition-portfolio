@@ -92,13 +92,23 @@ const ApplicationsPage: React.FC = () => {
               icon={<ListIcon />}
               label="Applications"
               {...a11yProps(0)}
-              sx={{ minHeight: 'auto', padding: '12px 16px' }}
+              sx={{ 
+                minHeight: 64, 
+                padding: '12px 16px',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
             />
             <Tab
               icon={<AnalyticsIcon />}
               label="Analytics"
               {...a11yProps(1)}
-              sx={{ minHeight: 'auto', padding: '12px 16px' }}
+              sx={{ 
+                minHeight: 64, 
+                padding: '12px 16px',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
             />
             <Tab
               icon={<NotificationsIcon />}
@@ -126,7 +136,12 @@ const ApplicationsPage: React.FC = () => {
                 </Box>
               }
               {...a11yProps(2)}
-              sx={{ minHeight: 'auto', padding: '12px 16px' }}
+              sx={{ 
+                minHeight: 64, 
+                padding: '12px 16px',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
             />
           </Tabs>
         </CardContent>

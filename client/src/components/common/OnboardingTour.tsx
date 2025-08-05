@@ -179,11 +179,27 @@ const OnboardingTour: React.FC<{ isFirstTime?: boolean }> = ({ isFirstTime = fal
   }, [isFirstTime]);
 
   const handleCallback = (data: CallBackProps) => {
-    const { status, action, index } = data;
+    const { status, action, index, type } = data;
     
-    if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+    // Handle close button click
+    if (action === 'close' || type === 'tour:end') {
       setRun(false);
       localStorage.setItem('onboarding-completed', 'true');
+      return;
+    }
+    
+    // Handle skip button
+    if (status === STATUS.SKIPPED) {
+      setRun(false);
+      localStorage.setItem('onboarding-completed', 'true');
+      return;
+    }
+    
+    // Handle tour completion
+    if (status === STATUS.FINISHED) {
+      setRun(false);
+      localStorage.setItem('onboarding-completed', 'true');
+      return;
     }
     
     // Handle the last step specifically
@@ -205,7 +221,7 @@ const OnboardingTour: React.FC<{ isFirstTime?: boolean }> = ({ isFirstTime = fal
         run={run}
         callback={handleCallback}
         continuous
-        hideCloseButton
+        hideCloseButton={false}
         hideBackButton={false}
         scrollToFirstStep
         showProgress

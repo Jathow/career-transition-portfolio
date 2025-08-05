@@ -1,0 +1,43 @@
+# Development and testing files
+tests/
+cypress/
+cypress.config.ts
+docs/
+*.md
+README.md
+
+# Build artifacts
+.cache
+.parcel-cache
+.nyc_output
+coverage/
+dist/
+build/
+
+# Development tools
+.vscode/
+.kiro/
+scripts/
+nginx/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.log
+
+# Docker files
+docker-compose*.yml
+Dockerfile*
+.dockerignore
+
+# Environment files
+.env
+.env.example
+
+# Git
+.git/
+.gitignore
+
+# Development scripts
+start-dev.*
+deploy-production.sh

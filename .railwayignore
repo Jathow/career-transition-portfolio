@@ -1,6 +1,59 @@
+# Docker files
 docker-compose.yml
 docker-compose.prod.yml
 Dockerfile
 client/Dockerfile
 server/Dockerfile
 .dockerignore
+
+# Development files
+.git
+.gitignore
+.env
+.env.example
+.vscode
+.kiro
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing and documentation
+tests/
+cypress/
+cypress.config.ts
+docs/
+README.md
+*.md
+
+# Build artifacts and caches
+.cache
+.parcel-cache
+.nyc_output
+coverage/
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Development scripts
+scripts/
+start-dev.bat
+start-dev.ps1
+deploy-production.sh
+
+# Nginx config (not needed for Railway)
+nginx/
+
+# Node modules (will be installed fresh)
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Package locks (Railway will generate fresh)
+package-lock.json
+client/package-lock.json
+server/package-lock.json
+yarn.lock

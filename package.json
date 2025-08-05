@@ -7,7 +7,7 @@
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "server:dev": "cd server && npm run dev",
     "client:dev": "cd client && npm start",
-    "build": "npm config set cache /tmp/.npm && npm ci --prefix client --prefer-offline --no-audit --no-optional && npm run build --prefix client && npm ci --prefix server --prefer-offline --no-audit --no-optional && npm run build --prefix server",
+    "build": "npm config set cache /tmp/.npm && npm ci --prefix client --prefer-offline --no-audit --no-optional && npm run build --prefix client && npm ci --prefix server --prefer-offline --no-audit --no-optional && npm run build --prefix server && npm run build:cleanup",
     "client:build": "cd client && npm ci && npm run build",
     "server:build": "cd server && npm ci && npm run build",
     "start": "cd server && npm start",
@@ -36,7 +36,10 @@
     "deploy:clean": "./scripts/build-without-cache.sh && echo 'Ready for deployment!'",
     "deploy:railway": "./scripts/railway-build.sh && echo 'Ready for Railway deployment!'",
     "cache:clear": "./scripts/clear-cache.sh",
-    "deploy:verify": "./scripts/verify-deployment.sh"
+    "deploy:verify": "./scripts/verify-deployment.sh",
+    "build:cleanup": "npm run build:cleanup:client && npm run build:cleanup:server",
+    "build:cleanup:client": "cd client && npm prune --production && rm -rf src/ public/ cypress/ tests/ docs/ *.md || true",
+    "build:cleanup:server": "cd server && npm prune --production && rm -rf src/ tests/ docs/ *.md || true"
   },
   "keywords": [
     "career",

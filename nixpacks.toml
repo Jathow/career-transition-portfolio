@@ -1,0 +1,12 @@
+[variables]
+NODE_ENV = "production"
+NPM_CONFIG_CACHE = "/tmp/.npm"
+
+[phases.build]
+cmds = [
+  "npm config set cache /tmp/.npm",
+  "npm ci --production=false --prefer-offline --no-audit --no-optional",
+  "npm run build",
+  "npm prune --production",
+  "bash scripts/railway-optimize.sh"
+]

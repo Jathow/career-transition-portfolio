@@ -205,7 +205,7 @@ const Navbar: React.FC = () => {
         elevation={0}
         sx={{
           backgroundColor: 'background.paper',
-          borderBottom: '1px solid'
+          borderBottom: '1px solid',
           borderColor: 'divider',
           height: 64,
         }}

@@ -1,18 +1,21 @@
 [variables]
 NODE_ENV = "production"
-NPM_CONFIG_CACHE = "/tmp/.npm"
+NPM_CONFIG_CACHE = "/tmp/.npm-cache"
+NIXPACKS_NO_CACHE = "1"
+
+[phases.setup]
+nixPkgs = ["nodejs_18"]
+
+[phases.install]
+cmds = [
+  "npm config set cache /tmp/.npm-cache",
+  "npm ci --omit=dev --prefer-offline --no-audit"
+]
 
 [phases.build]
 cmds = [
-  "npm config set cache /tmp/.npm",
-  "npm ci --production=false --prefer-offline --no-audit --no-optional",
-  "npm run build",
-  "npm prune --production",
-  "find . -name '*.map' -delete || true",
-  "find . -name '*.md' -not -path './node_modules/*' -delete || true",
-  "find . -name 'docs' -type d -not -path './node_modules/*' -exec rm -rf {} + || true",
-  "find . -name '__tests__' -type d -exec rm -rf {} + || true",
-  "find . -name '*.test.*' -delete || true",
-  "find . -name '*.spec.*' -delete || true",
-  "rm -rf client/src server/src tests cypress scripts docs || true"
+  "npm run build"
 ]
+
+[start]
+cmd = "npm run railway:start"

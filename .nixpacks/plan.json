@@ -1,0 +1,28 @@
+{
+  "providers": ["node"],
+  "buildImage": "nixpkgs/nix:nixos-22.11",
+  "variables": {
+    "NODE_ENV": "production",
+    "NPM_CONFIG_CACHE": "/tmp/.npm-cache",
+    "NIXPACKS_NO_CACHE": "1"
+  },
+  "phases": {
+    "setup": {
+      "nixPkgs": ["nodejs_18"]
+    },
+    "install": {
+      "cmds": [
+        "npm config set cache /tmp/.npm-cache",
+        "npm ci --omit=dev --prefer-offline --no-audit"
+      ]
+    },
+    "build": {
+      "cmds": [
+        "npm run build"
+      ]
+    }
+  },
+  "start": {
+    "cmd": "npm run railway:start"
+  }
+}

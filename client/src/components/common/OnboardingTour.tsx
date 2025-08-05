@@ -6,9 +6,9 @@ const TOUR_STEPS: Step[] = [
     target: 'body',
     content: (
       <div style={{ textAlign: 'left', height: '280px', overflowY: 'auto' }}>
-        <h3>🔥 TOUR FIXED - CLOSE BUTTON WORKS! 🔥</h3>
-        <p>If you can see this message, the tour component is updated!</p>
-        <p>The close button should now work properly.</p>
+        <h3>Welcome to Career Portfolio! 👋</h3>
+        <p>Let's take a quick tour of the key features to help you get started.</p>
+        <p>This tour will show you the main sections and how to use them effectively.</p>
       </div>
     ),
     placement: 'center',
@@ -179,33 +179,16 @@ const OnboardingTour: React.FC<{ isFirstTime?: boolean }> = ({ isFirstTime = fal
   }, [isFirstTime]);
 
   const handleCallback = (data: CallBackProps) => {
-    const { status, action, index, type } = data;
+    const { status, action, index } = data;
     
-    console.log('🎯 Tour callback:', { status, action, index, type });
-    
-    // Handle close button click
-    if (action === 'close' || type === 'tour:end') {
-      console.log('🎯 Tour closed via close button');
+    // Handle any completion scenario
+    if (status === STATUS.FINISHED || status === STATUS.SKIPPED || action === 'close') {
       setRun(false);
       localStorage.setItem('onboarding-completed', 'true');
       return;
     }
     
-    // Handle skip button
-    if (status === STATUS.SKIPPED) {
-      setRun(false);
-      localStorage.setItem('onboarding-completed', 'true');
-      return;
-    }
-    
-    // Handle tour completion
-    if (status === STATUS.FINISHED) {
-      setRun(false);
-      localStorage.setItem('onboarding-completed', 'true');
-      return;
-    }
-    
-    // Handle the last step specifically
+    // Handle reaching the last step
     if (action === 'next' && index === TOUR_STEPS.length - 1) {
       setRun(false);
       localStorage.setItem('onboarding-completed', 'true');
@@ -322,7 +305,7 @@ const OnboardingTour: React.FC<{ isFirstTime?: boolean }> = ({ isFirstTime = fal
             e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
           }}
         >
-          🔥 FIXED TOUR - CLICK ME!
+          🎯 Start Tour
         </button>
       )}
     </>

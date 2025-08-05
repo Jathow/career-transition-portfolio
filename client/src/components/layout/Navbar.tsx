@@ -204,8 +204,8 @@ const Navbar: React.FC = () => {
         position="static" 
         elevation={0}
         sx={{
-          backgroundColor: 'red', // OBVIOUS CHANGE - RED NAVBAR
-          borderBottom: '5px solid orange', // OBVIOUS CHANGE
+          backgroundColor: 'background.paper',
+          borderBottom: '1px solid'
           borderColor: 'divider',
           height: 64,
         }}
@@ -215,9 +215,10 @@ const Navbar: React.FC = () => {
           alignItems="center"
           justifyContent="space-between"
           sx={{ 
-            height: '100%',
+            height: 64,
             px: 3,
-            minHeight: '64px',
+            minHeight: 64,
+            maxHeight: 64,
           }}
         >
           {/* Left: Logo */}
@@ -233,8 +234,7 @@ const Navbar: React.FC = () => {
                 cursor: 'pointer', 
                 display: 'flex',
                 alignItems: 'center',
-                height: '100%',
-                alignSelf: 'center',
+                height: 64,
                 '&:hover': { opacity: 0.8 } 
               }}
             >

@@ -70,8 +70,8 @@ const ApplicationsPage: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Typography variant="h4" component="h1" gutterBottom sx={{ color: 'red', fontWeight: 'bold' }}>
-        🔥 TABS FIXED - Job Applications 🔥
+      <Typography variant="h4" component="h1" gutterBottom>
+        Job Applications
       </Typography>
 
       {error && (
@@ -86,34 +86,31 @@ const ApplicationsPage: React.FC = () => {
             value={tabValue}
             onChange={handleTabChange}
             aria-label="applications tabs"
-            sx={{ borderBottom: 1, borderColor: 'divider' }}
+            sx={{ 
+              borderBottom: 1, 
+              borderColor: 'divider',
+              '& .MuiTab-root': {
+                minHeight: 64,
+                height: 64,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }
+            }}
           >
             <Tab
               icon={<ListIcon />}
               label="Applications"
               {...a11yProps(0)}
-              sx={{ 
-                minHeight: 64, 
-                padding: '12px 16px',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
             />
             <Tab
               icon={<AnalyticsIcon />}
               label="Analytics"
               {...a11yProps(1)}
-              sx={{ 
-                minHeight: 64, 
-                padding: '12px 16px',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
             />
             <Tab
               icon={<NotificationsIcon />}
               label={
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, height: '100%' }}>
                   Follow-ups
                   {getFollowUpCount() > 0 && (
                     <Box
@@ -121,13 +118,14 @@ const ApplicationsPage: React.FC = () => {
                         backgroundColor: 'error.main',
                         color: 'white',
                         borderRadius: '50%',
-                        width: 20,
-                        height: 20,
+                        width: 18,
+                        height: 18,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '0.75rem',
-                        fontWeight: 'bold'
+                        fontSize: '0.7rem',
+                        fontWeight: 'bold',
+                        ml: 0.5
                       }}
                     >
                       {getFollowUpCount()}
@@ -136,12 +134,6 @@ const ApplicationsPage: React.FC = () => {
                 </Box>
               }
               {...a11yProps(2)}
-              sx={{ 
-                minHeight: 64, 
-                padding: '12px 16px',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
             />
           </Tabs>
         </CardContent>

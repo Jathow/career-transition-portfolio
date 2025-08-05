@@ -47,14 +47,7 @@ function App() {
     dispatch(checkAuthStatus());
     
     // Debug: Log app version to verify deployment
-    console.log('🔥🔥🔥 NEW BUILD DEPLOYED - CHANGES SHOULD BE VISIBLE! 🔥🔥🔥');
     console.log('🚀 App loaded - Build timestamp:', new Date().toISOString());
-    console.log('🔧 UI fixes applied: Tour close button, Navbar alignment, Tab alignment');
-    
-    // Add visible alert to confirm deployment
-    setTimeout(() => {
-      alert('🔥 NEW BUILD DEPLOYED! If you see this alert, the changes are live!');
-    }, 2000);
   }, [dispatch]);
 
   useEffect(() => {

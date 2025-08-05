@@ -7,7 +7,7 @@
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "server:dev": "cd server && npm run dev",
     "client:dev": "cd client && npm start",
-    "build": "npm install --prefix client && npm run build --prefix client && npm install --prefix server && npm run build --prefix server",
+    "build": "npm ci --prefix client && npm run build --prefix client && npm ci --prefix server && npm run build --prefix server",
     "client:build": "cd client && npm ci && npm run build",
     "server:build": "cd server && npm ci && npm run build",
     "start": "cd server && npm start",

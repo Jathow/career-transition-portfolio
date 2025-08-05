@@ -274,6 +274,10 @@ deploy_application() {
     # Check service status
     docker-compose -f docker-compose.prod.yml ps
     
+    # Clear caches after deployment
+    print_status "Clearing caches to ensure updates are visible..."
+    ./scripts/clear-cache.sh
+    
     print_success "Application deployed successfully"
 }
 

@@ -35,7 +35,7 @@ export function register(config?: Config) {
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL!}/service-worker.js`;
+      const swUrl = `${process.env.PUBLIC_URL!}/service-worker.js?v=${Date.now()}`;
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
@@ -65,6 +65,35 @@ function registerValidSW(swUrl: string, config?: Config) {
       if (config && config.onSuccess) {
         config.onSuccess(registration);
       }
+
+      // Check for updates
+      registration.addEventListener('updatefound', () => {
+        const installingWorker = registration.installing;
+        if (installingWorker == null) {
+          return;
+        }
+
+        installingWorker.onstatechange = () => {
+          if (installingWorker.state === 'installed') {
+            if (navigator.serviceWorker.controller) {
+              // New content is available and the previous service worker will still serve the old content
+              // until all client tabs are closed.
+              console.log('New content is available and will be used when all tabs for this page are closed.');
+              
+              // Execute update callback
+              if (config && config.onUpdate) {
+                config.onUpdate(registration);
+              }
+
+              // Force reload to get the new content
+              window.location.reload();
+            } else {
+              // At this point, everything has been precached.
+              console.log('Content is cached for offline use.');
+            }
+          }
+        };
+      });
     })
     .catch((error) => {
       console.error('Error during service worker registration:', error);

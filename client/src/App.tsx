@@ -7,8 +7,8 @@ import { Box, Container } from '@mui/material';
 import { RootState, AppDispatch } from './store/store';
 import { checkAuthStatus } from './store/slices/authSlice';
 import { useTheme } from './contexts/ThemeContext';
-import Navbar from './components/layout/Navbar';
-import OnboardingTour from './components/common/OnboardingTour';
+import SimpleNavbar from './components/layout/SimpleNavbar';
+import SimpleTour from './components/common/SimpleTour';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import ExportDialog from './components/common/ExportDialog';
 import LoadingSpinner from './components/common/LoadingSpinner';
@@ -22,7 +22,7 @@ const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
 const ResumePage = React.lazy(() => import('./pages/ResumePage'));
-const ApplicationsPage = React.lazy(() => import('./pages/ApplicationsPage'));
+const ApplicationsPage = React.lazy(() => import('./pages/SimpleApplicationsPage'));
 const InterviewsPage = React.lazy(() => import('./pages/InterviewsPage'));
 const PortfolioPage = React.lazy(() => import('./pages/PortfolioPage'));
 const MotivationPage = React.lazy(() => import('./pages/MotivationPage'));
@@ -82,7 +82,7 @@ function App() {
       }}>
         {isAuthenticated ? (
           <>
-            <Navbar />
+            <SimpleNavbar />
             <Container 
               component="main" 
               maxWidth="lg" 
@@ -182,22 +182,7 @@ function App() {
         {/* UX Enhancement Components */}
         {isAuthenticated && (
           <>
-            <OnboardingTour isFirstTime={isFirstTimeUser} />
-            <KeyboardShortcuts />
-            <ExportDialog 
-              open={showExportDialog} 
-              onClose={() => setShowExportDialog(false)} 
-            />
-          </>
-        )}
-        
-        {/* Performance monitoring (development only) */}
-        <PerformanceMonitor />
-
-        {/* UX Enhancement Components */}
-        {isAuthenticated && (
-          <>
-            <OnboardingTour isFirstTime={isFirstTimeUser} />
+            <SimpleTour isFirstTime={isFirstTimeUser} />
             <KeyboardShortcuts />
             <ExportDialog 
               open={showExportDialog} 

@@ -179,9 +179,15 @@ const OnboardingTour: React.FC<{ isFirstTime?: boolean }> = ({ isFirstTime = fal
   }, [isFirstTime]);
 
   const handleCallback = (data: CallBackProps) => {
-    const { status } = data;
+    const { status, action, index } = data;
     
     if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+      setRun(false);
+      localStorage.setItem('onboarding-completed', 'true');
+    }
+    
+    // Handle the last step specifically
+    if (action === 'next' && index === TOUR_STEPS.length - 1) {
       setRun(false);
       localStorage.setItem('onboarding-completed', 'true');
     }
@@ -263,6 +269,7 @@ const OnboardingTour: React.FC<{ isFirstTime?: boolean }> = ({ isFirstTime = fal
           next: 'Next',
           skip: 'Skip tour',
         }}
+
       />
 
       {/* Quick start button */}

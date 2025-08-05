@@ -1,14 +1,22 @@
 import { Router } from 'express';
 import { Request, Response } from 'express';
-import { auth } from '../middleware/auth';
+import { authenticateToken } from '../middleware/auth';
 import { logger } from '../utils/logger';
 import fs from 'fs';
 import path from 'path';
 
+// Extend Request interface to include user
+interface AuthenticatedRequest extends Request {
+  user?: {
+    id: string;
+    email: string;
+  };
+}
+
 const router = Router();
 
 // Import template data
-router.post('/import-template', auth, async (req: Request, res: Response) => {
+router.post('/import-template', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { templateId, importSections } = req.body;
     const userId = req.user?.id;
@@ -116,7 +124,7 @@ router.post('/import-template', auth, async (req: Request, res: Response) => {
     });
 
   } catch (error) {
-    logger.error('Template import failed', { error, userId: req.user?.id });
+    logger.error('Template import failed', { error, userId: (req as AuthenticatedRequest).user?.id });
     res.status(500).json({
       success: false,
       error: { message: 'Failed to import template' }
@@ -125,7 +133,7 @@ router.post('/import-template', auth, async (req: Request, res: Response) => {
 });
 
 // Get available templates
-router.get('/available', auth, async (req: Request, res: Response) => {
+router.get('/available', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const templates = [
       {

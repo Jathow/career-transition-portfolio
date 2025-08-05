@@ -217,6 +217,7 @@ const Navbar: React.FC = () => {
           sx={{ 
             height: '100%',
             px: 3,
+            minHeight: '64px',
           }}
         >
           {/* Left: Logo */}
@@ -233,6 +234,7 @@ const Navbar: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 height: '100%',
+                alignSelf: 'center',
                 '&:hover': { opacity: 0.8 } 
               }}
             >

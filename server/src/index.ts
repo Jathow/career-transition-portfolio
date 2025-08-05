@@ -109,24 +109,86 @@ app.use('/api/preferences', preferencesRoutes);
 
 // Serve static files from React build in production
 if (process.env.NODE_ENV === 'production') {
-  const clientBuildPath = path.join(__dirname, '../../client/build');
-  app.use(express.static(clientBuildPath));
+  const fs = require('fs');
   
-  // Handle React Router - send all non-API requests to React app
-  app.get('*', (req, res) => {
-    if (!req.path.startsWith('/api/')) {
-      res.sendFile(path.join(clientBuildPath, 'index.html'));
-    } else {
-      res.status(404).json({
-        success: false,
-        error: {
-          code: 'NOT_FOUND',
-          message: 'API endpoint not found',
-          timestamp: new Date().toISOString()
-        }
-      });
+  // Try multiple possible paths for client build
+  const possiblePaths = [
+    path.join(__dirname, '../../client/build'),
+    path.join(process.cwd(), 'client/build'),
+    '/app/client/build'
+  ];
+  
+  let clientBuildPath = '';
+  for (const testPath of possiblePaths) {
+    if (fs.existsSync(testPath) && fs.existsSync(path.join(testPath, 'index.html'))) {
+      clientBuildPath = testPath;
+      break;
     }
+  }
+  
+  // Debug: Log paths and check if files exist
+  logger.info('Static file serving setup:', {
+    __dirname,
+    'process.cwd()': process.cwd(),
+    possiblePaths,
+    selectedPath: clientBuildPath,
+    indexExists: clientBuildPath ? fs.existsSync(path.join(clientBuildPath, 'index.html')) : false
   });
+  
+  if (clientBuildPath) {
+    // List contents of client build directory
+    try {
+      const files = fs.readdirSync(clientBuildPath);
+      logger.info('Client build directory contents:', files);
+    } catch (error) {
+      logger.error('Error reading client build directory:', error);
+    }
+    
+    app.use(express.static(clientBuildPath));
+    
+    // Handle React Router - send all non-API requests to React app
+    app.get('*', (req, res) => {
+      if (!req.path.startsWith('/api/')) {
+        const indexPath = path.join(clientBuildPath, 'index.html');
+        res.sendFile(indexPath);
+      } else {
+        res.status(404).json({
+          success: false,
+          error: {
+            code: 'NOT_FOUND',
+            message: 'API endpoint not found',
+            timestamp: new Date().toISOString()
+          }
+        });
+      }
+    });
+  } else {
+    logger.error('No valid client build path found. Checked paths:', possiblePaths);
+    
+    // Fallback - serve a basic error page
+    app.get('*', (req, res) => {
+      if (!req.path.startsWith('/api/')) {
+        res.status(500).json({
+          success: false,
+          error: {
+            code: 'BUILD_NOT_FOUND',
+            message: 'Client build files not found',
+            timestamp: new Date().toISOString(),
+            checkedPaths: possiblePaths
+          }
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          error: {
+            code: 'NOT_FOUND',
+            message: 'API endpoint not found',
+            timestamp: new Date().toISOString()
+          }
+        });
+      }
+    });
+  }
 } else {
   // 404 handler for development
   app.use('*', (req, res) => {

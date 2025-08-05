@@ -33,8 +33,25 @@ RUN cd server && npx prisma generate
 # Build applications with cache busting
 ARG BUILD_DATE
 ENV BUILD_DATE=${BUILD_DATE}
-RUN echo "Build date: ${BUILD_DATE}" && cd client && DISABLE_ESLINT_PLUGIN=true npm run build
-RUN cd server && npm run build
+RUN echo "Build date: ${BUILD_DATE}"
+
+# Build client with detailed logging
+RUN echo "=== Building Client ===" && \
+    cd client && \
+    echo "Client directory contents:" && ls -la && \
+    echo "Running client build..." && \
+    DISABLE_ESLINT_PLUGIN=true npm run build && \
+    echo "Client build completed. Build directory contents:" && \
+    ls -la build/ && \
+    echo "Build index.html exists:" && \
+    test -f build/index.html && echo "YES" || echo "NO"
+
+# Build server
+RUN echo "=== Building Server ===" && \
+    cd server && \
+    npm run build && \
+    echo "Server build completed. Dist directory contents:" && \
+    ls -la dist/
 
 # Production stage - minimal image
 FROM node:18-alpine AS production

@@ -7,7 +7,7 @@ import { Box, Container } from '@mui/material';
 import { RootState, AppDispatch } from './store/store';
 import { checkAuthStatus } from './store/slices/authSlice';
 import { useTheme } from './contexts/ThemeContext';
-import GridNavbar from './components/layout/GridNavbar';
+import ModernLayout from './components/layout/ModernLayout';
 import SimpleTour from './components/common/SimpleTour';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import ExportDialog from './components/common/ExportDialog';
@@ -22,7 +22,7 @@ const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
 const ResumePage = React.lazy(() => import('./pages/ResumePage'));
-const ApplicationsPage = React.lazy(() => import('./pages/GridApplicationsPage'));
+const ApplicationsPage = React.lazy(() => import('./pages/ModernApplicationsPage'));
 const InterviewsPage = React.lazy(() => import('./pages/InterviewsPage'));
 const PortfolioPage = React.lazy(() => import('./pages/PortfolioPage'));
 const MotivationPage = React.lazy(() => import('./pages/MotivationPage'));
@@ -45,7 +45,7 @@ function App() {
 
   useEffect(() => {
     dispatch(checkAuthStatus());
-    
+
     // Debug: Log app version to verify deployment
     console.log('🚀 App loaded - Build timestamp:', new Date().toISOString());
   }, [dispatch]);
@@ -65,9 +65,9 @@ function App() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Box sx={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
         minHeight: '100vh',
         // Apply compact mode spacing
         '& .MuiContainer-root': {
@@ -81,99 +81,86 @@ function App() {
         },
       }}>
         {isAuthenticated ? (
-          <>
-            <GridNavbar />
-            <Container 
-              component="main" 
-              maxWidth="lg" 
-              sx={{ 
-                flexGrow: 1, 
-                py: compactMode ? 2 : 3,
-                display: 'flex',
-                flexDirection: 'column',
-                px: { xs: 2, sm: 3 }, // Responsive padding
-              }}
-            >
+          <ModernLayout>
               <Suspense fallback={<PageLoadingFallback />}>
                 <Routes>
                   {/* Protected routes */}
-                  <Route 
-                    path="/dashboard" 
-                    element={<DashboardPage />} 
+                  <Route
+                    path="/dashboard"
+                    element={<DashboardPage />}
                   />
-                  <Route 
-                    path="/profile" 
-                    element={<ProfilePage />} 
+                  <Route
+                    path="/profile"
+                    element={<ProfilePage />}
                   />
-                  <Route 
-                    path="/settings" 
-                    element={<SettingsPage />} 
+                  <Route
+                    path="/settings"
+                    element={<SettingsPage />}
                   />
-                  <Route 
-                    path="/resumes" 
-                    element={<ResumePage />} 
+                  <Route
+                    path="/resumes"
+                    element={<ResumePage />}
                   />
-                  <Route 
-                    path="/applications" 
-                    element={<ApplicationsPage />} 
+                  <Route
+                    path="/applications"
+                    element={<ApplicationsPage />}
                   />
-                  <Route 
-                    path="/interviews" 
-                    element={<InterviewsPage />} 
+                  <Route
+                    path="/interviews"
+                    element={<InterviewsPage />}
                   />
-                  <Route 
-                    path="/portfolio" 
-                    element={<PortfolioPage />} 
+                  <Route
+                    path="/portfolio"
+                    element={<PortfolioPage />}
                   />
-                  <Route 
-                    path="/motivation" 
-                    element={<MotivationPage />} 
+                  <Route
+                    path="/motivation"
+                    element={<MotivationPage />}
                   />
-                  <Route 
-                    path="/revenue-tracking" 
-                    element={<RevenueTrackingPage />} 
+                  <Route
+                    path="/revenue-tracking"
+                    element={<RevenueTrackingPage />}
                   />
-                  <Route 
-                    path="/admin" 
-                    element={user?.role === 'ADMIN' ? <AdminPage /> : <Navigate to="/dashboard" />} 
+                  <Route
+                    path="/admin"
+                    element={user?.role === 'ADMIN' ? <AdminPage /> : <Navigate to="/dashboard" />}
                   />
-                  
+
                   {/* Default redirect */}
-                  <Route 
-                    path="/" 
-                    element={<Navigate to="/dashboard" />} 
+                  <Route
+                    path="/"
+                    element={<Navigate to="/dashboard" />}
                   />
-                  
+
                   {/* Catch all route */}
-                  <Route 
-                    path="*" 
-                    element={<Navigate to="/dashboard" />} 
+                  <Route
+                    path="*"
+                    element={<Navigate to="/dashboard" />}
                   />
                 </Routes>
               </Suspense>
-            </Container>
-          </>
+          </ModernLayout>
         ) : (
           <Suspense fallback={<PageLoadingFallback />}>
             <Routes>
               {/* Public routes */}
-              <Route 
-                path="/login" 
-                element={<LoginPage />} 
+              <Route
+                path="/login"
+                element={<LoginPage />}
               />
-              <Route 
-                path="/register" 
-                element={<RegisterPage />} 
+              <Route
+                path="/register"
+                element={<RegisterPage />}
               />
-              <Route 
-                path="/" 
-                element={<BrandedLanding />} 
+              <Route
+                path="/"
+                element={<BrandedLanding />}
               />
-              
+
               {/* Catch all route */}
-              <Route 
-                path="*" 
-                element={<Navigate to="/" />} 
+              <Route
+                path="*"
+                element={<Navigate to="/" />}
               />
             </Routes>
           </Suspense>
@@ -184,13 +171,13 @@ function App() {
           <>
             <SimpleTour isFirstTime={isFirstTimeUser} />
             <KeyboardShortcuts />
-            <ExportDialog 
-              open={showExportDialog} 
-              onClose={() => setShowExportDialog(false)} 
+            <ExportDialog
+              open={showExportDialog}
+              onClose={() => setShowExportDialog(false)}
             />
           </>
         )}
-        
+
         {/* Performance monitoring (development only) */}
         <PerformanceMonitor />
       </Box>

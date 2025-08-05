@@ -79,6 +79,25 @@ function App() {
         '& .MuiBox-root': {
           mb: compactMode ? 1 : 2,
         },
+        // Global modern scrollbar styles
+        '& *::-webkit-scrollbar': {
+          width: '8px',
+          height: '8px',
+        },
+        '& *::-webkit-scrollbar-track': {
+          background: 'transparent',
+        },
+        '& *::-webkit-scrollbar-thumb': {
+          background: 'rgba(0,0,0,0.2)',
+          borderRadius: '10px',
+          '&:hover': {
+            background: 'rgba(0,0,0,0.3)',
+          }
+        },
+        '& *': {
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(0,0,0,0.2) transparent',
+        }
       }}>
         {isAuthenticated ? (
           <ModernLayout>

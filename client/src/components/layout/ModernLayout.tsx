@@ -100,33 +100,8 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
     setNotificationAnchor(null);
   };
 
-  // Sample notifications - in a real app, these would come from your notification system
-  const notifications = [
-    {
-      id: 1,
-      title: 'Interview Reminder',
-      message: 'You have an interview with TechCorp tomorrow at 2:00 PM',
-      time: '2 hours ago',
-      unread: true,
-      icon: <EventIcon color="primary" />
-    },
-    {
-      id: 2,
-      title: 'Application Update',
-      message: 'Your application to StartupXYZ has been viewed',
-      time: '1 day ago',
-      unread: true,
-      icon: <WorkIcon color="success" />
-    },
-    {
-      id: 3,
-      title: 'Follow-up Reminder',
-      message: 'Time to follow up on your application to BigTech Inc.',
-      time: '2 days ago',
-      unread: true,
-      icon: <NotificationsIcon color="warning" />
-    }
-  ];
+  // In a real app, notifications would come from your notification system
+  const notifications: any[] = []; // Empty for now - will be populated by real notification system
 
   const handleLogout = () => {
     dispatch(logout());
@@ -305,7 +280,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
             />
             
             <IconButton onClick={handleNotificationClick}>
-              <Badge badgeContent={3} color="error">
+              <Badge badgeContent={notifications.length || null} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -349,7 +324,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
         </MenuItem>
       </Menu>
 
-      {/* Notifications Menu */}
+      {/* Modern Notifications Menu */}
       <Menu
         anchorEl={notificationAnchor}
         open={Boolean(notificationAnchor)}
@@ -357,63 +332,171 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         PaperProps={{
-          sx: { width: 350, maxHeight: 400 }
+          sx: { 
+            width: 380, 
+            maxHeight: 500,
+            borderRadius: 3,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+            border: '1px solid',
+            borderColor: 'divider',
+            overflow: 'hidden'
+          }
         }}
       >
-        <Box sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
-          <Typography variant="h6">Notifications</Typography>
-        </Box>
-        
-        <MenuList sx={{ p: 0 }}>
-          {notifications.map((notification) => (
-            <MenuItem
-              key={notification.id}
-              onClick={handleNotificationClose}
-              sx={{
-                py: 2,
-                px: 2,
-                backgroundColor: notification.unread ? 'action.hover' : 'transparent',
-                borderBottom: '1px solid',
-                borderColor: 'divider',
-                '&:last-child': { borderBottom: 'none' }
-              }}
-            >
-              <ListItemAvatar>
-                <Avatar sx={{ width: 32, height: 32, backgroundColor: 'transparent' }}>
-                  {notification.icon}
-                </Avatar>
-              </ListItemAvatar>
-              <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 600 }} noWrap>
-                  {notification.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-                  {notification.message}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {notification.time}
-                </Typography>
-              </Box>
-              {notification.unread && (
-                <Box
-                  sx={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: '50%',
-                    backgroundColor: 'primary.main',
-                    ml: 1
-                  }}
-                />
-              )}
-            </MenuItem>
-          ))}
-        </MenuList>
-        
-        <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider', textAlign: 'center' }}>
-          <Typography variant="body2" color="primary" sx={{ cursor: 'pointer' }}>
-            View All Notifications
+        {/* Header */}
+        <Box 
+          sx={{ 
+            p: 3, 
+            pb: 2,
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: 'white'
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            Notifications
+          </Typography>
+          <Typography variant="body2" sx={{ opacity: 0.9, mt: 0.5 }}>
+            {notifications.length === 0 ? 'All caught up!' : `${notifications.length} new notifications`}
           </Typography>
         </Box>
+        
+        {/* Content */}
+        <Box
+          sx={{
+            maxHeight: 350,
+            overflowY: 'auto',
+            // Modern scrollbar styles
+            '&::-webkit-scrollbar': {
+              width: '6px',
+            },
+            '&::-webkit-scrollbar-track': {
+              background: 'transparent',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: 'rgba(0,0,0,0.2)',
+              borderRadius: '10px',
+              '&:hover': {
+                background: 'rgba(0,0,0,0.3)',
+              }
+            },
+            // Firefox scrollbar
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'rgba(0,0,0,0.2) transparent',
+          }}
+        >
+          {notifications.length === 0 ? (
+            // Empty state
+            <Box 
+              sx={{ 
+                py: 6, 
+                px: 3, 
+                textAlign: 'center',
+                color: 'text.secondary'
+              }}
+            >
+              <NotificationsIcon sx={{ fontSize: 48, opacity: 0.3, mb: 2 }} />
+              <Typography variant="body1" sx={{ fontWeight: 500, mb: 1 }}>
+                No notifications yet
+              </Typography>
+              <Typography variant="body2" sx={{ opacity: 0.7 }}>
+                We'll notify you when something important happens
+              </Typography>
+            </Box>
+          ) : (
+            // Notifications list
+            <MenuList sx={{ p: 0 }}>
+              {notifications.map((notification, index) => (
+                <MenuItem
+                  key={notification.id}
+                  onClick={handleNotificationClose}
+                  sx={{
+                    py: 2.5,
+                    px: 3,
+                    backgroundColor: notification.unread ? 'action.hover' : 'transparent',
+                    borderBottom: index < notifications.length - 1 ? '1px solid' : 'none',
+                    borderColor: 'divider',
+                    '&:hover': {
+                      backgroundColor: 'action.hover',
+                    }
+                  }}
+                >
+                  <ListItemAvatar>
+                    <Avatar 
+                      sx={{ 
+                        width: 36, 
+                        height: 36, 
+                        backgroundColor: 'primary.light',
+                        color: 'primary.main'
+                      }}
+                    >
+                      {notification.icon}
+                    </Avatar>
+                  </ListItemAvatar>
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                      {notification.title}
+                    </Typography>
+                    <Typography 
+                      variant="body2" 
+                      color="text.secondary" 
+                      sx={{ 
+                        mb: 0.5,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      }}
+                    >
+                      {notification.message}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {notification.time}
+                    </Typography>
+                  </Box>
+                  {notification.unread && (
+                    <Box
+                      sx={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: '50%',
+                        backgroundColor: 'primary.main',
+                        ml: 2,
+                        flexShrink: 0
+                      }}
+                    />
+                  )}
+                </MenuItem>
+              ))}
+            </MenuList>
+          )}
+        </Box>
+        
+        {/* Footer */}
+        {notifications.length > 0 && (
+          <Box 
+            sx={{ 
+              p: 2, 
+              borderTop: '1px solid', 
+              borderColor: 'divider',
+              backgroundColor: 'grey.50',
+              textAlign: 'center'
+            }}
+          >
+            <Typography 
+              variant="body2" 
+              color="primary" 
+              sx={{ 
+                cursor: 'pointer',
+                fontWeight: 500,
+                '&:hover': {
+                  textDecoration: 'underline'
+                }
+              }}
+            >
+              View All Notifications
+            </Typography>
+          </Box>
+        )}
       </Menu>
     </Box>
   );

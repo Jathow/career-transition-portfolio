@@ -7,14 +7,15 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies with cache cleaning
+RUN npm ci --cache /tmp/.npm --prefer-offline --no-audit && \
+    npm cache clean --force
 
 # Copy source code
 COPY . .
 
-    # Build the application (skip linting for now)
-    RUN DISABLE_ESLINT_PLUGIN=true npm run build
+# Build the application (skip linting for now)
+RUN DISABLE_ESLINT_PLUGIN=true npm run build
 
 # Production stage with Nginx
 FROM nginx:alpine AS production

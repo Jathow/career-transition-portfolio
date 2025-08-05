@@ -30,7 +30,11 @@
     "format:check": "npm run server:format:check && npm run client:format:check",
     "server:format:check": "cd server && npm run format:check",
     "client:format:check": "cd client && npm run format:check",
-    "railway:start": "cd server && npm run railway:start"
+    "railway:start": "cd server && npm run railway:start",
+    "build:clean": "./scripts/build-without-cache.sh",
+    "deploy:clean": "./scripts/build-without-cache.sh && echo 'Ready for deployment!'",
+    "cache:clear": "./scripts/clear-cache.sh",
+    "deploy:verify": "./scripts/verify-deployment.sh"
   },
   "keywords": [
     "career",

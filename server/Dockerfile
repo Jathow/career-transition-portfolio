@@ -8,8 +8,9 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install all dependencies (including dev dependencies for ts-node)
-RUN npm ci
+# Install all dependencies with cache cleaning
+RUN npm ci --cache /tmp/.npm --prefer-offline --no-audit && \
+    npm cache clean --force
 
 # Generate Prisma client
 RUN npx prisma generate
@@ -33,8 +34,9 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install all dependencies (including dev dependencies for ts-node)
-RUN npm ci && npm cache clean --force
+# Install all dependencies with cache cleaning
+RUN npm ci --cache /tmp/.npm --prefer-offline --no-audit && \
+    npm cache clean --force
 
 # Copy source files and Prisma files from builder stage
 COPY --from=builder /app/src ./src

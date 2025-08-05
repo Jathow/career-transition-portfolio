@@ -1,0 +1,2 @@
+NPM_CONFIG_CACHE=/tmp/.npm
+NODE_ENV=production

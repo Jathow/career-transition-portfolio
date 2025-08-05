@@ -212,7 +212,7 @@ const OnboardingTour: React.FC<{ isFirstTime?: boolean }> = ({ isFirstTime = fal
         scrollToFirstStep
         showProgress
         showSkipButton
-        disableOverlayClose
+        disableOverlayClose={false}
         disableScrolling={false}
         spotlightClicks={false}
         styles={{

@@ -92,8 +92,11 @@ const ApplicationsPage: React.FC = () => {
               '& .MuiTab-root': {
                 minHeight: 64,
                 height: 64,
+                display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                gap: 0.5
               }
             }}
           >
@@ -110,7 +113,7 @@ const ApplicationsPage: React.FC = () => {
             <Tab
               icon={<NotificationsIcon />}
               label={
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, height: '100%' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                   Follow-ups
                   {getFollowUpCount() > 0 && (
                     <Box
@@ -118,14 +121,13 @@ const ApplicationsPage: React.FC = () => {
                         backgroundColor: 'error.main',
                         color: 'white',
                         borderRadius: '50%',
-                        width: 18,
-                        height: 18,
+                        width: 16,
+                        height: 16,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '0.7rem',
-                        fontWeight: 'bold',
-                        ml: 0.5
+                        fontSize: '0.65rem',
+                        fontWeight: 'bold'
                       }}
                     >
                       {getFollowUpCount()}

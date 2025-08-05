@@ -215,7 +215,7 @@ const Navbar: React.FC = () => {
           alignItems="center"
           justifyContent="space-between"
           sx={{ 
-            height: 64,
+            height: '100%',
             px: 3,
             minHeight: 64,
             maxHeight: 64,
@@ -234,7 +234,7 @@ const Navbar: React.FC = () => {
                 cursor: 'pointer', 
                 display: 'flex',
                 alignItems: 'center',
-                height: 64,
+                height: '100%',
                 '&:hover': { opacity: 0.8 } 
               }}
             >

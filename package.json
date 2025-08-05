@@ -32,7 +32,9 @@
     "client:format:check": "cd client && npm run format:check",
     "railway:start": "cd server && npm run railway:start",
     "build:clean": "./scripts/build-without-cache.sh",
+    "build:railway": "./scripts/railway-build.sh",
     "deploy:clean": "./scripts/build-without-cache.sh && echo 'Ready for deployment!'",
+    "deploy:railway": "./scripts/railway-build.sh && echo 'Ready for Railway deployment!'",
     "cache:clear": "./scripts/clear-cache.sh",
     "deploy:verify": "./scripts/verify-deployment.sh"
   },

@@ -8,8 +8,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install all dependencies with cache cleaning
-RUN npm ci --cache /tmp/.npm --prefer-offline --no-audit && \
+# Install all dependencies with Railway-compatible cache handling
+RUN npm ci --cache /tmp/.npm --prefer-offline --no-audit --no-optional && \
     npm cache clean --force
 
 # Generate Prisma client
@@ -34,8 +34,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install all dependencies with cache cleaning
-RUN npm ci --cache /tmp/.npm --prefer-offline --no-audit && \
+# Install all dependencies with Railway-compatible cache handling
+RUN npm ci --cache /tmp/.npm --prefer-offline --no-audit --no-optional && \
     npm cache clean --force
 
 # Copy source files and Prisma files from builder stage

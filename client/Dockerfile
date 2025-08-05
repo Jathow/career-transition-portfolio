@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies with cache cleaning
-RUN npm ci --cache /tmp/.npm --prefer-offline --no-audit && \
+# Install dependencies with Railway-compatible cache handling
+RUN npm ci --cache /tmp/.npm --prefer-offline --no-audit --no-optional && \
     npm cache clean --force
 
 # Copy source code

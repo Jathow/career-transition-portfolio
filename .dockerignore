@@ -1,0 +1,93 @@
+# Git and version control
+.git/
+.gitignore
+.gitattributes
+
+# Environment files (keep .env.production)
+.env
+.env.local
+.env.development
+.env.test
+
+# Development tools
+.vscode/
+.kiro/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Testing files
+tests/
+test/
+__tests__/
+cypress/
+cypress.config.*
+*.test.*
+*.spec.*
+coverage/
+.nyc_output/
+
+# Documentation
+docs/
+*.md
+README*
+CHANGELOG*
+LICENSE*
+CONTRIBUTING*
+
+# Pre-built artifacts (will be built fresh in container)
+client/build/
+server/dist/
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Development scripts (keep server runtime scripts)
+scripts/
+start-dev.*
+deploy-production.sh
+build.sh
+verify-nixpacks.sh
+
+# Development-only configs
+jest.config.*
+babel.config.*
+webpack.config.*
+.eslintrc.*
+.prettierrc*
+
+# Nixpacks files (not needed for Docker)
+nixpacks.toml
+.nixpacks/
+.nixpacksignore
+.railwayignore
+
+# Source maps (will be generated fresh)
+*.map
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Temporary files
+tmp/
+temp/
+
+# Node modules (will be installed fresh)
+node_modules/

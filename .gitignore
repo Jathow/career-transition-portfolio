@@ -113,8 +113,8 @@ test-results/
 playwright-report/
 test-results.xml
 
-# Docker
-.dockerignore
+# Docker (keep .dockerignore in git)
+# .dockerignore
 
 # Backup files
 *.bak

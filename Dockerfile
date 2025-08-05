@@ -38,6 +38,10 @@ WORKDIR /app
 # Install only runtime dependencies
 RUN apk add --no-cache openssl
 
+# Set environment variables
+ENV NODE_ENV=production
+ENV PORT=5001
+
 # Copy package files
 COPY package*.json ./
 COPY server/package*.json ./server/
@@ -56,6 +60,14 @@ COPY --from=builder /app/server/node_modules/.prisma ./server/node_modules/.pris
 COPY server/railway-start.js ./server/
 COPY server/create-admin-railway.js ./server/
 COPY server/healthcheck.js ./server/
+
+# Debug: List contents to verify structure
+RUN echo "=== Docker Build Debug ===" && \
+    echo "Contents of /app:" && ls -la && \
+    echo "Contents of /app/client:" && ls -la client/ && \
+    echo "Contents of /app/client/build:" && ls -la client/build/ && \
+    echo "Contents of /app/server:" && ls -la server/ && \
+    echo "Contents of /app/server/dist:" && ls -la server/dist/
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \

@@ -41,9 +41,20 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const result = await dispatch(login(formData));
-    if (login.fulfilled.match(result)) {
-      navigate('/dashboard');
+    console.log('Login attempt:', { email: formData.email });
+    
+    try {
+      const result = await dispatch(login(formData));
+      console.log('Login result:', result);
+      
+      if (login.fulfilled.match(result)) {
+        console.log('Login successful, navigating to dashboard');
+        navigate('/dashboard');
+      } else {
+        console.log('Login failed:', result.payload);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
     }
   };
 

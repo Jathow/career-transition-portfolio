@@ -42,16 +42,6 @@ root.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
-// Register service worker for offline functionality and caching
-if (process.env.NODE_ENV === 'production') {
-  serviceWorker.register({
-    onSuccess: () => {
-      console.log('Service worker registered successfully');
-    },
-    onUpdate: () => {
-      console.log('Service worker updated');
-    }
-  });
-} else {
-  serviceWorker.unregister();
-}
+// Disable service worker temporarily to fix login issues
+// TODO: Re-enable after fixing CSP and caching issues
+serviceWorker.unregister();

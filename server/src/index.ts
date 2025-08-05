@@ -27,8 +27,41 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// Security middleware
-app.use(helmet());
+// Security middleware with relaxed CSP for production
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: [
+        "'self'", 
+        "'unsafe-inline'", 
+        "https://fonts.googleapis.com",
+        "https://cdnjs.cloudflare.com"
+      ],
+      fontSrc: [
+        "'self'", 
+        "https://fonts.gstatic.com",
+        "https://fonts.googleapis.com"
+      ],
+      scriptSrc: [
+        "'self'", 
+        "'unsafe-inline'", 
+        "'unsafe-eval'",
+        "https://cdnjs.cloudflare.com"
+      ],
+      connectSrc: [
+        "'self'",
+        "https://fonts.googleapis.com",
+        "https://fonts.gstatic.com"
+      ],
+      imgSrc: ["'self'", "data:", "https:"],
+      mediaSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: []
+    }
+  }
+}));
+
 app.use(cors({
   origin: process.env.CORS_ORIGIN || process.env.CLIENT_URL || 'http://localhost:3000',
   credentials: true

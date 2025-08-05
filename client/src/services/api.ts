@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
+// In production, use relative URLs so it works with any domain
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? '/api' 
+  : (process.env.REACT_APP_API_URL || 'http://localhost:5001/api');
 
 // Create axios instance
 const api = axios.create({

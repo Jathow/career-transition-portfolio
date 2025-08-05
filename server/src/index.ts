@@ -20,6 +20,7 @@ import marketAnalysisRoutes from './routes/marketAnalysis';
 import revenueTrackingRoutes from './routes/revenueTracking';
 import adminRoutes from './routes/admin';
 import preferencesRoutes from './routes/preferences';
+import { templateRoutes } from './routes/templates';
 
 // Load environment variables
 dotenv.config();
@@ -106,6 +107,7 @@ app.use('/api/market-analysis', marketAnalysisRoutes);
 app.use('/api/revenue-tracking', revenueTrackingRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/preferences', preferencesRoutes);
+app.use('/api/templates', templateRoutes);
 
 // Serve static files from React build in production
 if (process.env.NODE_ENV === 'production') {

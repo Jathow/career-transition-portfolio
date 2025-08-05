@@ -28,6 +28,7 @@ const PortfolioPage = React.lazy(() => import('./pages/PortfolioPage'));
 const MotivationPage = React.lazy(() => import('./pages/MotivationPage'));
 const RevenueTrackingPage = React.lazy(() => import('./pages/RevenueTrackingPage'));
 const AdminPage = React.lazy(() => import('./pages/AdminPage'));
+const TemplatesPage = React.lazy(() => import('./pages/TemplatesPage'));
 
 // Loading fallback component for Suspense
 const PageLoadingFallback: React.FC = () => (
@@ -143,6 +144,10 @@ function App() {
                 <Route
                   path="/admin"
                   element={user?.role === 'ADMIN' ? <AdminPage /> : <Navigate to="/dashboard" />}
+                />
+                <Route
+                  path="/templates"
+                  element={<TemplatesPage />}
                 />
 
                 {/* Default redirect */}

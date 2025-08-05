@@ -1,0 +1,21 @@
+[phases.setup]
+nixPkgs = ["nodejs-18_x", "npm"]
+
+[phases.install]
+cmds = [
+  "npm config set cache /tmp/.npm",
+  "npm ci --prefer-offline --no-audit --no-optional"
+]
+
+[phases.build]
+cmds = [
+  "npm config set cache /tmp/.npm",
+  "npm run build"
+]
+
+[start]
+cmd = "npm run railway:start"
+
+[variables]
+NODE_ENV = "production"
+NPM_CONFIG_CACHE = "/tmp/.npm"

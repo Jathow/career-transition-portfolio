@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "build": "tsc",
+    "build": "npm config set cache /tmp/.npm && tsc",
     "start": "node railway-start.js",
     "railway:start": "npx prisma generate && npx prisma db push && node create-admin-railway.js && node railway-start.js",
     "test": "jest",

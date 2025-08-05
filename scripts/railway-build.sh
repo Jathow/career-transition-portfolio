@@ -47,9 +47,9 @@ check_prerequisites() {
     print_success "All prerequisites are satisfied"
 }
 
-# Clean Railway cache issues
+# Clean Railway cache issues aggressively
 clean_railway_cache() {
-    print_status "Cleaning Railway cache issues..."
+    print_status "Cleaning Railway cache issues aggressively..."
     
     # Remove problematic cache directories
     if [ -d "client/node_modules/.cache" ]; then
@@ -60,20 +60,26 @@ clean_railway_cache() {
         rm -rf server/node_modules/.cache
     fi
     
-    # Clean npm cache
+    # Clean npm cache completely
     npm cache clean --force
     
-    print_success "Railway cache cleaned"
+    # Set npm cache to a different location
+    npm config set cache /tmp/.npm
+    
+    print_success "Railway cache cleaned aggressively"
 }
 
-# Build client for Railway
+# Build client for Railway with cache avoidance
 build_client_railway() {
-    print_status "Building client for Railway..."
+    print_status "Building client for Railway with cache avoidance..."
     
     cd client
     
     # Clean npm cache
     npm cache clean --force
+    
+    # Set npm cache to avoid Railway's mount
+    npm config set cache /tmp/.npm
     
     # Remove node_modules if it exists
     if [ -d "node_modules" ]; then
@@ -81,7 +87,7 @@ build_client_railway() {
     fi
     
     # Install dependencies with Railway-compatible settings
-    npm ci --cache /tmp/.npm --prefer-offline --no-audit --no-optional
+    npm ci --prefer-offline --no-audit --no-optional
     
     # Build the application
     DISABLE_ESLINT_PLUGIN=true npm run build
@@ -91,14 +97,17 @@ build_client_railway() {
     print_success "Client build completed for Railway"
 }
 
-# Build server for Railway
+# Build server for Railway with cache avoidance
 build_server_railway() {
-    print_status "Building server for Railway..."
+    print_status "Building server for Railway with cache avoidance..."
     
     cd server
     
     # Clean npm cache
     npm cache clean --force
+    
+    # Set npm cache to avoid Railway's mount
+    npm config set cache /tmp/.npm
     
     # Remove node_modules if it exists
     if [ -d "node_modules" ]; then
@@ -106,7 +115,7 @@ build_server_railway() {
     fi
     
     # Install dependencies with Railway-compatible settings
-    npm ci --cache /tmp/.npm --prefer-offline --no-audit --no-optional
+    npm ci --prefer-offline --no-audit --no-optional
     
     # Generate Prisma client
     npx prisma generate
@@ -159,9 +168,29 @@ coverage
 .parcel-cache
 .DS_Store
 *.log
+.vscode
+.kiro
+tests
+cypress
+scripts
+docs
 EOF
 
     print_success "Railway .dockerignore created"
+}
+
+# Create Railway-specific .npmrc
+create_railway_npmrc() {
+    print_status "Creating Railway-specific .npmrc..."
+    
+    cat > .npmrc << EOF
+cache=/tmp/.npm
+prefer-offline=true
+audit=false
+optional=false
+EOF
+
+    print_success "Railway .npmrc created"
 }
 
 # Main function
@@ -171,6 +200,7 @@ main() {
     check_prerequisites
     clean_railway_cache
     create_railway_dockerignore
+    create_railway_npmrc
     build_client_railway
     build_server_railway
     test_railway_build
@@ -186,6 +216,7 @@ main() {
     echo "- Railway automatically adds cache mounts"
     echo "- Using /tmp/.npm to avoid cache conflicts"
     echo "- Build should now work with Railway's cache system"
+    echo "- Added .npmrc to force cache location"
     echo ""
 }
 

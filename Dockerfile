@@ -24,11 +24,16 @@ COPY --from=deps /app/server/node_modules ./server/node_modules
 # Copy source code
 COPY . .
 
+# Add build timestamp to force cache invalidation
+RUN echo "Build timestamp: $(date)" > /app/build-timestamp.txt
+
 # Generate Prisma client
 RUN cd server && npx prisma generate
 
-# Build applications
-RUN cd client && DISABLE_ESLINT_PLUGIN=true npm run build
+# Build applications with cache busting
+ARG BUILD_DATE
+ENV BUILD_DATE=${BUILD_DATE}
+RUN echo "Build date: ${BUILD_DATE}" && cd client && DISABLE_ESLINT_PLUGIN=true npm run build
 RUN cd server && npm run build
 
 # Production stage - minimal image

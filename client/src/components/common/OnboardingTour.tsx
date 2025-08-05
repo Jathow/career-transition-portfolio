@@ -181,8 +181,11 @@ const OnboardingTour: React.FC<{ isFirstTime?: boolean }> = ({ isFirstTime = fal
   const handleCallback = (data: CallBackProps) => {
     const { status, action, index, type } = data;
     
+    console.log('🎯 Tour callback:', { status, action, index, type });
+    
     // Handle close button click
     if (action === 'close' || type === 'tour:end') {
+      console.log('🎯 Tour closed via close button');
       setRun(false);
       localStorage.setItem('onboarding-completed', 'true');
       return;

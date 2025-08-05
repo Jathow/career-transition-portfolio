@@ -272,6 +272,7 @@ const Navbar: React.FC = () => {
           <Stack direction="row" alignItems="center" spacing={1}>
             {!isMobile && <GlobalSearch />}
             <NotificationCenter />
+            {/* Debug: Navbar alignment fix applied */}
             {!isMobile && (
               <Tooltip title={`${user?.firstName} ${user?.lastName}`} arrow>
                 <IconButton onClick={handleMenu} sx={{ color: 'text.primary' }}>

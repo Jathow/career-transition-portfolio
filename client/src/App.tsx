@@ -45,6 +45,10 @@ function App() {
 
   useEffect(() => {
     dispatch(checkAuthStatus());
+    
+    // Debug: Log app version to verify deployment
+    console.log('🚀 App loaded - Build timestamp:', new Date().toISOString());
+    console.log('🔧 UI fixes applied: Tour close button, Navbar alignment, Tab alignment');
   }, [dispatch]);
 
   useEffect(() => {

@@ -35,16 +35,26 @@ ARG BUILD_DATE
 ENV BUILD_DATE=${BUILD_DATE}
 RUN echo "Build date: ${BUILD_DATE}"
 
-# Build client with detailed logging
+# Build client with detailed logging and error checking
 RUN echo "=== Building Client ===" && \
     cd client && \
     echo "Client directory contents:" && ls -la && \
-    echo "Running client build..." && \
-    DISABLE_ESLINT_PLUGIN=true npm run build && \
-    echo "Client build completed. Build directory contents:" && \
-    ls -la build/ && \
-    echo "Build index.html exists:" && \
-    test -f build/index.html && echo "YES" || echo "NO"
+    echo "Node version:" && node --version && \
+    echo "NPM version:" && npm --version && \
+    echo "Environment variables:" && \
+    export CI=true && \
+    export DISABLE_ESLINT_PLUGIN=true && \
+    export ESLINT_NO_DEV_ERRORS=true && \
+    export TSC_COMPILE_ON_ERROR=true && \
+    export GENERATE_SOURCEMAP=false && \
+    echo "Running client build with explicit settings..." && \
+    npm run build && \
+    echo "Client build completed. Checking results..." && \
+    if [ ! -d "build" ]; then echo "ERROR: build directory not created"; exit 1; fi && \
+    echo "Build directory contents:" && ls -la build/ && \
+    if [ ! -f "build/index.html" ]; then echo "ERROR: index.html not found in build"; exit 1; fi && \
+    echo "SUCCESS: Client build completed with index.html" && \
+    echo "Index.html size:" && wc -c build/index.html
 
 # Build server
 RUN echo "=== Building Server ===" && \

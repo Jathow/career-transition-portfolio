@@ -7,7 +7,7 @@ import { Box, Container } from '@mui/material';
 import { RootState, AppDispatch } from './store/store';
 import { checkAuthStatus } from './store/slices/authSlice';
 import { useTheme } from './contexts/ThemeContext';
-import SimpleNavbar from './components/layout/SimpleNavbar';
+import GridNavbar from './components/layout/GridNavbar';
 import SimpleTour from './components/common/SimpleTour';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import ExportDialog from './components/common/ExportDialog';
@@ -22,7 +22,7 @@ const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
 const ResumePage = React.lazy(() => import('./pages/ResumePage'));
-const ApplicationsPage = React.lazy(() => import('./pages/SimpleApplicationsPage'));
+const ApplicationsPage = React.lazy(() => import('./pages/GridApplicationsPage'));
 const InterviewsPage = React.lazy(() => import('./pages/InterviewsPage'));
 const PortfolioPage = React.lazy(() => import('./pages/PortfolioPage'));
 const MotivationPage = React.lazy(() => import('./pages/MotivationPage'));
@@ -82,7 +82,7 @@ function App() {
       }}>
         {isAuthenticated ? (
           <>
-            <SimpleNavbar />
+            <GridNavbar />
             <Container 
               component="main" 
               maxWidth="lg" 

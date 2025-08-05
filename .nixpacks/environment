@@ -1,3 +1,0 @@
-NODE_ENV=production
-NPM_CONFIG_CACHE=/tmp/.npm-cache
-NIXPACKS_NO_CACHE=1

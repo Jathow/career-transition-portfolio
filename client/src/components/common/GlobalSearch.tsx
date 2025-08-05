@@ -205,7 +205,7 @@ const GlobalSearch: React.FC = () => {
   };
 
   return (
-    <Box ref={anchorRef} sx={{ position: 'relative', width: isMobile ? '100%' : 400 }}>
+    <Box ref={anchorRef} sx={{ position: 'relative', width: isMobile ? '100%' : 350 }}>
       <TextField
         fullWidth
         size="small"
@@ -242,6 +242,9 @@ const GlobalSearch: React.FC = () => {
             '&:hover': {
               backgroundColor: 'action.hover',
             },
+          },
+          '& .MuiInputBase-root': {
+            height: '40px',
           },
         }}
       />

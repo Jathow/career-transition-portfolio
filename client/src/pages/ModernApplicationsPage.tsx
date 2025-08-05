@@ -26,7 +26,8 @@ const ModernApplicationsPage: React.FC = () => {
   }, [dispatch]);
 
   const getFollowUpCount = () => {
-    return applicationsNeedingFollowUp.length;
+    const count = applicationsNeedingFollowUp.length;
+    return count > 0 ? count : undefined; // Return undefined instead of 0
   };
 
   const tabs = [

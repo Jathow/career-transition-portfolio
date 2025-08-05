@@ -46,7 +46,7 @@ const SimpleTabs: React.FC<SimpleTabsProps> = ({ tabs, defaultTab }) => {
               }}
             >
               {tab.label}
-              {tab.count && tab.count > 0 && (
+              {tab.count && (
                 <Chip
                   label={tab.count}
                   size="small"

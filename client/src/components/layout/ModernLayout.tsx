@@ -22,6 +22,8 @@ import {
   useMediaQuery,
   Paper,
   Chip,
+  MenuList,
+  ListItemAvatar,
 } from '@mui/material';
 import {
   Dashboard as DashboardIcon,
@@ -58,6 +60,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
   
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [notificationAnchor, setNotificationAnchor] = useState<null | HTMLElement>(null);
 
   const navigationItems = [
     { label: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
@@ -88,6 +91,42 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleNotificationClick = (event: React.MouseEvent<HTMLElement>) => {
+    setNotificationAnchor(event.currentTarget);
+  };
+
+  const handleNotificationClose = () => {
+    setNotificationAnchor(null);
+  };
+
+  // Sample notifications - in a real app, these would come from your notification system
+  const notifications = [
+    {
+      id: 1,
+      title: 'Interview Reminder',
+      message: 'You have an interview with TechCorp tomorrow at 2:00 PM',
+      time: '2 hours ago',
+      unread: true,
+      icon: <EventIcon color="primary" />
+    },
+    {
+      id: 2,
+      title: 'Application Update',
+      message: 'Your application to StartupXYZ has been viewed',
+      time: '1 day ago',
+      unread: true,
+      icon: <WorkIcon color="success" />
+    },
+    {
+      id: 3,
+      title: 'Follow-up Reminder',
+      message: 'Time to follow up on your application to BigTech Inc.',
+      time: '2 days ago',
+      unread: true,
+      icon: <NotificationsIcon color="warning" />
+    }
+  ];
 
   const handleLogout = () => {
     dispatch(logout());
@@ -265,7 +304,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
               }}
             />
             
-            <IconButton>
+            <IconButton onClick={handleNotificationClick}>
               <Badge badgeContent={3} color="error">
                 <NotificationsIcon />
               </Badge>
@@ -308,6 +347,73 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
           </ListItemIcon>
           Logout
         </MenuItem>
+      </Menu>
+
+      {/* Notifications Menu */}
+      <Menu
+        anchorEl={notificationAnchor}
+        open={Boolean(notificationAnchor)}
+        onClose={handleNotificationClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        PaperProps={{
+          sx: { width: 350, maxHeight: 400 }
+        }}
+      >
+        <Box sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
+          <Typography variant="h6">Notifications</Typography>
+        </Box>
+        
+        <MenuList sx={{ p: 0 }}>
+          {notifications.map((notification) => (
+            <MenuItem
+              key={notification.id}
+              onClick={handleNotificationClose}
+              sx={{
+                py: 2,
+                px: 2,
+                backgroundColor: notification.unread ? 'action.hover' : 'transparent',
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+                '&:last-child': { borderBottom: 'none' }
+              }}
+            >
+              <ListItemAvatar>
+                <Avatar sx={{ width: 32, height: 32, backgroundColor: 'transparent' }}>
+                  {notification.icon}
+                </Avatar>
+              </ListItemAvatar>
+              <Box sx={{ flex: 1, minWidth: 0 }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600 }} noWrap>
+                  {notification.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
+                  {notification.message}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {notification.time}
+                </Typography>
+              </Box>
+              {notification.unread && (
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    backgroundColor: 'primary.main',
+                    ml: 1
+                  }}
+                />
+              )}
+            </MenuItem>
+          ))}
+        </MenuList>
+        
+        <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider', textAlign: 'center' }}>
+          <Typography variant="body2" color="primary" sx={{ cursor: 'pointer' }}>
+            View All Notifications
+          </Typography>
+        </Box>
       </Menu>
     </Box>
   );

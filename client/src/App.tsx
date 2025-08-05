@@ -82,63 +82,63 @@ function App() {
       }}>
         {isAuthenticated ? (
           <ModernLayout>
-              <Suspense fallback={<PageLoadingFallback />}>
-                <Routes>
-                  {/* Protected routes */}
-                  <Route
-                    path="/dashboard"
-                    element={<DashboardPage />}
-                  />
-                  <Route
-                    path="/profile"
-                    element={<ProfilePage />}
-                  />
-                  <Route
-                    path="/settings"
-                    element={<SettingsPage />}
-                  />
-                  <Route
-                    path="/resumes"
-                    element={<ResumePage />}
-                  />
-                  <Route
-                    path="/applications"
-                    element={<ApplicationsPage />}
-                  />
-                  <Route
-                    path="/interviews"
-                    element={<InterviewsPage />}
-                  />
-                  <Route
-                    path="/portfolio"
-                    element={<PortfolioPage />}
-                  />
-                  <Route
-                    path="/motivation"
-                    element={<MotivationPage />}
-                  />
-                  <Route
-                    path="/revenue-tracking"
-                    element={<RevenueTrackingPage />}
-                  />
-                  <Route
-                    path="/admin"
-                    element={user?.role === 'ADMIN' ? <AdminPage /> : <Navigate to="/dashboard" />}
-                  />
+            <Suspense fallback={<PageLoadingFallback />}>
+              <Routes>
+                {/* Protected routes */}
+                <Route
+                  path="/dashboard"
+                  element={<DashboardPage />}
+                />
+                <Route
+                  path="/profile"
+                  element={<ProfilePage />}
+                />
+                <Route
+                  path="/settings"
+                  element={<SettingsPage />}
+                />
+                <Route
+                  path="/resumes"
+                  element={<ResumePage />}
+                />
+                <Route
+                  path="/applications"
+                  element={<ApplicationsPage />}
+                />
+                <Route
+                  path="/interviews"
+                  element={<InterviewsPage />}
+                />
+                <Route
+                  path="/portfolio"
+                  element={<PortfolioPage />}
+                />
+                <Route
+                  path="/motivation"
+                  element={<MotivationPage />}
+                />
+                <Route
+                  path="/revenue-tracking"
+                  element={<RevenueTrackingPage />}
+                />
+                <Route
+                  path="/admin"
+                  element={user?.role === 'ADMIN' ? <AdminPage /> : <Navigate to="/dashboard" />}
+                />
 
-                  {/* Default redirect */}
-                  <Route
-                    path="/"
-                    element={<Navigate to="/dashboard" />}
-                  />
+                {/* Default redirect */}
+                <Route
+                  path="/"
+                  element={<Navigate to="/dashboard" />}
+                />
 
-                  {/* Catch all route */}
-                  <Route
-                    path="*"
-                    element={<Navigate to="/dashboard" />}
-                  />
-                </Routes>
-              </Suspense>
+                {/* Catch all route */}
+                <Route
+                  path="*"
+                  element={<Navigate to="/dashboard" />}
+                />
+              </Routes>
+            </Suspense>
           </ModernLayout>
         ) : (
           <Suspense fallback={<PageLoadingFallback />}>

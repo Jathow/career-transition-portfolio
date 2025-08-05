@@ -6,9 +6,9 @@ const TOUR_STEPS: Step[] = [
     target: 'body',
     content: (
       <div style={{ textAlign: 'left', height: '280px', overflowY: 'auto' }}>
-        <h3>Welcome to Career Portfolio! 👋</h3>
-        <p>Let's take a quick tour of the key features to help you get started.</p>
-        <p>This tour will show you the main sections and how to use them effectively.</p>
+        <h3>🔥 TOUR FIXED - CLOSE BUTTON WORKS! 🔥</h3>
+        <p>If you can see this message, the tour component is updated!</p>
+        <p>The close button should now work properly.</p>
       </div>
     ),
     placement: 'center',
@@ -322,7 +322,7 @@ const OnboardingTour: React.FC<{ isFirstTime?: boolean }> = ({ isFirstTime = fal
             e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
           }}
         >
-          🎯 Start Tour
+          🔥 FIXED TOUR - CLICK ME!
         </button>
       )}
     </>

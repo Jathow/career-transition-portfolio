@@ -70,8 +70,8 @@ const ApplicationsPage: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Job Applications
+      <Typography variant="h4" component="h1" gutterBottom sx={{ color: 'red', fontWeight: 'bold' }}>
+        🔥 TABS FIXED - Job Applications 🔥
       </Typography>
 
       {error && (

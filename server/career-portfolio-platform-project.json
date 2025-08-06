@@ -88,5 +88,246 @@
       "Frontend Developer",
       "Backend Developer"
     ]
-  }
+  },
+  "marketResearch": [
+    {
+      "researchType": "MARKET_ANALYSIS",
+      "title": "Career Transition Tools Market",
+      "description": "Analysis of the growing market for career transition and portfolio management tools",
+      "targetMarket": "Career-transitioning developers and coding bootcamp graduates",
+      "marketSize": "Growing market of 50,000+ annual bootcamp graduates and career changers",
+      "competitionLevel": "MEDIUM",
+      "entryBarriers": "Technical expertise required, user experience design",
+      "monetizationPotential": "HIGH",
+      "researchData": "Market research shows strong demand for developer-focused career tools",
+      "insights": "Developers prefer integrated platforms over separate tools",
+      "recommendations": "Focus on user experience and integration capabilities"
+    }
+  ],
+  "revenueMetrics": [
+    {
+      "metricType": "REVENUE",
+      "metricName": "Monthly Recurring Revenue",
+      "value": 5000,
+      "unit": "USD",
+      "period": "MONTHLY",
+      "date": "2024-01-21",
+      "notes": "Projected revenue from premium subscriptions"
+    },
+    {
+      "metricType": "USERS",
+      "metricName": "Active Users",
+      "value": 1000,
+      "unit": "users",
+      "period": "MONTHLY",
+      "date": "2024-01-21",
+      "notes": "Target user base for the platform"
+    }
+  ],
+  "monetizationStrategies": [
+    {
+      "strategyType": "SUBSCRIPTION",
+      "title": "Freemium Model",
+      "description": "Free basic features with premium subscription for advanced features",
+      "targetAudience": "Career-transitioning developers",
+      "pricingModel": "FREEMIUM",
+      "revenueProjection": 60000,
+      "implementationPlan": "Phase 1: Basic features free, Phase 2: Premium features",
+      "status": "PLANNING",
+      "priority": "HIGH"
+    }
+  ],
+  "projectAnalytics": [
+    {
+      "analyticsType": "PERFORMANCE",
+      "metricName": "Page Load Speed",
+      "value": 95,
+      "date": "2024-01-21",
+      "metadata": {
+        "unit": "score",
+        "target": "90+"
+      }
+    },
+    {
+      "analyticsType": "ENGAGEMENT",
+      "metricName": "User Retention",
+      "value": 85,
+      "date": "2024-01-21",
+      "metadata": {
+        "unit": "percentage",
+        "period": "30 days"
+      }
+    }
+  ],
+  "resume": {
+    "projectEntry": {
+      "title": "Career Portfolio Platform",
+      "company": "Personal Project",
+      "position": "Full-Stack Developer",
+      "description": "Developed a comprehensive career management platform for transitioning developers",
+      "achievements": [
+        "Built full-stack web application using React, Node.js, and PostgreSQL",
+        "Implemented modern dashboard UI with Material-UI and Redux",
+        "Created responsive design supporting desktop, tablet, and mobile devices",
+        "Developed real-time notification system and job application tracking",
+        "Integrated secure JWT authentication and role-based access control"
+      ],
+      "technologies": "React, TypeScript, Node.js, Express, PostgreSQL, Prisma, Material-UI, Docker, Railway"
+    }
+  },
+  "portfolio": {
+    "showcase": {
+      "title": "Career Portfolio Platform",
+      "subtitle": "Full-Stack Career Management Solution",
+      "description": "A modern web application that helps career-transitioning developers manage their job search journey, build professional portfolios, and track their progress with intuitive dashboards and real-time analytics."
+    }
+  },
+  "motivation": {
+    "dailyLogs": [
+      {
+        "date": "2024-01-15",
+        "hoursWorked": 8,
+        "notes": "Set up project structure and initial React/Node.js configuration",
+        "mood": 8,
+        "energyLevel": 7,
+        "achievements": ["Successfully configured full-stack development environment"],
+        "challenges": ["Learning Prisma ORM syntax and best practices"]
+      },
+      {
+        "date": "2024-01-16",
+        "hoursWorked": 7,
+        "notes": "Built job application tracking system and implemented Material-UI components",
+        "mood": 7,
+        "energyLevel": 6,
+        "achievements": ["Completed core job tracking functionality"],
+        "challenges": ["Material-UI component alignment issues"]
+      },
+      {
+        "date": "2024-01-17",
+        "hoursWorked": 6,
+        "notes": "Worked on Docker deployment configuration and optimized build process",
+        "mood": 6,
+        "energyLevel": 5,
+        "achievements": ["Successfully deployed to Railway platform"],
+        "challenges": ["Docker image size optimization"]
+      },
+      {
+        "date": "2024-01-18",
+        "hoursWorked": 8,
+        "notes": "Implemented modern CSS Grid layout system and created professional notification system",
+        "mood": 9,
+        "energyLevel": 8,
+        "achievements": ["Solved all UI alignment issues with CSS Grid approach"],
+        "challenges": ["Had to abandon complex solutions in favor of simple, working ones"]
+      }
+    ]
+  },
+  "goals": [
+    {
+      "title": "Complete Career Portfolio Platform",
+      "description": "Finish the full-stack career management platform",
+      "type": "PROJECT",
+      "targetValue": 100,
+      "currentValue": 100,
+      "unit": "percent",
+      "startDate": "2024-01-15",
+      "endDate": "2024-01-21",
+      "status": "COMPLETED",
+      "priority": "HIGH"
+    }
+  ],
+  "achievements": [
+    {
+      "title": "Full-Stack Development",
+      "description": "Successfully built a complete full-stack web application",
+      "type": "TECHNICAL",
+      "icon": "code",
+      "metadata": {
+        "technologies": ["React", "Node.js", "TypeScript", "PostgreSQL"],
+        "impact": "Demonstrates full-stack development capabilities"
+      }
+    },
+    {
+      "title": "Modern UI/UX Design",
+      "description": "Created a modern, responsive user interface with excellent user experience",
+      "type": "DESIGN",
+      "icon": "palette",
+      "metadata": {
+        "framework": "Material-UI",
+        "impact": "Shows design and frontend development skills"
+      }
+    }
+  ],
+  "motivationalFeedback": [
+    {
+      "type": "SUCCESS",
+      "title": "Project Completed Successfully",
+      "message": "Congratulations! You've successfully built a comprehensive career portfolio platform. This project demonstrates your full-stack development skills and will be a great addition to your portfolio.",
+      "priority": "HIGH",
+      "isRead": false,
+      "metadata": {
+        "projectId": "career-portfolio-platform",
+        "achievement": "Project completion"
+      }
+    }
+  ],
+  "userPreferences": {
+    "darkMode": true,
+    "compactMode": false,
+    "autoSave": true,
+    "showTutorials": true,
+    "emailNotifications": true,
+    "pushNotifications": true,
+    "reminderNotifications": true,
+    "updateNotifications": true
+  },
+  "jobApplications": [
+    {
+      "company": "Tech Startup Inc",
+      "position": "Full Stack Developer",
+      "jobUrl": "https://example.com/job/123",
+      "applicationDate": "2024-01-20",
+      "status": "Applied",
+      "notes": "Applied using the Career Portfolio Platform project as a key example",
+      "companyResearch": "Fast-growing startup focused on developer tools",
+      "preparationNotes": "Highlight the full-stack development experience and modern tech stack"
+    }
+  ],
+  "interviews": [
+    {
+      "company": "Tech Startup Inc",
+      "position": "Full Stack Developer",
+      "type": "TECHNICAL",
+      "interviewDate": "2024-01-25",
+      "duration": 60,
+      "interviewers": [
+        {
+          "name": "Sarah Johnson",
+          "role": "Senior Developer"
+        }
+      ],
+      "preparationNotes": [
+        "Prepare to discuss the Career Portfolio Platform architecture",
+        "Be ready to explain the technology choices (React, Node.js, PostgreSQL)",
+        "Have examples of problem-solving and debugging experience"
+      ],
+      "questionsToAsk": [
+        "What's the development team structure like?",
+        "How do you handle technical debt?",
+        "What's the deployment and CI/CD process?"
+      ],
+      "feedback": "Strong technical background, good communication skills",
+      "outcome": "PENDING"
+    }
+  ],
+  "notifications": [
+    {
+      "type": "SUCCESS",
+      "title": "Template Import Successful",
+      "message": "Your Career Portfolio Platform template has been imported successfully! You can now customize it for your own projects.",
+      "read": false,
+      "actionUrl": "/dashboard",
+      "date": "2024-01-21"
+    }
+  ]
 }

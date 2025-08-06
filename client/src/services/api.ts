@@ -32,8 +32,17 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      // Only redirect to login if we're not already on the login page
+      // and if the error is not from an auth-related endpoint
+      const currentPath = window.location.pathname;
+      const isAuthEndpoint = error.config?.url?.includes('/auth/');
+      const isLoginPage = currentPath === '/login' || currentPath === '/register';
+      
+      if (!isLoginPage && !isAuthEndpoint) {
+        // Clear token and redirect to login
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }

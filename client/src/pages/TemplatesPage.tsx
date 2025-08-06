@@ -90,6 +90,24 @@ const TemplatesPage: React.FC = () => {
       }
     } catch (error: any) {
       console.error('Import failed:', error);
+      
+      // Handle different types of errors
+      if (error.response?.status === 401) {
+        // Authentication error - try to refresh auth status
+        try {
+          // Attempt to check auth status
+          const token = localStorage.getItem('token');
+          if (token) {
+            // Token exists but might be expired, redirect to login
+            localStorage.removeItem('token');
+            window.location.href = '/login';
+            return;
+          }
+        } catch (authError) {
+          console.error('Auth check failed:', authError);
+        }
+      }
+      
       const errorMessage = error.response?.data?.error?.message || 'Import failed. Please try again.';
       alert(errorMessage);
     } finally {

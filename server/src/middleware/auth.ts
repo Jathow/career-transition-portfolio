@@ -17,27 +17,37 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 
   logger.debug('Auth Debug', {
     path: req.path,
+    method: req.method,
     authHeader: authHeader ? 'present' : 'missing',
-    token: token ? `${token.substring(0, 20)}...` : 'null'
+    token: token ? `${token.substring(0, 20)}...` : 'null',
+    userAgent: req.headers['user-agent']
   });
 
   if (!token) {
+    logger.warn('No token provided', { path: req.path });
     return next(createError('Access token required', 401, 'TOKEN_REQUIRED'));
   }
 
   try {
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
+      logger.error('JWT secret not configured');
       return next(createError('JWT secret not configured', 500, 'SERVER_ERROR'));
     }
     
     const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
-    logger.info('Token verified successfully', { email: decoded.email });
+    logger.info('Token verified successfully', { 
+      email: decoded.email, 
+      userId: decoded.userId,
+      path: req.path 
+    });
     (req as any).user = decoded;
     next();
   } catch (error) {
     logger.error('Token verification failed', { 
-      error: error instanceof Error ? error.message : 'Unknown error' 
+      error: error instanceof Error ? error.message : 'Unknown error',
+      path: req.path,
+      token: token ? `${token.substring(0, 20)}...` : 'null'
     });
     if (error instanceof jwt.TokenExpiredError) {
       return next(createError('Token has expired', 401, 'TOKEN_EXPIRED'));

@@ -9,7 +9,7 @@ import path from 'path';
 // Extend Request interface to include user
 interface AuthenticatedRequest extends Request {
   user?: {
-    id: string;
+    userId: string;
     email: string;
   };
 }
@@ -20,7 +20,7 @@ const router = Router();
 router.post('/import-project', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { customProjectName } = req.body;
-    const userId = req.user?.id;
+    const userId = req.user?.userId;
 
     if (!userId) {
       return res.status(401).json({
@@ -60,7 +60,7 @@ router.post('/import-project', authenticateToken, async (req: AuthenticatedReque
     }
 
   } catch (error) {
-    logger.error('Project import failed', { error, userId: (req as AuthenticatedRequest).user?.id });
+    logger.error('Project import failed', { error, userId: (req as AuthenticatedRequest).user?.userId });
     res.status(500).json({
       success: false,
       error: { message: 'Failed to import project' }

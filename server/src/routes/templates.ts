@@ -16,10 +16,10 @@ interface AuthenticatedRequest extends Request {
 
 const router = Router();
 
-// Import template data
-router.post('/import-template', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+// Import project template
+router.post('/import-project', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { templateId, importSections, customProjectName } = req.body;
+    const { customProjectName } = req.body;
     const userId = req.user?.id;
 
     if (!userId) {
@@ -29,26 +29,15 @@ router.post('/import-template', authenticateToken, async (req: AuthenticatedRequ
       });
     }
 
-    if (!templateId || !importSections || !Array.isArray(importSections)) {
-      return res.status(400).json({
-        success: false,
-        error: { message: 'Invalid request: templateId and importSections array required' }
-      });
-    }
-
-    logger.info('Template import requested', {
+    logger.info('Project import requested', {
       userId,
-      templateId,
-      importSections,
       customProjectName,
       timestamp: new Date().toISOString()
     });
 
-    // Use the template import service to handle the actual import
-    const result = await templateImportService.importTemplate({
+    // Use the template import service to handle the project import
+    const result = await templateImportService.importProject({
       userId,
-      templateId,
-      importSections,
       customProjectName
     });
 
@@ -57,8 +46,6 @@ router.post('/import-template', authenticateToken, async (req: AuthenticatedRequ
         success: true,
         data: {
           message: result.message,
-          templateId,
-          importedSections: result.importedSections,
           projectId: result.projectId
         }
       });
@@ -73,10 +60,10 @@ router.post('/import-template', authenticateToken, async (req: AuthenticatedRequ
     }
 
   } catch (error) {
-    logger.error('Template import failed', { error, userId: (req as AuthenticatedRequest).user?.id });
+    logger.error('Project import failed', { error, userId: (req as AuthenticatedRequest).user?.id });
     res.status(500).json({
       success: false,
-      error: { message: 'Failed to import template' }
+      error: { message: 'Failed to import project' }
     });
   }
 });

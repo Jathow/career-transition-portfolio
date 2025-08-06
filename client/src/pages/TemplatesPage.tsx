@@ -15,13 +15,6 @@ import {
   Alert,
   LinearProgress,
   IconButton,
-  Tooltip,
-  FormControl,
-  FormControlLabel,
-  Checkbox,
-  TextField,
-  FormGroup,
-  Divider,
   List,
   ListItem,
   ListItemText,
@@ -31,25 +24,8 @@ import {
   Download as DownloadIcon,
   Visibility as PreviewIcon,
   Code as CodeIcon,
-  Business as BusinessIcon,
-  Timeline as TimelineIcon,
-  School as LearningIcon,
   Close as CloseIcon,
   CheckCircle as CheckIcon,
-  Assignment as ProjectIcon,
-  Description as ResumeIcon,
-  Web as PortfolioIcon,
-  TrendingUp as MarketIcon,
-  MonetizationOnOutlined as RevenueIcon,
-  Psychology as MotivationIcon,
-  Flag as GoalsIcon,
-  EmojiEvents as AchievementsIcon,
-  Feedback as FeedbackIcon,
-  Settings as PreferencesIcon,
-  Work as ApplicationsIcon,
-  Event as InterviewsIcon,
-  Schedule as TimeTrackingIcon,
-  Notifications as NotificationsIcon,
 } from '@mui/icons-material';
 
 const TemplatesPage: React.FC = () => {
@@ -58,11 +34,6 @@ const TemplatesPage: React.FC = () => {
   const [importing, setImporting] = useState(false);
   const [importSuccess, setImportSuccess] = useState(false);
   const [customProjectName, setCustomProjectName] = useState('');
-  const [selectedSections, setSelectedSections] = useState<string[]>([
-    'project', 'resume', 'portfolio', 'market', 'revenue', 'monetization', 
-    'analytics', 'motivation', 'goals', 'achievements', 'feedback', 
-    'preferences', 'applications', 'interviews', 'notifications'
-  ]);
 
   const template = {
     title: "Career Portfolio Platform",
@@ -87,24 +58,6 @@ const TemplatesPage: React.FC = () => {
     previewUrl: "/templates/career-portfolio-platform-preview.html"
   };
 
-  const importSections = [
-    { key: 'project', label: 'Project Details', icon: <ProjectIcon />, description: 'Main project information, technical specs, and challenges' },
-    { key: 'resume', label: 'Resume Content', icon: <ResumeIcon />, description: 'Professional resume entries and templates' },
-    { key: 'portfolio', label: 'Portfolio Showcase', icon: <PortfolioIcon />, description: 'Portfolio presentation and project highlights' },
-    { key: 'market', label: 'Market Research', icon: <MarketIcon />, description: 'Competitor analysis and market insights' },
-    { key: 'revenue', label: 'Revenue Metrics', icon: <RevenueIcon />, description: 'Financial projections and revenue tracking' },
-    { key: 'monetization', label: 'Monetization Strategies', icon: <RevenueIcon />, description: 'Business models and pricing strategies' },
-    { key: 'analytics', label: 'Project Analytics', icon: <MarketIcon />, description: 'Performance metrics and success indicators' },
-    { key: 'motivation', label: 'Motivation & Progress', icon: <MotivationIcon />, description: 'Daily logs, mood tracking, and reflections' },
-    { key: 'goals', label: 'Goals & Milestones', icon: <GoalsIcon />, description: 'Goal setting and progress tracking' },
-    { key: 'achievements', label: 'Achievements', icon: <AchievementsIcon />, description: 'Milestones, badges, and accomplishments' },
-    { key: 'feedback', label: 'Motivational Feedback', icon: <FeedbackIcon />, description: 'Encouragement and guidance messages' },
-    { key: 'preferences', label: 'User Preferences', icon: <PreferencesIcon />, description: 'Platform settings and customization' },
-    { key: 'applications', label: 'Job Applications', icon: <ApplicationsIcon />, description: 'Application tracking and company research' },
-    { key: 'interviews', label: 'Interviews', icon: <InterviewsIcon />, description: 'Interview scheduling and preparation notes' },
-    { key: 'notifications', label: 'Notifications', icon: <NotificationsIcon />, description: 'Alerts, reminders, and system notifications' },
-  ];
-
   const handleDownload = () => {
     // Create download link for the JSON file
     const link = document.createElement('a');
@@ -118,15 +71,13 @@ const TemplatesPage: React.FC = () => {
   const handleImport = async () => {
     setImporting(true);
     try {
-      const response = await fetch('/api/templates/import-template', {
+      const response = await fetch('/api/templates/import-project', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
-          templateId: 'career-portfolio-platform',
-          importSections: selectedSections,
           customProjectName: customProjectName || undefined
         })
       });
@@ -155,22 +106,6 @@ const TemplatesPage: React.FC = () => {
 
   const handlePreview = () => {
     setPreviewOpen(true);
-  };
-
-  const handleSectionToggle = (sectionKey: string) => {
-    setSelectedSections(prev => 
-      prev.includes(sectionKey) 
-        ? prev.filter(s => s !== sectionKey)
-        : [...prev, sectionKey]
-    );
-  };
-
-  const handleSelectAll = () => {
-    setSelectedSections(importSections.map(s => s.key));
-  };
-
-  const handleSelectNone = () => {
-    setSelectedSections([]);
   };
 
   return (
@@ -276,7 +211,7 @@ const TemplatesPage: React.FC = () => {
                 onClick={() => setImportDialogOpen(true)}
                 sx={{ ml: 'auto' }}
               >
-                Import Template
+                Import Project
               </Button>
             </CardActions>
           </Card>
@@ -329,11 +264,11 @@ const TemplatesPage: React.FC = () => {
       <Dialog 
         open={importDialogOpen} 
         onClose={() => setImportDialogOpen(false)}
-        maxWidth="md"
+        maxWidth="sm"
         fullWidth
       >
         <DialogTitle>
-          Import Career Portfolio Platform Template
+          Import Career Portfolio Platform Project
           <IconButton
             aria-label="close"
             onClick={() => setImportDialogOpen(false)}
@@ -345,65 +280,61 @@ const TemplatesPage: React.FC = () => {
         
         <DialogContent>
           <Typography variant="body1" paragraph>
-            Select which sections you'd like to import and customize your project name.
+            This will import the complete Career Portfolio Platform project with all its data, including:
           </Typography>
 
-          <TextField
-            fullWidth
-            label="Custom Project Name (optional)"
-            value={customProjectName}
-            onChange={(e) => setCustomProjectName(e.target.value)}
-            placeholder="My Career Portfolio Platform"
-            sx={{ mb: 3 }}
-            helperText="Leave blank to use the original project name"
-          />
+          <List dense>
+            <ListItem>
+              <ListItemIcon sx={{ minWidth: 32 }}>
+                <CheckIcon color="success" fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary="Project details and technical specifications" />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon sx={{ minWidth: 32 }}>
+                <CheckIcon color="success" fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary="Resume content and templates" />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon sx={{ minWidth: 32 }}>
+                <CheckIcon color="success" fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary="Portfolio showcase materials" />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon sx={{ minWidth: 32 }}>
+                <CheckIcon color="success" fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary="Market research and revenue metrics" />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon sx={{ minWidth: 32 }}>
+                <CheckIcon color="success" fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary="Motivation logs and progress tracking" />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon sx={{ minWidth: 32 }}>
+                <CheckIcon color="success" fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary="Goals, achievements, and feedback" />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon sx={{ minWidth: 32 }}>
+                <CheckIcon color="success" fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary="Job applications and interviews" />
+            </ListItem>
+          </List>
 
-          <Typography variant="h6" gutterBottom>
-            Import Sections
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+            You can customize the project name below, or leave it blank to use the original name.
           </Typography>
-          
-          <Box sx={{ mb: 2 }}>
-            <Button size="small" onClick={handleSelectAll} sx={{ mr: 1 }}>
-              Select All
-            </Button>
-            <Button size="small" onClick={handleSelectNone}>
-              Select None
-            </Button>
-          </Box>
-
-          <FormGroup>
-            <Grid container spacing={2}>
-              {importSections.map((section) => (
-                <Grid item xs={12} sm={6} key={section.key}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={selectedSections.includes(section.key)}
-                        onChange={() => handleSectionToggle(section.key)}
-                      />
-                    }
-                    label={
-                      <Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          {section.icon}
-                          <Typography variant="body2" sx={{ ml: 1 }}>
-                            {section.label}
-                          </Typography>
-                        </Box>
-                        <Typography variant="caption" color="text.secondary">
-                          {section.description}
-                        </Typography>
-                      </Box>
-                    }
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </FormGroup>
 
           {importSuccess && (
             <Alert severity="success" sx={{ mt: 2 }}>
-              Template imported successfully! Redirecting to dashboard...
+              Project imported successfully! Redirecting to dashboard...
             </Alert>
           )}
         </DialogContent>
@@ -415,10 +346,10 @@ const TemplatesPage: React.FC = () => {
           <Button
             variant="contained"
             onClick={handleImport}
-            disabled={importing || selectedSections.length === 0}
+            disabled={importing}
             startIcon={importing ? <LinearProgress /> : <CodeIcon />}
           >
-            {importing ? 'Importing...' : 'Import Template'}
+            {importing ? 'Importing...' : 'Import Project'}
           </Button>
         </DialogActions>
       </Dialog>
@@ -505,7 +436,7 @@ const TemplatesPage: React.FC = () => {
               setImportDialogOpen(true);
             }}
           >
-            Import Template
+            Import Project
           </Button>
         </DialogActions>
       </Dialog>

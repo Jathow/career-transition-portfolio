@@ -431,8 +431,8 @@ export class TemplateImportService {
     const fs = require('fs');
     const path = require('path');
     
-    // Fix the path to point to the correct location
-    const templatePath = path.join(__dirname, '../career-portfolio-platform-project.json');
+    // Fix the path to point to the correct location - template is in the same directory
+    const templatePath = path.join(__dirname, 'career-portfolio-platform-project.json');
     
     if (!fs.existsSync(templatePath)) {
       logger.error('Template file not found at path:', templatePath);

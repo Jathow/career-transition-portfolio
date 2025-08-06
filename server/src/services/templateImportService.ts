@@ -151,7 +151,7 @@ export class TemplateImportService {
       return {
         success: true,
         projectId,
-        importedSections,
+        importedSections: importSections,
         message: 'Template imported successfully',
         errors
       };

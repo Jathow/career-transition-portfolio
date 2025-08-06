@@ -431,14 +431,22 @@ export class TemplateImportService {
     const fs = require('fs');
     const path = require('path');
     
-    const templatePath = path.join(__dirname, '../../career-portfolio-platform-project.json');
+    // Fix the path to point to the correct location
+    const templatePath = path.join(__dirname, '../career-portfolio-platform-project.json');
     
     if (!fs.existsSync(templatePath)) {
+      logger.error('Template file not found at path:', templatePath);
       return null;
     }
 
-    const templateData = JSON.parse(fs.readFileSync(templatePath, 'utf8'));
-    return templateData;
+    try {
+      const templateData = JSON.parse(fs.readFileSync(templatePath, 'utf8'));
+      logger.info('Template data loaded successfully');
+      return templateData;
+    } catch (error) {
+      logger.error('Failed to parse template file:', error);
+      return null;
+    }
   }
 
   private createResumeContent(projectEntry: any) {

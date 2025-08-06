@@ -23,6 +23,7 @@ router.post('/import-project', authenticateToken, async (req: AuthenticatedReque
     const userId = req.user?.userId;
 
     if (!userId) {
+      logger.error('User not authenticated for template import');
       return res.status(401).json({
         success: false,
         error: { message: 'User not authenticated' }
@@ -42,6 +43,7 @@ router.post('/import-project', authenticateToken, async (req: AuthenticatedReque
     });
 
     if (result.success) {
+      logger.info('Template import successful', { userId, projectId: result.projectId });
       res.json({
         success: true,
         data: {
@@ -50,6 +52,11 @@ router.post('/import-project', authenticateToken, async (req: AuthenticatedReque
         }
       });
     } else {
+      logger.error('Template import failed', { 
+        userId, 
+        error: result.message, 
+        details: result.errors 
+      });
       res.status(400).json({
         success: false,
         error: { 
@@ -60,7 +67,10 @@ router.post('/import-project', authenticateToken, async (req: AuthenticatedReque
     }
 
   } catch (error) {
-    logger.error('Project import failed', { error, userId: (req as AuthenticatedRequest).user?.userId });
+    logger.error('Project import failed with exception', { 
+      error: error instanceof Error ? error.message : 'Unknown error',
+      userId: (req as AuthenticatedRequest).user?.userId 
+    });
     res.status(500).json({
       success: false,
       error: { message: 'Failed to import project' }

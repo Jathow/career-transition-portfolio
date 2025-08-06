@@ -8,6 +8,12 @@ export interface ProjectImportOptions {
   customProjectName?: string;
 }
 
+export interface CustomTemplateImportOptions {
+  userId: string;
+  templateData: any;
+  customProjectName?: string;
+}
+
 export interface ImportResult {
   success: boolean;
   projectId?: string;
@@ -30,8 +36,47 @@ export class TemplateImportService {
         };
       }
 
+      return await this.importTemplateData(userId, templateData, customProjectName);
+
+    } catch (error) {
+      logger.error('Project import failed', { error, userId });
+      return {
+        success: false,
+        message: 'Failed to import project',
+        errors: [error instanceof Error ? error.message : 'Unknown error']
+      };
+    }
+  }
+
+  async importCustomTemplate(options: CustomTemplateImportOptions): Promise<ImportResult> {
+    const { userId, templateData, customProjectName } = options;
+
+    try {
+      // Validate template data structure
+      if (!templateData || !templateData.project) {
+        return {
+          success: false,
+          message: 'Invalid template data structure',
+          errors: ['Template must contain a project object']
+        };
+      }
+
+      return await this.importTemplateData(userId, templateData, customProjectName);
+
+    } catch (error) {
+      logger.error('Custom template import failed', { error, userId });
+      return {
+        success: false,
+        message: 'Failed to import custom template',
+        errors: [error instanceof Error ? error.message : 'Unknown error']
+      };
+    }
+  }
+
+  private async importTemplateData(userId: string, templateData: any, customProjectName?: string): Promise<ImportResult> {
+    try {
       // Start database transaction
-      await prisma.$transaction(async (tx) => {
+      const result = await prisma.$transaction(async (tx) => {
         // 1. Create the main project with all available fields
         const projectData = {
           userId,
@@ -358,24 +403,25 @@ export class TemplateImportService {
           }
         }
 
+        return project.id;
       });
 
-      logger.info('Project import completed successfully', { 
+      logger.info('Template import completed successfully', { 
         userId, 
-        projectId: 'imported-project-id'
+        projectId: result
       });
 
       return {
         success: true,
-        projectId: 'imported-project-id',
-        message: 'Career Portfolio Platform project imported successfully'
+        projectId: result,
+        message: 'Template imported successfully'
       };
 
     } catch (error) {
-      logger.error('Project import failed', { error, userId });
+      logger.error('Template import failed', { error, userId });
       return {
         success: false,
-        message: 'Failed to import project',
+        message: 'Failed to import template',
         errors: [error instanceof Error ? error.message : 'Unknown error']
       };
     }

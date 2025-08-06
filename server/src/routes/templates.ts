@@ -68,6 +68,67 @@ router.post('/import-project', authenticateToken, async (req: AuthenticatedReque
   }
 });
 
+// Import custom template from uploaded file
+router.post('/import-custom', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { templateData, customProjectName } = req.body;
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        error: { message: 'User not authenticated' }
+      });
+    }
+
+    if (!templateData) {
+      return res.status(400).json({
+        success: false,
+        error: { message: 'Template data is required' }
+      });
+    }
+
+    logger.info('Custom template import requested', {
+      userId,
+      customProjectName,
+      templateSize: JSON.stringify(templateData).length,
+      timestamp: new Date().toISOString()
+    });
+
+    // Use the template import service to handle the custom template import
+    const result = await templateImportService.importCustomTemplate({
+      userId,
+      templateData,
+      customProjectName
+    });
+
+    if (result.success) {
+      res.json({
+        success: true,
+        data: {
+          message: result.message,
+          projectId: result.projectId
+        }
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: { 
+          message: result.message,
+          details: result.errors 
+        }
+      });
+    }
+
+  } catch (error) {
+    logger.error('Custom template import failed', { error, userId: (req as AuthenticatedRequest).user?.userId });
+    res.status(500).json({
+      success: false,
+      error: { message: 'Failed to import custom template' }
+    });
+  }
+});
+
 // Get available templates
 router.get('/available', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   try {

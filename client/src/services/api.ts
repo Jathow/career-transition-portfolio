@@ -243,6 +243,9 @@ export const templatesAPI = {
   
   importProject: (importData: { customProjectName?: string }) => 
     api.post('/templates/import-project', importData),
+    
+  importCustomTemplate: (importData: { templateData: any; customProjectName?: string }) => 
+    api.post('/templates/import-custom', importData),
 };
 
 // Export both default and named export for flexibility

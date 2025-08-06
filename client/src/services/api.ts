@@ -225,6 +225,17 @@ export const preferencesAPI = {
   updatePreferences: (preferences: any) => api.put('/preferences', preferences),
 };
 
+// Templates API endpoints
+export const templatesAPI = {
+  getAvailableTemplates: () => api.get('/templates/available'),
+  
+  downloadTemplate: (templateId: string) => 
+    api.get(`/templates/download/${templateId}`, { responseType: 'blob' }),
+  
+  importProject: (importData: { customProjectName?: string }) => 
+    api.post('/templates/import-project', importData),
+};
+
 // Export both default and named export for flexibility
 export { api };
 export default api;

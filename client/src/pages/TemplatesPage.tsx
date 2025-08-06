@@ -27,6 +27,7 @@ import {
   Close as CloseIcon,
   CheckCircle as CheckIcon,
 } from '@mui/icons-material';
+import { templatesAPI } from '../services/api';
 
 const TemplatesPage: React.FC = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -71,20 +72,11 @@ const TemplatesPage: React.FC = () => {
   const handleImport = async () => {
     setImporting(true);
     try {
-      const response = await fetch('/api/templates/import-project', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({
-          customProjectName: customProjectName || undefined
-        })
+      const response = await templatesAPI.importProject({
+        customProjectName: customProjectName || undefined
       });
       
-      const result = await response.json();
-      
-      if (result.success) {
+      if (response.data.success) {
         setImportSuccess(true);
         setTimeout(() => {
           setImportSuccess(false);
@@ -93,12 +85,13 @@ const TemplatesPage: React.FC = () => {
           window.location.href = '/dashboard';
         }, 2000);
       } else {
-        console.error('Import failed:', result.error);
-        alert(`Import failed: ${result.error.message}`);
+        console.error('Import failed:', response.data.error);
+        alert(`Import failed: ${response.data.error.message}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Import failed:', error);
-      alert('Import failed. Please try again.');
+      const errorMessage = error.response?.data?.error?.message || 'Import failed. Please try again.';
+      alert(errorMessage);
     } finally {
       setImporting(false);
     }

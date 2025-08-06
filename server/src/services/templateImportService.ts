@@ -313,7 +313,7 @@ export class TemplateImportService {
             // Import related interviews
             if (templateData.interviews) {
               const relatedInterviews = templateData.interviews.filter(
-                interview => interview.company === application.company && interview.position === application.position
+                (interview: any) => interview.company === application.company && interview.position === application.position
               );
 
               for (const interview of relatedInterviews) {

@@ -101,83 +101,83 @@ export class TemplateImportService {
 
         logger.info('Created project from template', { projectId: project.id, userId });
 
-        // 2. Import market research data (related to project)
-        if (templateData.marketResearch && templateData.marketResearch.length > 0) {
+        // 2. Import market research data (if it exists as an array)
+        if (templateData.marketResearch && Array.isArray(templateData.marketResearch) && templateData.marketResearch.length > 0) {
           for (const research of templateData.marketResearch) {
             await tx.marketResearch.create({
               data: {
                 projectId: project.id,
-                researchType: research.researchType,
-                title: research.title,
-                description: research.description,
-                targetMarket: research.targetMarket,
-                marketSize: research.marketSize,
-                competitionLevel: research.competitionLevel,
-                entryBarriers: research.entryBarriers,
-                monetizationPotential: research.monetizationPotential,
-                researchData: research.researchData,
-                insights: research.insights,
-                recommendations: research.recommendations
+                researchType: research.researchType || 'MARKET_ANALYSIS',
+                title: research.title || 'Market Research',
+                description: research.description || '',
+                targetMarket: research.targetMarket || '',
+                marketSize: research.marketSize || '',
+                competitionLevel: research.competitionLevel || 'MEDIUM',
+                entryBarriers: research.entryBarriers || '',
+                monetizationPotential: research.monetizationPotential || 'MEDIUM',
+                researchData: research.researchData || '',
+                insights: research.insights || '',
+                recommendations: research.recommendations || ''
               }
             });
           }
         }
 
-        // 3. Import revenue metrics (related to project)
-        if (templateData.revenueMetrics && templateData.revenueMetrics.length > 0) {
+        // 3. Import revenue metrics (if they exist)
+        if (templateData.revenueMetrics && Array.isArray(templateData.revenueMetrics) && templateData.revenueMetrics.length > 0) {
           for (const metric of templateData.revenueMetrics) {
             await tx.revenueMetric.create({
               data: {
                 projectId: project.id,
-                metricType: metric.metricType,
-                metricName: metric.metricName,
-                value: metric.value,
-                unit: metric.unit,
-                period: metric.period,
-                date: new Date(metric.date),
-                notes: metric.notes
+                metricType: metric.metricType || 'REVENUE',
+                metricName: metric.metricName || 'Revenue',
+                value: metric.value || 0,
+                unit: metric.unit || 'USD',
+                period: metric.period || 'MONTHLY',
+                date: new Date(metric.date || new Date()),
+                notes: metric.notes || ''
               }
             });
           }
         }
 
-        // 4. Import monetization strategies (related to project)
-        if (templateData.monetizationStrategies && templateData.monetizationStrategies.length > 0) {
+        // 4. Import monetization strategies (if they exist)
+        if (templateData.monetizationStrategies && Array.isArray(templateData.monetizationStrategies) && templateData.monetizationStrategies.length > 0) {
           for (const strategy of templateData.monetizationStrategies) {
             await tx.monetizationStrategy.create({
               data: {
                 projectId: project.id,
-                strategyType: strategy.strategyType,
-                title: strategy.title,
-                description: strategy.description,
-                targetAudience: strategy.targetAudience,
-                pricingModel: strategy.pricingModel,
-                revenueProjection: strategy.revenueProjection,
-                implementationPlan: strategy.implementationPlan,
-                status: strategy.status,
-                priority: strategy.priority
+                strategyType: strategy.strategyType || 'SUBSCRIPTION',
+                title: strategy.title || 'Monetization Strategy',
+                description: strategy.description || '',
+                targetAudience: strategy.targetAudience || '',
+                pricingModel: strategy.pricingModel || 'FREEMIUM',
+                revenueProjection: strategy.revenueProjection || 0,
+                implementationPlan: strategy.implementationPlan || '',
+                status: strategy.status || 'PLANNING',
+                priority: strategy.priority || 'MEDIUM'
               }
             });
           }
         }
 
-        // 5. Import project analytics (related to project)
-        if (templateData.projectAnalytics && templateData.projectAnalytics.length > 0) {
+        // 5. Import project analytics (if they exist)
+        if (templateData.projectAnalytics && Array.isArray(templateData.projectAnalytics) && templateData.projectAnalytics.length > 0) {
           for (const analytics of templateData.projectAnalytics) {
             await tx.projectAnalytics.create({
               data: {
                 projectId: project.id,
-                analyticsType: analytics.analyticsType,
-                metricName: analytics.metricName,
-                value: analytics.value,
-                date: new Date(analytics.date),
-                metadata: analytics.metadata
+                analyticsType: analytics.analyticsType || 'PERFORMANCE',
+                metricName: analytics.metricName || 'Performance',
+                value: analytics.value || 0,
+                date: new Date(analytics.date || new Date()),
+                metadata: analytics.metadata || {}
               }
             });
           }
         }
 
-        // 6. Import resume data (standalone)
+        // 6. Import resume data (if it exists)
         if (templateData.resume && templateData.resume.projectEntry) {
           const resumeContent = this.createResumeContent(templateData.resume.projectEntry);
           await tx.resume.create({
@@ -191,7 +191,7 @@ export class TemplateImportService {
           });
         }
 
-        // 7. Import portfolio data (standalone)
+        // 7. Import portfolio data (if it exists)
         if (templateData.portfolio && templateData.portfolio.showcase) {
           await tx.portfolio.create({
             data: {
@@ -208,20 +208,20 @@ export class TemplateImportService {
           });
         }
 
-        // 8. Import motivation data (standalone)
-        if (templateData.motivation && templateData.motivation.dailyLogs) {
+        // 8. Import motivation data (if it exists)
+        if (templateData.motivation && templateData.motivation.dailyLogs && Array.isArray(templateData.motivation.dailyLogs)) {
           for (const log of templateData.motivation.dailyLogs) {
             await tx.dailyLog.create({
               data: {
                 userId,
                 date: new Date(log.date),
-                codingMinutes: log.hoursWorked * 60,
+                codingMinutes: log.hoursWorked ? log.hoursWorked * 60 : 0,
                 applicationsSubmitted: 0,
                 learningMinutes: 0,
                 notes: log.notes,
                 mood: this.mapMoodToEnum(log.mood),
-                energyLevel: log.energyLevel,
-                productivity: Math.round(log.mood * 10),
+                energyLevel: log.energyLevel || 5,
+                productivity: Math.round((log.mood || 5) * 10),
                 challenges: log.challenges ? log.challenges.join(', ') : null,
                 achievements: log.achievements ? log.achievements.join(', ') : null
               }
@@ -229,8 +229,8 @@ export class TemplateImportService {
           }
         }
 
-        // 9. Import goals (standalone)
-        if (templateData.goals && templateData.goals.length > 0) {
+        // 9. Import goals (if they exist)
+        if (templateData.goals && Array.isArray(templateData.goals) && templateData.goals.length > 0) {
           for (const goal of templateData.goals) {
             await tx.goal.create({
               data: {
@@ -250,8 +250,8 @@ export class TemplateImportService {
           }
         }
 
-        // 10. Import achievements (standalone)
-        if (templateData.achievements && templateData.achievements.length > 0) {
+        // 10. Import achievements (if they exist)
+        if (templateData.achievements && Array.isArray(templateData.achievements) && templateData.achievements.length > 0) {
           for (const achievement of templateData.achievements) {
             await tx.achievement.create({
               data: {
@@ -266,8 +266,8 @@ export class TemplateImportService {
           }
         }
 
-        // 11. Import motivational feedback (standalone)
-        if (templateData.motivationalFeedback && templateData.motivationalFeedback.length > 0) {
+        // 11. Import motivational feedback (if it exists)
+        if (templateData.motivationalFeedback && Array.isArray(templateData.motivationalFeedback) && templateData.motivationalFeedback.length > 0) {
           for (const feedback of templateData.motivationalFeedback) {
             await tx.motivationalFeedback.create({
               data: {
@@ -284,7 +284,7 @@ export class TemplateImportService {
           }
         }
 
-        // 12. Import user preferences (standalone)
+        // 12. Import user preferences (if they exist)
         if (templateData.userPreferences) {
           await tx.userPreferences.upsert({
             where: { userId },
@@ -312,8 +312,8 @@ export class TemplateImportService {
           });
         }
 
-        // 13. Import job applications and interviews (standalone)
-        if (templateData.jobApplications && templateData.jobApplications.length > 0) {
+        // 13. Import job applications and interviews (if they exist)
+        if (templateData.jobApplications && Array.isArray(templateData.jobApplications) && templateData.jobApplications.length > 0) {
           // First, ensure we have a default resume
           let defaultResume = await tx.resume.findFirst({
             where: { userId, isDefault: true }
@@ -356,7 +356,7 @@ export class TemplateImportService {
             });
 
             // Import related interviews
-            if (templateData.interviews) {
+            if (templateData.interviews && Array.isArray(templateData.interviews)) {
               const relatedInterviews = templateData.interviews.filter(
                 (interview: any) => interview.company === application.company && interview.position === application.position
               );
@@ -383,8 +383,8 @@ export class TemplateImportService {
           }
         }
 
-        // 14. Import notifications (standalone)
-        if (templateData.notifications && templateData.notifications.length > 0) {
+        // 14. Import notifications (if they exist)
+        if (templateData.notifications && Array.isArray(templateData.notifications) && templateData.notifications.length > 0) {
           for (const notification of templateData.notifications) {
             await tx.notification.create({
               data: {

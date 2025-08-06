@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { Request, Response } from 'express';
 import { authenticateToken } from '../middleware/auth';
 import { logger } from '../utils/logger';
+import { templateImportService } from '../services/templateImportService';
 import fs from 'fs';
 import path from 'path';
 
@@ -18,7 +19,7 @@ const router = Router();
 // Import template data
 router.post('/import-template', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { templateId, importSections } = req.body;
+    const { templateId, importSections, customProjectName } = req.body;
     const userId = req.user?.id;
 
     if (!userId) {
@@ -28,100 +29,48 @@ router.post('/import-template', authenticateToken, async (req: AuthenticatedRequ
       });
     }
 
-    // Load template data
-    const templatePath = path.join(__dirname, '../../career-portfolio-platform-project.json');
-    
-    if (!fs.existsSync(templatePath)) {
-      return res.status(404).json({
+    if (!templateId || !importSections || !Array.isArray(importSections)) {
+      return res.status(400).json({
         success: false,
-        error: { message: 'Template not found' }
+        error: { message: 'Invalid request: templateId and importSections array required' }
       });
     }
 
-    const templateData = JSON.parse(fs.readFileSync(templatePath, 'utf8'));
-
-    // In a real implementation, you would save this to your database
-    // For now, we'll just simulate the import process
-    
     logger.info('Template import requested', {
       userId,
       templateId,
       importSections,
+      customProjectName,
       timestamp: new Date().toISOString()
     });
 
-    // Simulate processing time
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    /*
-    // Real implementation would look like this:
-    
-    const { PrismaClient } = require('@prisma/client');
-    const prisma = new PrismaClient();
-    
-    // Create the project
-    const project = await prisma.project.create({
-      data: {
-        ...templateData.project,
-        userId: userId,
-        isTemplate: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
+    // Use the template import service to handle the actual import
+    const result = await templateImportService.importTemplate({
+      userId,
+      templateId,
+      importSections,
+      customProjectName
     });
 
-    // Import selected sections
-    if (importSections.includes('resume')) {
-      await prisma.resumeEntry.create({
+    if (result.success) {
+      res.json({
+        success: true,
         data: {
-          ...templateData.resume.projectEntry,
-          userId: userId,
-          projectId: project.id
+          message: result.message,
+          templateId,
+          importedSections: result.importedSections,
+          projectId: result.projectId
+        }
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: { 
+          message: result.message,
+          details: result.errors 
         }
       });
     }
-
-    if (importSections.includes('portfolio')) {
-      await prisma.portfolioItem.create({
-        data: {
-          ...templateData.portfolio.showcase,
-          userId: userId,
-          projectId: project.id
-        }
-      });
-    }
-
-    if (importSections.includes('market')) {
-      await prisma.marketAnalysis.create({
-        data: {
-          ...templateData.revenueAndMarket,
-          userId: userId,
-          projectId: project.id
-        }
-      });
-    }
-
-    if (importSections.includes('motivation')) {
-      await prisma.motivationLog.createMany({
-        data: templateData.motivation.dailyLogs.map(log => ({
-          ...log,
-          userId: userId,
-          projectId: project.id,
-          createdAt: new Date(log.date)
-        }))
-      });
-    }
-    */
-
-    res.json({
-      success: true,
-      data: {
-        message: 'Template imported successfully',
-        templateId,
-        importedSections: importSections,
-        projectId: 'demo-project-id' // In real implementation, this would be the actual project ID
-      }
-    });
 
   } catch (error) {
     logger.error('Template import failed', { error, userId: (req as AuthenticatedRequest).user?.id });

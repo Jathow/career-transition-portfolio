@@ -16,6 +16,16 @@ import {
   LinearProgress,
   IconButton,
   Tooltip,
+  FormControl,
+  FormControlLabel,
+  Checkbox,
+  TextField,
+  FormGroup,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
 } from '@mui/material';
 import {
   Download as DownloadIcon,
@@ -25,12 +35,34 @@ import {
   Timeline as TimelineIcon,
   School as LearningIcon,
   Close as CloseIcon,
+  CheckCircle as CheckIcon,
+  Assignment as ProjectIcon,
+  Description as ResumeIcon,
+  Web as PortfolioIcon,
+  TrendingUp as MarketIcon,
+  MonetizationOn as RevenueIcon,
+  Psychology as MotivationIcon,
+  Flag as GoalsIcon,
+  EmojiEvents as AchievementsIcon,
+  Feedback as FeedbackIcon,
+  Settings as PreferencesIcon,
+  Work as ApplicationsIcon,
+  Event as InterviewsIcon,
+  Schedule as TimeTrackingIcon,
+  Notifications as NotificationsIcon,
 } from '@mui/icons-material';
 
 const TemplatesPage: React.FC = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [importing, setImporting] = useState(false);
   const [importSuccess, setImportSuccess] = useState(false);
+  const [customProjectName, setCustomProjectName] = useState('');
+  const [selectedSections, setSelectedSections] = useState<string[]>([
+    'project', 'resume', 'portfolio', 'market', 'revenue', 'monetization', 
+    'analytics', 'motivation', 'goals', 'achievements', 'feedback', 
+    'preferences', 'applications', 'interviews', 'notifications'
+  ]);
 
   const template = {
     title: "Career Portfolio Platform",
@@ -55,6 +87,24 @@ const TemplatesPage: React.FC = () => {
     previewUrl: "/templates/career-portfolio-platform-preview.html"
   };
 
+  const importSections = [
+    { key: 'project', label: 'Project Details', icon: <ProjectIcon />, description: 'Main project information, technical specs, and challenges' },
+    { key: 'resume', label: 'Resume Content', icon: <ResumeIcon />, description: 'Professional resume entries and templates' },
+    { key: 'portfolio', label: 'Portfolio Showcase', icon: <PortfolioIcon />, description: 'Portfolio presentation and project highlights' },
+    { key: 'market', label: 'Market Research', icon: <MarketIcon />, description: 'Competitor analysis and market insights' },
+    { key: 'revenue', label: 'Revenue Metrics', icon: <RevenueIcon />, description: 'Financial projections and revenue tracking' },
+    { key: 'monetization', label: 'Monetization Strategies', icon: <MonetizationOn />, description: 'Business models and pricing strategies' },
+    { key: 'analytics', label: 'Project Analytics', icon: <TrendingUp />, description: 'Performance metrics and success indicators' },
+    { key: 'motivation', label: 'Motivation & Progress', icon: <Psychology />, description: 'Daily logs, mood tracking, and reflections' },
+    { key: 'goals', label: 'Goals & Milestones', icon: <Flag />, description: 'Goal setting and progress tracking' },
+    { key: 'achievements', label: 'Achievements', icon: <EmojiEvents />, description: 'Milestones, badges, and accomplishments' },
+    { key: 'feedback', label: 'Motivational Feedback', icon: <Feedback />, description: 'Encouragement and guidance messages' },
+    { key: 'preferences', label: 'User Preferences', icon: <Settings />, description: 'Platform settings and customization' },
+    { key: 'applications', label: 'Job Applications', icon: <Work />, description: 'Application tracking and company research' },
+    { key: 'interviews', label: 'Interviews', icon: <Event />, description: 'Interview scheduling and preparation notes' },
+    { key: 'notifications', label: 'Notifications', icon: <NotificationsIcon />, description: 'Alerts, reminders, and system notifications' },
+  ];
+
   const handleDownload = () => {
     // Create download link for the JSON file
     const link = document.createElement('a');
@@ -68,11 +118,7 @@ const TemplatesPage: React.FC = () => {
   const handleImport = async () => {
     setImporting(true);
     try {
-      // Simulate import process
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // In real implementation, this would call your import API
-      const response = await fetch('/api/projects/import-template', {
+      const response = await fetch('/api/templates/import-template', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,20 +126,28 @@ const TemplatesPage: React.FC = () => {
         },
         body: JSON.stringify({
           templateId: 'career-portfolio-platform',
-          importSections: ['project', 'resume', 'portfolio', 'market', 'motivation']
+          importSections: selectedSections,
+          customProjectName: customProjectName || undefined
         })
       });
       
-      if (response.ok) {
+      const result = await response.json();
+      
+      if (result.success) {
         setImportSuccess(true);
         setTimeout(() => {
           setImportSuccess(false);
+          setImportDialogOpen(false);
           // Redirect to projects page
           window.location.href = '/dashboard';
         }, 2000);
+      } else {
+        console.error('Import failed:', result.error);
+        alert(`Import failed: ${result.error.message}`);
       }
     } catch (error) {
       console.error('Import failed:', error);
+      alert('Import failed. Please try again.');
     } finally {
       setImporting(false);
     }
@@ -103,237 +157,355 @@ const TemplatesPage: React.FC = () => {
     setPreviewOpen(true);
   };
 
+  const handleSectionToggle = (sectionKey: string) => {
+    setSelectedSections(prev => 
+      prev.includes(sectionKey) 
+        ? prev.filter(s => s !== sectionKey)
+        : [...prev, sectionKey]
+    );
+  };
+
+  const handleSelectAll = () => {
+    setSelectedSections(importSections.map(s => s.key));
+  };
+
+  const handleSelectNone = () => {
+    setSelectedSections([]);
+  };
+
   return (
     <Box>
       <Typography variant="h4" component="h1" gutterBottom>
         Project Templates
       </Typography>
       
-      <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-        Download and import professional project templates to jumpstart your portfolio. 
-        These templates include complete documentation, resume entries, and business analysis.
+      <Typography variant="body1" color="text.secondary" paragraph>
+        Import comprehensive project templates to jumpstart your career portfolio. 
+        Each template includes complete documentation, technical specifications, and professional presentation materials.
       </Typography>
 
-      {importSuccess && (
-        <Alert severity="success" sx={{ mb: 3 }}>
-          Template imported successfully! Redirecting to your dashboard...
-        </Alert>
-      )}
-
       <Grid container spacing={3}>
-        <Grid item xs={12} md={8} lg={6}>
-          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <CardContent sx={{ flex: 1 }}>
-              <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 2 }}>
-                <Typography variant="h5" component="h2" gutterBottom>
-                  {template.title}
-                </Typography>
-                <Chip 
-                  label="Featured" 
-                  color="primary" 
-                  size="small"
-                  sx={{ ml: 1 }}
-                />
-              </Box>
-
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+        <Grid item xs={12} md={8}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5" component="h2" gutterBottom>
+                {template.title}
+              </Typography>
+              
+              <Typography variant="body1" color="text.secondary" paragraph>
                 {template.description}
               </Typography>
 
               <Box sx={{ mb: 2 }}>
-                <Chip 
-                  label={template.category} 
-                  variant="outlined" 
-                  size="small" 
-                  sx={{ mr: 1, mb: 1 }}
-                />
-                <Chip 
-                  label={`${template.duration} project`} 
-                  variant="outlined" 
-                  size="small"
-                  sx={{ mr: 1, mb: 1 }}
-                />
+                <Chip label={template.category} color="primary" sx={{ mr: 1 }} />
+                <Chip label={`${template.duration} duration`} variant="outlined" sx={{ mr: 1 }} />
+                <Chip label={`${template.metrics.linesOfCode} LOC`} variant="outlined" />
               </Box>
 
-              <Typography variant="subtitle2" gutterBottom>
-                Technologies:
+              <Typography variant="h6" gutterBottom>
+                Technologies Used
               </Typography>
               <Box sx={{ mb: 2 }}>
-                {template.technologies.map((tech) => (
-                  <Chip
-                    key={tech}
-                    label={tech}
-                    size="small"
-                    sx={{ mr: 0.5, mb: 0.5 }}
+                {template.technologies.map((tech, index) => (
+                  <Chip 
+                    key={index} 
+                    label={tech} 
+                    size="small" 
+                    sx={{ mr: 1, mb: 1 }} 
                   />
                 ))}
               </Box>
 
-              <Typography variant="subtitle2" gutterBottom>
-                What's Included:
+              <Typography variant="h6" gutterBottom>
+                Key Features
               </Typography>
-              <Box component="ul" sx={{ pl: 2, mb: 2 }}>
+              <List dense>
                 {template.features.map((feature, index) => (
-                  <Typography key={index} component="li" variant="body2" sx={{ mb: 0.5 }}>
-                    {feature}
-                  </Typography>
+                  <ListItem key={index} sx={{ py: 0.5 }}>
+                    <ListItemIcon sx={{ minWidth: 32 }}>
+                      <CheckIcon color="success" fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary={feature} />
+                  </ListItem>
                 ))}
-              </Box>
+              </List>
 
-              <Typography variant="subtitle2" gutterBottom>
-                Project Metrics:
+              <Typography variant="h6" gutterBottom>
+                Performance Metrics
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Typography variant="body2">
-                    <strong>Lines of Code:</strong> {template.metrics.linesOfCode}
-                  </Typography>
+                <Grid item xs={6} sm={3}>
+                  <Typography variant="body2" color="text.secondary">Lines of Code</Typography>
+                  <Typography variant="h6">{template.metrics.linesOfCode}</Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">
-                    <strong>Components:</strong> {template.metrics.components}
-                  </Typography>
+                <Grid item xs={6} sm={3}>
+                  <Typography variant="body2" color="text.secondary">Components</Typography>
+                  <Typography variant="h6">{template.metrics.components}</Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">
-                    <strong>API Endpoints:</strong> {template.metrics.apiEndpoints}
-                  </Typography>
+                <Grid item xs={6} sm={3}>
+                  <Typography variant="body2" color="text.secondary">API Endpoints</Typography>
+                  <Typography variant="h6">{template.metrics.apiEndpoints}</Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">
-                    <strong>Performance:</strong> {template.metrics.performanceScore}
-                  </Typography>
+                <Grid item xs={6} sm={3}>
+                  <Typography variant="body2" color="text.secondary">Performance</Typography>
+                  <Typography variant="h6">{template.metrics.performanceScore}</Typography>
                 </Grid>
               </Grid>
             </CardContent>
 
-            <CardActions sx={{ p: 2, pt: 0 }}>
-              <Button
-                variant="contained"
-                startIcon={importing ? null : <DownloadIcon />}
-                onClick={handleImport}
-                disabled={importing}
-                sx={{ mr: 1 }}
-              >
-                {importing ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <LinearProgress sx={{ width: 100, height: 4 }} />
-                    Importing...
-                  </Box>
-                ) : (
-                  'Import Template'
-                )}
-              </Button>
-              
+            <CardActions>
               <Button
                 variant="outlined"
                 startIcon={<DownloadIcon />}
                 onClick={handleDownload}
               >
-                Download JSON
+                Download Template
               </Button>
               
-              <Tooltip title="Preview template content">
-                <IconButton onClick={handlePreview}>
-                  <PreviewIcon />
-                </IconButton>
-              </Tooltip>
+              <Button
+                variant="outlined"
+                startIcon={<PreviewIcon />}
+                onClick={handlePreview}
+              >
+                Preview
+              </Button>
+              
+              <Button
+                variant="contained"
+                startIcon={<CodeIcon />}
+                onClick={() => setImportDialogOpen(true)}
+                sx={{ ml: 'auto' }}
+              >
+                Import Template
+              </Button>
             </CardActions>
           </Card>
         </Grid>
 
-        {/* Coming Soon Templates */}
-        <Grid item xs={12} md={4} lg={3}>
-          <Card sx={{ height: '100%', opacity: 0.6 }}>
+        <Grid item xs={12} md={4}>
+          <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
-                E-commerce App
+                Template Benefits
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Mobile-first e-commerce application with payment integration.
-              </Typography>
-              <Chip label="Coming Soon" size="small" />
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} md={4} lg={3}>
-          <Card sx={{ height: '100%', opacity: 0.6 }}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Data Dashboard
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Analytics dashboard with data visualization and reporting.
-              </Typography>
-              <Chip label="Coming Soon" size="small" />
+              <List dense>
+                <ListItem sx={{ py: 0.5 }}>
+                  <ListItemIcon sx={{ minWidth: 32 }}>
+                    <CheckIcon color="success" fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText primary="Complete project documentation" />
+                </ListItem>
+                <ListItem sx={{ py: 0.5 }}>
+                  <ListItemIcon sx={{ minWidth: 32 }}>
+                    <CheckIcon color="success" fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText primary="Resume-ready achievements" />
+                </ListItem>
+                <ListItem sx={{ py: 0.5 }}>
+                  <ListItemIcon sx={{ minWidth: 32 }}>
+                    <CheckIcon color="success" fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText primary="Portfolio showcase content" />
+                </ListItem>
+                <ListItem sx={{ py: 0.5 }}>
+                  <ListItemIcon sx={{ minWidth: 32 }}>
+                    <CheckIcon color="success" fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText primary="Market analysis & revenue projections" />
+                </ListItem>
+                <ListItem sx={{ py: 0.5 }}>
+                  <ListItemIcon sx={{ minWidth: 32 }}>
+                    <CheckIcon color="success" fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText primary="Daily progress logs & reflections" />
+                </ListItem>
+              </List>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
 
-      {/* Preview Dialog */}
-      <Dialog
-        open={previewOpen}
-        onClose={() => setPreviewOpen(false)}
+      {/* Import Dialog */}
+      <Dialog 
+        open={importDialogOpen} 
+        onClose={() => setImportDialogOpen(false)}
         maxWidth="md"
         fullWidth
       >
-        <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          Template Preview: {template.title}
-          <IconButton onClick={() => setPreviewOpen(false)}>
+        <DialogTitle>
+          Import Career Portfolio Platform Template
+          <IconButton
+            aria-label="close"
+            onClick={() => setImportDialogOpen(false)}
+            sx={{ position: 'absolute', right: 8, top: 8 }}
+          >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
         
         <DialogContent>
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <CodeIcon /> Project Overview
-            </Typography>
-            <Typography variant="body2" sx={{ mb: 2 }}>
-              Complete full-stack web application with modern React frontend, Node.js backend, 
-              and PostgreSQL database. Includes authentication, real-time features, and deployment optimization.
-            </Typography>
+          <Typography variant="body1" paragraph>
+            Select which sections you'd like to import and customize your project name.
+          </Typography>
+
+          <TextField
+            fullWidth
+            label="Custom Project Name (optional)"
+            value={customProjectName}
+            onChange={(e) => setCustomProjectName(e.target.value)}
+            placeholder="My Career Portfolio Platform"
+            sx={{ mb: 3 }}
+            helperText="Leave blank to use the original project name"
+          />
+
+          <Typography variant="h6" gutterBottom>
+            Import Sections
+          </Typography>
+          
+          <Box sx={{ mb: 2 }}>
+            <Button size="small" onClick={handleSelectAll} sx={{ mr: 1 }}>
+              Select All
+            </Button>
+            <Button size="small" onClick={handleSelectNone}>
+              Select None
+            </Button>
           </Box>
 
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <BusinessIcon /> Business Analysis
-            </Typography>
-            <Typography variant="body2" sx={{ mb: 2 }}>
-              Comprehensive market analysis with competitor research, revenue projections, 
-              and 3-year growth strategy. Includes freemium pricing model and enterprise features.
-            </Typography>
-          </Box>
+          <FormGroup>
+            <Grid container spacing={2}>
+              {importSections.map((section) => (
+                <Grid item xs={12} sm={6} key={section.key}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedSections.includes(section.key)}
+                        onChange={() => handleSectionToggle(section.key)}
+                      />
+                    }
+                    label={
+                      <Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          {section.icon}
+                          <Typography variant="body2" sx={{ ml: 1 }}>
+                            {section.label}
+                          </Typography>
+                        </Box>
+                        <Typography variant="caption" color="text.secondary">
+                          {section.description}
+                        </Typography>
+                      </Box>
+                    }
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </FormGroup>
 
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <TimelineIcon /> Development Journey
-            </Typography>
-            <Typography variant="body2" sx={{ mb: 2 }}>
-              Daily progress logs showing real development challenges, breakthroughs, and learning outcomes. 
-              Includes mood tracking and reflection notes.
-            </Typography>
-          </Box>
+          {importSuccess && (
+            <Alert severity="success" sx={{ mt: 2 }}>
+              Template imported successfully! Redirecting to dashboard...
+            </Alert>
+          )}
+        </DialogContent>
 
-          <Box>
-            <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <LearningIcon /> Learning Outcomes
-            </Typography>
-            <Typography variant="body2">
-              Key technical skills developed: CSS Grid mastery, Docker optimization, 
-              deployment strategies, and modern UI/UX design patterns.
-            </Typography>
-          </Box>
+        <DialogActions>
+          <Button onClick={() => setImportDialogOpen(false)}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleImport}
+            disabled={importing || selectedSections.length === 0}
+            startIcon={importing ? <LinearProgress /> : <CodeIcon />}
+          >
+            {importing ? 'Importing...' : 'Import Template'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Preview Dialog */}
+      <Dialog 
+        open={previewOpen} 
+        onClose={() => setPreviewOpen(false)}
+        maxWidth="lg"
+        fullWidth
+      >
+        <DialogTitle>
+          Template Preview
+          <IconButton
+            aria-label="close"
+            onClick={() => setPreviewOpen(false)}
+            sx={{ position: 'absolute', right: 8, top: 8 }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        
+        <DialogContent>
+          <Typography variant="body1" paragraph>
+            This template includes comprehensive documentation for a full-stack career portfolio platform.
+            It demonstrates best practices for project documentation, technical challenges, and professional presentation.
+          </Typography>
+          
+          <Typography variant="h6" gutterBottom>
+            What's Included:
+          </Typography>
+          
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="subtitle1" gutterBottom>
+                Project Documentation
+              </Typography>
+              <List dense>
+                <ListItem>
+                  <ListItemText primary="• Complete technical specifications" />
+                </ListItem>
+                <ListItem>
+                  <ListItemText primary="• Challenge descriptions and solutions" />
+                </ListItem>
+                <ListItem>
+                  <ListItemText primary="• Learning outcomes and metrics" />
+                </ListItem>
+                <ListItem>
+                  <ListItemText primary="• Technology stack and features" />
+                </ListItem>
+              </List>
+            </Grid>
+            
+            <Grid item xs={12} md={6}>
+              <Typography variant="subtitle1" gutterBottom>
+                Professional Content
+              </Typography>
+              <List dense>
+                <ListItem>
+                  <ListItemText primary="• Resume-ready project entries" />
+                </ListItem>
+                <ListItem>
+                  <ListItemText primary="• Portfolio showcase materials" />
+                </ListItem>
+                <ListItem>
+                  <ListItemText primary="• Market analysis and revenue projections" />
+                </ListItem>
+                <ListItem>
+                  <ListItemText primary="• Progress tracking and motivation logs" />
+                </ListItem>
+              </List>
+            </Grid>
+          </Grid>
         </DialogContent>
 
         <DialogActions>
           <Button onClick={() => setPreviewOpen(false)}>
             Close
           </Button>
-          <Button variant="contained" onClick={handleImport}>
-            Import This Template
+          <Button
+            variant="contained"
+            onClick={() => {
+              setPreviewOpen(false);
+              setImportDialogOpen(true);
+            }}
+          >
+            Import Template
           </Button>
         </DialogActions>
       </Dialog>

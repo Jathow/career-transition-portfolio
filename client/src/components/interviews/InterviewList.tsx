@@ -149,6 +149,7 @@ const InterviewList: React.FC<InterviewListProps> = ({ applicationId, onIntervie
           variant="contained"
           startIcon={<AddIcon />}
           onClick={() => setOpenDialog(true)}
+          data-tour="new-interview"
         >
           Schedule Interview
         </Button>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useNavigate } from 'react-router-dom';
+import { openCommandPalette } from './CommandPalette';
 import {
   Dialog,
   DialogTitle,
@@ -153,11 +154,7 @@ const KeyboardShortcuts: React.FC = () => {
   // Action shortcuts
   useHotkeys('ctrl+k', (e) => {
     e.preventDefault();
-    // Focus global search
-    const searchInput = document.querySelector('[data-tour="global-search"] input') as HTMLInputElement;
-    if (searchInput) {
-      searchInput.focus();
-    }
+    openCommandPalette();
   }, { preventDefault: true });
 
   useHotkeys('?', (e) => {

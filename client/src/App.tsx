@@ -10,6 +10,7 @@ import { useTheme } from './contexts/ThemeContext';
 import ModernLayout from './components/layout/ModernLayout';
 import SimpleTour from './components/common/SimpleTour';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
+import CommandPalette, { openCommandPalette } from './components/common/CommandPalette';
 // Removed export dialog feature
 import LoadingSpinner from './components/common/LoadingSpinner';
 import PerformanceMonitor from './components/common/PerformanceMonitor';
@@ -192,6 +193,7 @@ function App() {
           <>
             <SimpleTour isFirstTime={isFirstTimeUser} />
             <KeyboardShortcuts />
+            <CommandPalette />
           </>
         )}
 

@@ -144,6 +144,7 @@ const MotivationDashboard: React.FC = () => {
               variant="outlined"
                               startIcon={<TrackChanges />}
               onClick={() => setShowGoalForm(true)}
+              data-tour="new-goal"
             >
               Set New Goal
             </Button>

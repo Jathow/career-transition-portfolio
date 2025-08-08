@@ -192,18 +192,20 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
 
       {/* User info at bottom */}
       <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Avatar sx={{ width: 32, height: 32, fontSize: '0.875rem' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+          <Avatar sx={{ width: 40, height: 40, fontSize: '0.9rem' }}>
             {user?.firstName?.[0]}{user?.lastName?.[0]}
           </Avatar>
-          <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography variant="body2" sx={{ fontWeight: 600 }} noWrap>
-              {user?.firstName} {user?.lastName}
-            </Typography>
-            <Typography variant="caption" color="text.secondary" noWrap>
-              {user?.email}
-            </Typography>
-          </Box>
+          <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'center', maxWidth: '100%' }}>
+            {user?.firstName} {user?.lastName}
+          </Typography>
+          <Typography 
+            variant="caption" 
+            color="text.secondary" 
+            sx={{ textAlign: 'center', maxWidth: '100%', overflowWrap: 'anywhere' }}
+          >
+            {user?.email}
+          </Typography>
         </Box>
       </Box>
     </Box>

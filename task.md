@@ -11,6 +11,13 @@ Phase 1 — High-impact, no external services
   - Enable compact mode by default; reduce paddings/margins in layout, cards, dialogs, and pages (Resumes, Dashboard)
   - Acceptance: Visual density improved; no layout regressions; lints/tests pass
 
+- [ ] Account protection: email verification & anti‑abuse
+  - Email verification flow on registration (signed token, 24h expiry, resend), restrict app access until verified
+  - Add optional CAPTCHA (Cloudflare Turnstile/hCaptcha) behind `CAPTCHA_ENABLED` flag on register; fallback to simple challenge in dev
+  - Strengthen auth rate limits and add temporary lockout after repeated failures; log and surface friendly messages
+  - Block disposable email domains via configurable allow/deny lists
+  - Acceptance: Unverified users cannot access protected routes; verification works locally (dev console mail) and is provider-ready; CAPTCHA toggle works; rate limit/lockout enforced
+
 - [x] Command Palette discoverability (announce + hints)
   - First-run snackbar/toast announcing “New: Command Palette (Ctrl+K)” with “Try it” CTA
   - Add subtle hint near top bar search (placeholder: “Search • Press Ctrl+K for commands”)
@@ -34,7 +41,7 @@ Phase 1 — High-impact, no external services
   - Suggest follow-up dates based on status/last touch; 1‑click schedule + snooze
   - Acceptance: Suggestions appear for items lacking follow-up; actions persist changes
 
-- [ ] Consistent page headers
+- [x] Consistent page headers
   - Convert page titles to `h6`, right-aligned secondary actions, optional breadcrumbs where helpful
   - Acceptance: Applied to Dashboard, Applications, Interviews, Portfolio, Motivation, Resumes
 

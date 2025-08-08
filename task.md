@@ -62,6 +62,30 @@ Phase 2 — Nice-to-have / optional
 - [ ] Feature flag scaffold for safe rollouts
 - [ ] Team workspace (roles) & audit trail (spec first)
 
+Phase 3 — Monetization readiness (paywall-ready, no payments yet)
+- [ ] Entitlements & plan gating (FREE vs PRO)
+  - Add `plan` to user model (default FREE), include in auth payload, expose in client store
+  - Central entitlements map and guards (client + server) for PRO-only routes/features
+  - Acceptance: PRO-only components show lock/CTA on FREE; tests cover guard behavior
+
+- [ ] Quotas & friendly limit errors
+  - Per-plan limits (e.g., max applications/day, interviews/day)
+  - Server returns structured 402-style error; client shows upgrade CTA
+  - Acceptance: Limits enforced; UX copy clear; metrics logged
+
+- [ ] Pricing page (stub) and upgrade CTAs
+  - Static route with plan comparison; CTAs disabled until payments enabled
+  - Reusable “Upgrade to PRO” component with copy and deep-link
+  - Acceptance: Linked from locks, headers, and empty states
+
+- [ ] Config flags
+  - `PAYMENTS_ENABLED=false` (feature toggle), `PRO_TRIAL_DAYS=0`, environment-driven
+  - Acceptance: App switches behavior solely by flags (no code changes)
+
+- [ ] Documentation
+  - README: commercial licensing note and upgrade path
+  - Internal doc: steps to enable Stripe/LemonSqueezy later (webhooks -> set `plan=PRO`)
+
 Deployment & QA checklist (for each task)
 - [ ] Unit/integration tests updated or added as needed
 - [ ] Build green; lints clean; e2e (if applicable) pass locally

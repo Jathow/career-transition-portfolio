@@ -11,6 +11,13 @@ Phase 1 — High-impact, no external services
   - Enable compact mode by default; reduce paddings/margins in layout, cards, dialogs, and pages (Resumes, Dashboard)
   - Acceptance: Visual density improved; no layout regressions; lints/tests pass
 
+- [ ] Command Palette discoverability (announce + hints)
+  - First-run snackbar/toast announcing “New: Command Palette (Ctrl+K)” with “Try it” CTA
+  - Add subtle hint near top bar search (placeholder: “Search • Press Ctrl+K for commands”)
+  - Add a small keyboard icon button with tooltip “Command Palette (Ctrl+K)”
+  - Include in empty states and Keyboard Shortcuts modal
+  - Acceptance: Hints visible, dismissible, and only shown once; tooltip present; copy consistent
+
 - [ ] Global Quick Add + Command Palette
   - Floating “+” button (mobile/desktop) and Cmd/Ctrl+K command palette with actions: Create Project, Application, Interview, Goal
   - Acceptance: Available on all authenticated routes; keyboard accessible; ESC closes; actions create items successfully

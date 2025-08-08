@@ -45,6 +45,7 @@ import {
 } from '../../store/slices/jobApplicationSlice';
 import ApplicationForm from './ApplicationForm';
 import ApplicationDetail from './ApplicationDetail';
+import ApplicationTable from './ApplicationTable';
 
 const ApplicationList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -62,6 +63,7 @@ const ApplicationList: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [activeApplication, setActiveApplication] = useState<JobApplication | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+  const [useTableView, setUseTableView] = useState(true);
 
   useEffect(() => {
     dispatch(fetchApplications(filters));
@@ -146,8 +148,8 @@ const ApplicationList: React.FC = () => {
   return (
     <Box>
       {/* Header */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" component="h1">
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Typography variant="h6" component="h1">
           Job Applications
         </Typography>
         <Button
@@ -161,7 +163,7 @@ const ApplicationList: React.FC = () => {
       </Box>
 
       {/* Search and Filters */}
-      <Box sx={{ mb: 3 }} data-tour="application-filters">
+      <Box sx={{ mb: 2 }} data-tour="application-filters">
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} md={6}>
             <TextField
@@ -175,7 +177,21 @@ const ApplicationList: React.FC = () => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Box sx={{ display: 'flex', gap: 1 }}>
+            <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
+              <Button
+                variant={useTableView ? 'contained' : 'outlined'}
+                onClick={() => setUseTableView(true)}
+                size="small"
+              >
+                Table
+              </Button>
+              <Button
+                variant={!useTableView ? 'contained' : 'outlined'}
+                onClick={() => setUseTableView(false)}
+                size="small"
+              >
+                Cards
+              </Button>
               <Button
                 variant="outlined"
                 startIcon={<FilterIcon />}
@@ -264,89 +280,103 @@ const ApplicationList: React.FC = () => {
           </CardContent>
         </Card>
       ) : (
-        <Grid container spacing={2}>
-          {applications.map((application) => (
-            <Grid item xs={12} key={application.id}>
-              <Card>
-                <CardContent>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <Box sx={{ flex: 1 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                        <BusinessIcon color="action" fontSize="small" />
-                        <Typography variant="h6" component="h2">
-                          {application.companyName}
-                        </Typography>
-                      </Box>
-                      
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                        <WorkIcon color="action" fontSize="small" />
-                        <Typography variant="body1" color="text.secondary">
-                          {application.jobTitle}
-                        </Typography>
-                      </Box>
+        useTableView ? (
+          <ApplicationTable
+            applications={applications}
+            onView={(app) => {
+              setSelectedApplication(app);
+              setShowDetail(true);
+            }}
+            onEdit={(app) => {
+              setSelectedApplication(app);
+              setShowForm(true);
+            }}
+          />
+        ) : (
+          <Grid container spacing={2}>
+            {applications.map((application) => (
+              <Grid item xs={12} key={application.id}>
+                <Card>
+                  <CardContent>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                      <Box sx={{ flex: 1 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                          <BusinessIcon color="action" fontSize="small" />
+                          <Typography variant="subtitle1" component="h2">
+                            {application.companyName}
+                          </Typography>
+                        </Box>
+                        
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                          <WorkIcon color="action" fontSize="small" />
+                          <Typography variant="body2" color="text.secondary">
+                            {application.jobTitle}
+                          </Typography>
+                        </Box>
 
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                        <CalendarIcon color="action" fontSize="small" />
-                        <Typography variant="body2" color="text.secondary">
-                          Applied: {formatDate(application.applicationDate)}
-                        </Typography>
-                        {application.followUpDate && (
-                          <>
-                            <Typography variant="body2" color="text.secondary">
-                              •
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              Follow-up: {formatDate(application.followUpDate)}
-                            </Typography>
-                          </>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                          <CalendarIcon color="action" fontSize="small" />
+                          <Typography variant="caption" color="text.secondary">
+                            Applied: {formatDate(application.applicationDate)}
+                          </Typography>
+                          {application.followUpDate && (
+                            <>
+                              <Typography variant="caption" color="text.secondary">
+                                •
+                              </Typography>
+                              <Typography variant="caption" color="text.secondary">
+                                Follow-up: {formatDate(application.followUpDate)}
+                              </Typography>
+                            </>
+                          )}
+                        </Box>
+
+                        {application.notes && (
+                          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                            {truncateText(application.notes, 100)}
+                          </Typography>
                         )}
-                      </Box>
 
-                      {application.notes && (
-                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                          {truncateText(application.notes, 100)}
-                        </Typography>
-                      )}
-
-                      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                        <Chip
-                          label={application.status}
-                          color={getStatusColor(application.status) as any}
-                          size="small"
-                        />
-                        {application.resume && (
+                        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                           <Chip
-                            label={`Resume: ${application.resume.versionName}`}
-                            variant="outlined"
+                            label={application.status}
+                            color={getStatusColor(application.status) as any}
                             size="small"
                           />
-                        )}
+                          {application.resume && (
+                            <Chip
+                              label={`Resume: ${application.resume.versionName}`}
+                              variant="outlined"
+                              size="small"
+                            />
+                          )}
+                        </Box>
                       </Box>
-                    </Box>
 
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Tooltip title="View job posting">
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Tooltip title="View job posting">
+                          <IconButton
+                            size="small"
+                            onClick={() => window.open(application.jobUrl, '_blank')}
+                          >
+                            <LinkIcon />
+                          </IconButton>
+                        </Tooltip>
+                        
                         <IconButton
                           size="small"
-                          onClick={() => window.open(application.jobUrl, '_blank')}
+                          onClick={(e) => handleMenuOpen(e, application)}
                         >
-                          <LinkIcon />
+                          <MoreIcon />
                         </IconButton>
-                      </Tooltip>
-                      
-                      <IconButton
-                        size="small"
-                        onClick={(e) => handleMenuOpen(e, application)}
-                      >
-                        <MoreIcon />
-                      </IconButton>
+                      </Box>
                     </Box>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        )
       )}
 
       {/* Action Menu */}

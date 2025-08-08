@@ -19,6 +19,7 @@ import {
   Edit as EditIcon,
 } from '@mui/icons-material';
 import { useAppDispatch } from '../../store/store';
+import { showToast } from '../../store/slices/uiSlice';
 import {
   JobApplication,
   updateApplication,
@@ -64,16 +65,19 @@ const ApplicationTable: React.FC<ApplicationTableProps> = ({ applications, onVie
 
   const handleStatusChange = async (app: JobApplication, status: string) => {
     await dispatch(updateApplicationStatus({ id: app.id, status }));
+    dispatch(showToast({ message: 'Status updated', severity: 'success' }));
   };
 
   const handleFollowUpBlur = async (app: JobApplication) => {
     const val = followUpDraft[app.id];
     await dispatch(updateApplication({ id: app.id, data: { followUpDate: val || undefined } }));
+    dispatch(showToast({ message: 'Follow-up updated', severity: 'success' }));
   };
 
   const handleNotesBlur = async (app: JobApplication) => {
     const val = notesDraft[app.id] ?? '';
     await dispatch(updateApplication({ id: app.id, data: { notes: val } }));
+    dispatch(showToast({ message: 'Notes saved', severity: 'success' }));
   };
 
   const formatDate = (d?: string) => (d ? new Date(d).toLocaleDateString() : '');

@@ -47,6 +47,7 @@ import ApplicationForm from './ApplicationForm';
 import ApplicationDetail from './ApplicationDetail';
 import ApplicationTable from './ApplicationTable';
 import EmptyState from '../common/EmptyState';
+import { showToast } from '../../store/slices/uiSlice';
 
 const ApplicationList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -278,7 +279,7 @@ const ApplicationList: React.FC = () => {
           title="No applications found"
           description={searchTerm || Object.keys(filters).length > 0 ? 'Try adjusting your search or filters' : 'Start by creating your first job application. Tip: Press Ctrl+K and type “New Job Application”.'}
           actionLabel="New Application"
-          onAction={() => setShowForm(true)}
+          onAction={() => { setShowForm(true); dispatch(showToast({ message: 'Create a new application', severity: 'info', durationMs: 2000 })); }}
         />
       ) : (
         useTableView ? (

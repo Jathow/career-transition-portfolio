@@ -197,6 +197,31 @@ const jobApplicationSlice = createSlice({
     clearCurrentApplication: (state) => {
       state.currentApplication = null;
     }
+    // Optimistic reducers
+    optimisticUpdateStatus: (state, action: PayloadAction<{ id: string; status: string; previous?: JobApplication }>) => {
+      const index = state.applications.findIndex(a => a.id === action.payload.id);
+      if (index !== -1) {
+        state.applications[index] = { ...state.applications[index], status: action.payload.status as any };
+      }
+      if (state.currentApplication?.id === action.payload.id) {
+        state.currentApplication = { ...state.currentApplication, status: action.payload.status as any } as JobApplication;
+      }
+    },
+    optimisticDelete: (state, action: PayloadAction<{ id: string; previous?: JobApplication }>) => {
+      state.applications = state.applications.filter(a => a.id !== action.payload.id);
+      if (state.currentApplication?.id === action.payload.id) {
+        state.currentApplication = null;
+      }
+    },
+    optimisticSaveNotes: (state, action: PayloadAction<{ id: string; notes: string }>) => {
+      const index = state.applications.findIndex(a => a.id === action.payload.id);
+      if (index !== -1) {
+        state.applications[index] = { ...state.applications[index], notes: action.payload.notes };
+      }
+      if (state.currentApplication?.id === action.payload.id) {
+        state.currentApplication = { ...state.currentApplication, notes: action.payload.notes } as JobApplication;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder

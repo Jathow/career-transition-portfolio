@@ -49,7 +49,7 @@ Phase 1 — High-impact, no external services
   - Friendly copy, visuals, and one‑click sample data injection to demonstrate value
   - Acceptance: Empty state present on key pages; sample data cleans up correctly
 
-- [ ] Success toasts + optimistic updates
+- [x] Success toasts + optimistic updates
   - Non-blocking confirmations for CRUD; optimistic UI for snappy feel with rollback on error
   - Acceptance: Implemented across Projects, Applications, Resumes flows
 

@@ -15,6 +15,7 @@ import CommandPalette, { openCommandPalette } from './components/common/CommandP
 import LoadingSpinner from './components/common/LoadingSpinner';
 import PerformanceMonitor from './components/common/PerformanceMonitor';
 import BrandedLanding from './components/common/BrandedLanding';
+import ToastProvider from './components/common/ToastProvider';
 
 // Lazy load pages for code splitting
 const LoginPage = React.lazy(() => import('./pages/auth/LoginPage'));
@@ -194,6 +195,7 @@ function App() {
             <SimpleTour isFirstTime={isFirstTimeUser} />
             <KeyboardShortcuts />
             <CommandPalette />
+            <ToastProvider />
           </>
         )}
 

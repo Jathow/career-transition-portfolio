@@ -32,11 +32,14 @@ import { fetchProjects, deleteProject, completeProject, updateProjectStatus } fr
 import { ProjectForm } from '../components/projects/ProjectForm';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import EmptyState from '../components/common/EmptyState';
+import { useAppDispatch } from '../store/store';
+import { showToast } from '../store/slices/uiSlice';
 
 const DashboardPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
   const { projects, loading, error } = useSelector((state: RootState) => state.projects);
+  const dispatch = useAppDispatch();
   
   const [projectFormOpen, setProjectFormOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<any>(null);
@@ -253,7 +256,7 @@ const DashboardPage: React.FC = () => {
                 title="No projects yet"
                 description="Start building your portfolio by creating your first project"
                 actionLabel="Create Your First Project"
-                onAction={handleCreateProject}
+                onAction={() => { handleCreateProject(); dispatch(showToast({ message: 'Create your first project', severity: 'info', durationMs: 2000 })); }}
               />
             ) : (
               <Grid container spacing={2} data-tour="project-cards">

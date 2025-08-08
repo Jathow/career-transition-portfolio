@@ -18,11 +18,11 @@ Phase 1 — High-impact, no external services
   - Include in empty states and Keyboard Shortcuts modal
   - Acceptance: Hints visible, dismissible, and only shown once; tooltip present; copy consistent
 
-- [ ] Global Quick Add + Command Palette
+- [x] Global Quick Add + Command Palette
   - Floating “+” button (mobile/desktop) and Cmd/Ctrl+K command palette with actions: Create Project, Application, Interview, Goal
   - Acceptance: Available on all authenticated routes; keyboard accessible; ESC closes; actions create items successfully
 
-- [ ] Applications: Compact table + inline edit
+- [x] Applications: Compact table + inline edit
   - Table view with sticky header, column toggles; inline edit for status, follow-up date, notes; toggle between table and cards
   - Acceptance: Edits persist; keyboard navigation works; empty state shows CTA
 

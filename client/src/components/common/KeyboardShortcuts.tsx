@@ -100,7 +100,7 @@ const KeyboardShortcuts: React.FC = () => {
     // Action shortcuts
     {
       key: 'ctrl+k',
-      description: 'Global Search',
+      description: 'Command Palette',
       icon: <SearchIcon />,
       category: 'Actions',
     },

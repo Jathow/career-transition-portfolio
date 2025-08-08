@@ -24,6 +24,9 @@ import {
   Chip,
   MenuList,
   ListItemAvatar,
+  Tooltip,
+  Snackbar,
+  Button,
 } from '@mui/material';
 import {
   Dashboard as DashboardIcon,
@@ -40,10 +43,12 @@ import {
   Notifications as NotificationsIcon,
   Menu as MenuIcon,
   // Removed Templates icon
+  Keyboard as KeyboardIcon,
 } from '@mui/icons-material';
 import { RootState } from '../../store/store';
 import { logout } from '../../store/slices/authSlice';
 import { AppDispatch } from '../../store/store';
+import { openCommandPalette } from '../common/CommandPalette';
 
 const DRAWER_WIDTH = 208;
 
@@ -62,6 +67,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [notificationAnchor, setNotificationAnchor] = useState<null | HTMLElement>(null);
+  const [showCmdHint, setShowCmdHint] = useState(false);
 
   const navigationItems = [
     { label: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
@@ -115,6 +121,20 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
     navigate('/profile');
     handleClose();
   };
+
+  // First-run snackbar for Command Palette discoverability
+  React.useEffect(() => {
+    if (!isMobile) {
+      try {
+        const key = 'cp_cmd_palette_hint_v1';
+        const seen = localStorage.getItem(key) === 'true';
+        if (!seen) {
+          setShowCmdHint(true);
+          localStorage.setItem(key, 'true');
+        }
+      } catch {}
+    }
+  }, [isMobile]);
 
   // Sidebar content
   const drawer = (
@@ -263,11 +283,16 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
 
           {/* Right: Search, notifications, profile */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <TextField size="small" placeholder="Search..." sx={{ width: { xs: 140, sm: 220 } }}
+            <TextField size="small" placeholder="Search • Press Ctrl+K for commands" sx={{ width: { xs: 140, sm: 260 } }}
               InputProps={{ startAdornment: (
                 <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment>
               ) }}
             />
+            <Tooltip title="Command Palette (Ctrl+K)">
+              <IconButton onClick={() => openCommandPalette()} aria-label="Open Command Palette">
+                <KeyboardIcon />
+              </IconButton>
+            </Tooltip>
             
             <IconButton onClick={handleNotificationClick}>
               <Badge badgeContent={notifications.length || null} color="error">
@@ -488,6 +513,20 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
           </Box>
         )}
       </Menu>
+
+      {/* Command Palette first-run hint */}
+      <Snackbar
+        open={showCmdHint}
+        onClose={() => setShowCmdHint(false)}
+        autoHideDuration={6000}
+        message="New: Command Palette (Ctrl+K)"
+        action={
+          <Button color="primary" size="small" onClick={() => { openCommandPalette(); setShowCmdHint(false); }}>
+            Try it
+          </Button>
+        }
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      />
     </Box>
   );
 };

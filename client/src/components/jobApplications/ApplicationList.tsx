@@ -274,7 +274,7 @@ const ApplicationList: React.FC = () => {
             <Typography variant="body2" color="text.secondary">
               {searchTerm || Object.keys(filters).length > 0 
                 ? 'Try adjusting your search or filters'
-                : 'Start by creating your first job application'
+                : 'Start by creating your first job application. Tip: Press Ctrl+K and type “New Job Application”.'
               }
             </Typography>
           </CardContent>

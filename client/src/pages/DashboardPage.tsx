@@ -140,7 +140,7 @@ const DashboardPage: React.FC = () => {
           Welcome back, {user?.firstName}!
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          Track your career transition progress and manage your portfolio projects.
+          Track your career transition progress and manage your portfolio projects. Tip: Press Ctrl+K for the Command Palette.
         </Typography>
       </Box>
 

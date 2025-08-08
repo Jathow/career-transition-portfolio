@@ -383,7 +383,7 @@ While this is primarily my personal portfolio platform, I welcome feedback and s
 
 ## 📄 **License**
 
-MIT License - This project is open source and available for learning and inspiration.
+This repository is licensed for Noncommercial use (see `LICENSE`). You may use it for learning, evaluation, and personal portfolio purposes. Commercial use requires a separate commercial license from the author.
 
 ---
 

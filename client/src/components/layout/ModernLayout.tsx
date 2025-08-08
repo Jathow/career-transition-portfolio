@@ -207,6 +207,9 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
             {user?.email}
           </Typography>
         </Box>
+        <Typography variant="caption" color="text.secondary" sx={{ mt: 1, textAlign: 'center', opacity: 0.7 }}>
+          Demo – not for commercial use
+        </Typography>
       </Box>
     </Box>
   );

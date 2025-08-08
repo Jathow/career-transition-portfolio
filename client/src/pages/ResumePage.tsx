@@ -14,6 +14,7 @@ import {
 import ResumeList from '../components/resumes/ResumeList';
 import ResumeBuilder from '../components/resumes/ResumeBuilder';
 import { Resume } from '../store/slices/resumeSlice';
+import EmptyState from '../components/common/EmptyState';
 
 interface TabPanelProps {
   children?: React.ReactNode;

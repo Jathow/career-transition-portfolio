@@ -46,6 +46,7 @@ import {
 import ApplicationForm from './ApplicationForm';
 import ApplicationDetail from './ApplicationDetail';
 import ApplicationTable from './ApplicationTable';
+import EmptyState from '../common/EmptyState';
 
 const ApplicationList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -273,19 +274,12 @@ const ApplicationList: React.FC = () => {
           <CircularProgress />
         </Box>
       ) : applications.length === 0 ? (
-        <Card>
-          <CardContent sx={{ textAlign: 'center', py: 4 }}>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              No applications found
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {searchTerm || Object.keys(filters).length > 0 
-                ? 'Try adjusting your search or filters'
-                : 'Start by creating your first job application. Tip: Press Ctrl+K and type “New Job Application”.'
-              }
-            </Typography>
-          </CardContent>
-        </Card>
+        <EmptyState
+          title="No applications found"
+          description={searchTerm || Object.keys(filters).length > 0 ? 'Try adjusting your search or filters' : 'Start by creating your first job application. Tip: Press Ctrl+K and type “New Job Application”.'}
+          actionLabel="New Application"
+          onAction={() => setShowForm(true)}
+        />
       ) : (
         useTableView ? (
           <ApplicationTable

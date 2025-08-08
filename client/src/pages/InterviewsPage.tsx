@@ -18,6 +18,7 @@ import InterviewList from '../components/interviews/InterviewList';
 import InterviewAnalytics from '../components/interviews/InterviewAnalytics';
 import InterviewPreparation from '../components/interviews/InterviewPreparation';
 import InterviewFeedback from '../components/interviews/InterviewFeedback';
+import EmptyState from '../components/common/EmptyState';
 
 interface TabPanelProps {
   children?: React.ReactNode;

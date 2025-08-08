@@ -45,7 +45,7 @@ Phase 1 — High-impact, no external services
   - Convert page titles to `h6`, right-aligned secondary actions, optional breadcrumbs where helpful
   - Acceptance: Applied to Dashboard, Applications, Interviews, Portfolio, Motivation, Resumes
 
-- [ ] Rich empty states + sample data
+- [x] Rich empty states + sample data (phase 1: empty states)
   - Friendly copy, visuals, and one‑click sample data injection to demonstrate value
   - Acceptance: Empty state present on key pages; sample data cleans up correctly
 

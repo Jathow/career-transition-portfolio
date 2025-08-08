@@ -31,6 +31,7 @@ import { RootState, AppDispatch } from '../store/store';
 import { fetchProjects, deleteProject, completeProject, updateProjectStatus } from '../store/slices/projectSlice';
 import { ProjectForm } from '../components/projects/ProjectForm';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import EmptyState from '../components/common/EmptyState';
 
 const DashboardPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -248,21 +249,12 @@ const DashboardPage: React.FC = () => {
                 <CircularProgress />
               </Box>
             ) : projects.length === 0 ? (
-              <Box sx={{ textAlign: 'center', py: 4 }}>
-                <Typography variant="h6" color="text.secondary" gutterBottom>
-                  No projects yet
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  Start building your portfolio by creating your first project
-                </Typography>
-                <Button
-                  variant="contained"
-                  startIcon={<AddIcon />}
-                  onClick={handleCreateProject}
-                >
-                  Create Your First Project
-                </Button>
-              </Box>
+              <EmptyState
+                title="No projects yet"
+                description="Start building your portfolio by creating your first project"
+                actionLabel="Create Your First Project"
+                onAction={handleCreateProject}
+              />
             ) : (
               <Grid container spacing={2} data-tour="project-cards">
                 {projects.map((project) => (

@@ -105,10 +105,10 @@ const ResumeList: React.FC<ResumeListProps> = ({ onResumeSelect }) => {
   }
 
   return (
-    <Box sx={{ maxWidth: 1200, margin: '0 auto', padding: 3 }}>
-      <Paper elevation={3} sx={{ padding: 3 }}>
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-          <Typography variant="h4" component="h1">
+    <Box sx={{ maxWidth: 1200, margin: '0 auto', p: 2 }}>
+      <Paper elevation={1} sx={{ p: 2 }}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+          <Typography variant="h6" component="h1">
             My Resumes
           </Typography>
           <Button
@@ -127,9 +127,9 @@ const ResumeList: React.FC<ResumeListProps> = ({ onResumeSelect }) => {
         )}
 
         {resumes.length === 0 ? (
-          <Box textAlign="center" py={4}>
-            <DescriptionIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-            <Typography variant="h6" color="text.secondary" gutterBottom>
+          <Box textAlign="center" py={3}>
+            <DescriptionIcon sx={{ fontSize: 44, color: 'text.secondary', mb: 1.5 }} />
+            <Typography variant="subtitle1" color="text.secondary" gutterBottom>
               No resumes yet
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph>
@@ -144,7 +144,7 @@ const ResumeList: React.FC<ResumeListProps> = ({ onResumeSelect }) => {
             </Button>
           </Box>
         ) : (
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             {resumes.map((resume) => (
               <Grid item xs={12} md={6} lg={4} key={resume.id}>
                 <Card 
@@ -154,7 +154,7 @@ const ResumeList: React.FC<ResumeListProps> = ({ onResumeSelect }) => {
                     flexDirection: 'column',
                     position: 'relative',
                     ...(resume.isDefault && {
-                      border: '2px solid #1976d2',
+                      border: '1px solid #1976d2',
                     })
                   }}
                 >
@@ -177,11 +177,11 @@ const ResumeList: React.FC<ResumeListProps> = ({ onResumeSelect }) => {
                   )}
                   
                   <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="subtitle1" gutterBottom>
                       {resume.versionName}
                     </Typography>
                     
-                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                    <Typography variant="caption" color="text.secondary" gutterBottom>
                       Template: {resume.templateId.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
                     </Typography>
                     

@@ -270,14 +270,13 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ resume, onSave, _onCancel
   }
 
   return (
-    <Box sx={{ maxWidth: 1200, margin: '0 auto', padding: 3 }}>
-      <Paper elevation={3} sx={{ padding: 3 }}>
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-          <Typography variant="h4" component="h1">
+    <Box sx={{ maxWidth: 1200, margin: '0 auto', p: 2 }}>
+      <Paper elevation={1} sx={{ p: 2 }}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+          <Typography variant="h6" component="h1">
             {resume ? 'Edit Resume' : 'Create New Resume'}
           </Typography>
           <Box>
-            {/* Export removed */}
             <Button
               variant="contained"
               startIcon={<SaveIcon />}
@@ -295,7 +294,7 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ resume, onSave, _onCancel
           </Alert>
         )}
 
-        <Grid container spacing={3}>
+          <Grid container spacing={2}>
           {/* Left Column - Form */}
           <Grid item xs={12} md={6}>
             <Box>

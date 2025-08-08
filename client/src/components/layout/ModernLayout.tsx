@@ -45,7 +45,7 @@ import { RootState } from '../../store/store';
 import { logout } from '../../store/slices/authSlice';
 import { AppDispatch } from '../../store/store';
 
-const DRAWER_WIDTH = 240;
+const DRAWER_WIDTH = 208;
 
 interface ModernLayoutProps {
   children: React.ReactNode;
@@ -236,14 +236,14 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
       {/* Main content area */}
       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         {/* Top bar */}
-        <Paper 
-          elevation={1} 
+         <Paper 
+          elevation={0}
           sx={{ 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'space-between',
-            px: 3, 
-            py: 2,
+            px: 2, 
+            py: 1.25,
             borderRadius: 0,
             borderBottom: '1px solid',
             borderColor: 'divider'
@@ -256,29 +256,17 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
                 <MenuIcon />
               </IconButton>
             )}
-            <Typography variant="h6" sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Typography variant="subtitle1" sx={{ display: { xs: 'none', sm: 'block' } }}>
               {navigationItems.find(item => item.path === location.pathname)?.label || 'Dashboard'}
             </Typography>
           </Box>
 
           {/* Right: Search, notifications, profile */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <TextField
-              size="small"
-              placeholder="Search..."
-              sx={{ 
-                width: { xs: 150, sm: 250 },
-                '& .MuiOutlinedInput-root': {
-                  height: 36,
-                }
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon fontSize="small" />
-                  </InputAdornment>
-                ),
-              }}
+            <TextField size="small" placeholder="Search..." sx={{ width: { xs: 140, sm: 220 } }}
+              InputProps={{ startAdornment: (
+                <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment>
+              ) }}
             />
             
             <IconButton onClick={handleNotificationClick}>

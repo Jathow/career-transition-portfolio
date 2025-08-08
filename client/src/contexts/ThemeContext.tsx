@@ -30,7 +30,7 @@ interface ThemeProviderProps {
 
 export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [darkMode, setDarkMode] = useState(true);
-  const [compactMode, setCompactMode] = useState(false);
+  const [compactMode, setCompactMode] = useState(true);
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
   // Load user preferences only when authenticated
@@ -145,9 +145,7 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
         fontWeight: brandConfig.typography.fontWeight.regular,
       },
     },
-    shape: {
-      borderRadius: brandConfig.radius.md,
-    },
+    shape: { borderRadius: brandConfig.radius.md },
     spacing: compactMode ? brandConfig.spacing.sm : brandConfig.spacing.md,
     components: {
       MuiCssBaseline: {
@@ -179,6 +177,23 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
             '&:hover': {
               boxShadow: brandConfig.shadows.lg,
             },
+          },
+        },
+        defaultProps: {
+          elevation: 1,
+        },
+      },
+      MuiCardContent: {
+        styleOverrides: {
+          root: {
+            padding: compactMode ? 12 : 16,
+          },
+        },
+      },
+      MuiCardActions: {
+        styleOverrides: {
+          root: {
+            padding: compactMode ? 8 : 12,
           },
         },
       },
@@ -213,6 +228,9 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
         },
       },
       MuiButton: {
+        defaultProps: {
+          size: 'small',
+        },
         styleOverrides: {
           root: {
             borderRadius: brandConfig.radius.md,
@@ -227,6 +245,47 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
             '&:active': {
               transform: 'translateY(0)',
             },
+          },
+        },
+      },
+      MuiIconButton: {
+        defaultProps: {
+          size: 'small',
+        },
+      },
+      MuiChip: {
+        defaultProps: {
+          size: 'small',
+        },
+      },
+      MuiListItem: {
+        defaultProps: {
+          dense: true,
+        },
+      },
+      MuiMenuItem: {
+        defaultProps: {
+          dense: true,
+        },
+      },
+      MuiDialogTitle: {
+        styleOverrides: {
+          root: {
+            padding: compactMode ? 12 : 16,
+          },
+        },
+      },
+      MuiDialogContent: {
+        styleOverrides: {
+          root: {
+            padding: compactMode ? 12 : 16,
+          },
+        },
+      },
+      MuiDialogActions: {
+        styleOverrides: {
+          root: {
+            padding: compactMode ? 10 : 14,
           },
         },
       },

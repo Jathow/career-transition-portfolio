@@ -72,13 +72,13 @@ function App() {
         minHeight: '100vh',
         // Apply compact mode spacing
         '& .MuiContainer-root': {
-          py: compactMode ? 2 : 3,
+          py: compactMode ? 1 : 2,
         },
         '& .MuiCard-root': {
-          mb: compactMode ? 2 : 3,
+          mb: compactMode ? 1.5 : 2,
         },
         '& .MuiBox-root': {
-          mb: compactMode ? 1 : 2,
+          mb: compactMode ? 0.5 : 1.5,
         },
         // Global modern scrollbar styles
         '& *::-webkit-scrollbar': {

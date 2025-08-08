@@ -28,6 +28,7 @@ import {
 } from '../../store/slices/jobApplicationSlice';
 import { fetchResumes } from '../../store/slices/resumeSlice';
 import { logger } from '../../utils/logger';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 interface ApplicationFormProps {
   open: boolean;
@@ -57,6 +58,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
   });
 
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [fetchingMeta, setFetchingMeta] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -138,6 +140,47 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
       }));
     }
   };
+
+  // Smart paste / autofill from job URL
+  useEffect(() => {
+    const tryAutofillFromUrl = async () => {
+      const url = formData.jobUrl.trim();
+      if (!url || !isValidUrl(url)) return;
+      // Only attempt if key fields are blank to avoid overriding user input
+      const shouldFetch = (!formData.companyName || !formData.jobTitle);
+      if (!shouldFetch) return;
+      setFetchingMeta(true);
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 4000);
+        const res = await fetch(url, { signal: controller.signal, mode: 'no-cors' as any }).catch(() => null);
+        clearTimeout(timeout);
+        // We may not be able to read the content due to CORS. As a safe fallback, parse basic hints from URL.
+        const hostname = new URL(url).hostname.replace('www.', '');
+        const companyGuess = hostname.split('.')?.[0]?.replace(/[-_]/g, ' ');
+        // Try to extract title from URL path
+        const path = new URL(url).pathname;
+        const titleFromPath = path.split('/')
+          .filter(Boolean)
+          .slice(-3)
+          .join(' ')
+          .replace(/[-_]/g, ' ')
+          .replace(/\d+/g, '')
+          .trim();
+        setFormData(prev => ({
+          ...prev,
+          companyName: prev.companyName || (companyGuess ? companyGuess[0].toUpperCase() + companyGuess.slice(1) : ''),
+          jobTitle: prev.jobTitle || (titleFromPath.length >= 3 ? titleFromPath : ''),
+        }));
+      } catch {
+        // swallow
+      } finally {
+        setFetchingMeta(false);
+      }
+    };
+    tryAutofillFromUrl();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData.jobUrl]);
 
   const handleSubmit = async () => {
     if (!validateForm()) {
@@ -232,10 +275,17 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
             onChange={(e) => handleInputChange('jobUrl', e.target.value)}
             fullWidth
             error={!!validationErrors.jobUrl}
-            helperText={validationErrors.jobUrl}
+            helperText={validationErrors.jobUrl || (fetchingMeta ? 'Fetching details…' : 'Paste a job link to auto-fill fields')}
             required
             placeholder="https://example.com/job-posting"
           />
+          {formData.jobUrl && isValidUrl(formData.jobUrl) && (
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: -1 }}>
+              <Button size="small" endIcon={<OpenInNewIcon />} onClick={() => window.open(formData.jobUrl, '_blank')}>
+                Open job posting
+              </Button>
+            </Box>
+          )}
 
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker

@@ -11,10 +11,6 @@ import {
   CardActions,
   Chip,
   IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   FormControl,
   InputLabel,
   Select,
@@ -30,7 +26,6 @@ import {
   Add as AddIcon,
   Delete as DeleteIcon,
   Save as SaveIcon,
-  Download as DownloadIcon,
   ExpandMore as ExpandMoreIcon,
   Person as PersonIcon,
   Work as WorkIcon,
@@ -45,7 +40,6 @@ import {
   createResume,
   updateResume,
   generateResumeContent,
-  exportResume,
   ResumeContent,
   Resume,
 } from '../../store/slices/resumeSlice';
@@ -87,8 +81,7 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ resume, onSave, _onCancel
   const [versionName, setVersionName] = useState('');
   const [isDefault, setIsDefault] = useState(false);
 
-  const [showExportDialog, setShowExportDialog] = useState(false);
-  const [exportFormat, setExportFormat] = useState<'pdf' | 'docx' | 'txt'>('pdf');
+  // Export functionality removed
 
   useEffect(() => {
     dispatch(fetchTemplates());
@@ -137,12 +130,7 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ resume, onSave, _onCancel
     }
   };
 
-  const handleExport = async () => {
-    if (resume) {
-      await dispatch(exportResume({ id: resume.id, format: exportFormat }));
-      setShowExportDialog(false);
-    }
-  };
+  // Export functionality removed
 
   const updatePersonalInfo = (field: keyof ResumeContent['personalInfo'], value: string) => {
     setContent(prev => ({
@@ -289,16 +277,7 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ resume, onSave, _onCancel
             {resume ? 'Edit Resume' : 'Create New Resume'}
           </Typography>
           <Box>
-            {resume && (
-              <Button
-                variant="outlined"
-                startIcon={<DownloadIcon />}
-                onClick={() => setShowExportDialog(true)}
-                sx={{ mr: 1 }}
-              >
-                Export
-              </Button>
-            )}
+            {/* Export removed */}
             <Button
               variant="contained"
               startIcon={<SaveIcon />}
@@ -824,30 +803,7 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ resume, onSave, _onCancel
         </Grid>
       </Paper>
 
-      {/* Export Dialog */}
-      <Dialog open={showExportDialog} onClose={() => setShowExportDialog(false)}>
-        <DialogTitle>Export Resume</DialogTitle>
-        <DialogContent>
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Format</InputLabel>
-            <Select
-              value={exportFormat}
-              onChange={(e) => setExportFormat(e.target.value as 'pdf' | 'docx' | 'txt')}
-              label="Format"
-            >
-              <MenuItem value="pdf">PDF</MenuItem>
-              <MenuItem value="docx">Word Document</MenuItem>
-              <MenuItem value="txt">Plain Text</MenuItem>
-            </Select>
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowExportDialog(false)}>Cancel</Button>
-          <Button onClick={handleExport} variant="contained">
-            Export
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {/* Export dialog removed */}
     </Box>
   );
 };

@@ -16,16 +16,11 @@ import {
   DialogActions,
   Alert,
   CircularProgress,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
 } from '@mui/material';
 import {
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
-  Download as DownloadIcon,
   Star as StarIcon,
   StarBorder as StarBorderIcon,
   Description as DescriptionIcon,
@@ -36,7 +31,6 @@ import {
   fetchResumes,
   deleteResume,
   setDefaultResume,
-  exportResume,
   Resume,
 } from '../../store/slices/resumeSlice';
 import { AppDispatch } from '../../store/store';
@@ -53,9 +47,9 @@ const ResumeList: React.FC<ResumeListProps> = ({ onResumeSelect }) => {
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [showExportDialog, setShowExportDialog] = useState(false);
+  // Export removed
   const [selectedResume, setSelectedResume] = useState<Resume | null>(null);
-  const [exportFormat, setExportFormat] = useState<'pdf' | 'docx' | 'txt'>('pdf');
+  // Export removed
 
   useEffect(() => {
     dispatch(fetchResumes());
@@ -88,12 +82,7 @@ const ResumeList: React.FC<ResumeListProps> = ({ onResumeSelect }) => {
     await dispatch(setDefaultResume(resume.id));
   };
 
-  const handleExport = async () => {
-    if (selectedResume) {
-      await dispatch(exportResume({ id: selectedResume.id, format: exportFormat }));
-      setShowExportDialog(false);
-    }
-  };
+  // Export removed
 
   const handleSaveResume = (resume: Resume) => {
     setShowCreateDialog(false);
@@ -217,16 +206,7 @@ const ResumeList: React.FC<ResumeListProps> = ({ onResumeSelect }) => {
                         <EditIcon />
                       </IconButton>
                       
-                      <IconButton
-                        onClick={() => {
-                          setSelectedResume(resume);
-                          setShowExportDialog(true);
-                        }}
-                        color="primary"
-                        title="Export Resume"
-                      >
-                        <DownloadIcon />
-                      </IconButton>
+                      {/* Export removed */}
                       
                       {!resume.isDefault && (
                         <IconButton
@@ -298,30 +278,7 @@ const ResumeList: React.FC<ResumeListProps> = ({ onResumeSelect }) => {
         </DialogActions>
       </Dialog>
 
-      {/* Export Dialog */}
-      <Dialog open={showExportDialog} onClose={() => setShowExportDialog(false)}>
-        <DialogTitle>Export Resume</DialogTitle>
-        <DialogContent>
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Format</InputLabel>
-            <Select
-              value={exportFormat}
-              onChange={(e) => setExportFormat(e.target.value as 'pdf' | 'docx' | 'txt')}
-              label="Format"
-            >
-              <MenuItem value="pdf">PDF</MenuItem>
-              <MenuItem value="docx">Word Document</MenuItem>
-              <MenuItem value="txt">Plain Text</MenuItem>
-            </Select>
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowExportDialog(false)}>Cancel</Button>
-          <Button onClick={handleExport} variant="contained">
-            Export
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {/* Export dialog removed */}
     </Box>
   );
 };

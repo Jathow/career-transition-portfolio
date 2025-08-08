@@ -220,12 +220,7 @@ export const resumeAPI = {
   getDefaultResume: () => api.get('/resumes/default'),
 
   generateResumeContent: () => api.get('/resumes/generate/content'),
-
-  exportResume: (id: string, format: 'pdf' | 'docx' | 'txt') => 
-    api.get(`/resumes/${id}/export`, { 
-      params: { format },
-      responseType: 'blob'
-    }),
+  // Export removed
 };
 
 // Preferences API endpoints
@@ -235,18 +230,7 @@ export const preferencesAPI = {
 };
 
 // Templates API endpoints
-export const templatesAPI = {
-  getAvailableTemplates: () => api.get('/templates/available'),
-  
-  downloadTemplate: (templateId: string) => 
-    api.get(`/templates/download/${templateId}`, { responseType: 'blob' }),
-  
-  importProject: (importData: { customProjectName?: string }) => 
-    api.post('/templates/import-project', importData),
-    
-  importCustomTemplate: (importData: { templateData: any; customProjectName?: string }) => 
-    api.post('/templates/import-custom', importData),
-};
+// Template import/export routes removed
 
 // Export both default and named export for flexibility
 export { api };

@@ -39,7 +39,7 @@ import {
   Search as SearchIcon,
   Notifications as NotificationsIcon,
   Menu as MenuIcon,
-  GetApp as TemplatesIcon,
+  // Removed Templates icon
 } from '@mui/icons-material';
 import { RootState } from '../../store/store';
 import { logout } from '../../store/slices/authSlice';
@@ -71,7 +71,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
     { label: 'Portfolio', path: '/portfolio', icon: <PortfolioIcon /> },
     { label: 'Motivation', path: '/motivation', icon: <MotivationIcon /> },
     { label: 'Revenue & Market', path: '/revenue-tracking', icon: <RevenueIcon /> },
-    { label: 'Templates', path: '/templates', icon: <TemplatesIcon /> },
+    // Templates removed
     ...(user?.role === 'ADMIN' ? [{ label: 'Admin', path: '/admin', icon: <SettingsIcon /> }] : []),
   ];
 

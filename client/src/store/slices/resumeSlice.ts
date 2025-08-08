@@ -212,17 +212,7 @@ export const generateResumeContent = createAsyncThunk(
   }
 );
 
-export const exportResume = createAsyncThunk(
-  'resumes/export',
-  async ({ id, format }: { id: string; format: 'pdf' | 'docx' | 'txt' }, { rejectWithValue }) => {
-    try {
-      const response = await resumeAPI.exportResume(id, format);
-      return { id, format, content: response.data };
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.error || 'Failed to export resume');
-    }
-  }
-);
+// Export functionality removed
 
 const resumeSlice = createSlice({
   name: 'resumes',

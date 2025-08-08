@@ -150,6 +150,27 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
     },
     spacing: compactMode ? brandConfig.spacing.sm : brandConfig.spacing.md,
     components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            background: darkMode
+              ? 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)'
+              : 'linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%)',
+            minHeight: '100vh',
+          },
+          '*::-webkit-scrollbar': {
+            width: '8px',
+            height: '8px',
+          },
+          '*::-webkit-scrollbar-track': {
+            background: 'transparent',
+          },
+          '*::-webkit-scrollbar-thumb': {
+            background: 'rgba(255,255,255,0.12)',
+            borderRadius: 10,
+          },
+        },
+      },
       MuiCard: {
         styleOverrides: {
           root: {
@@ -161,11 +182,32 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
           },
         },
       },
+      MuiFormControl: {
+        defaultProps: {
+          margin: 'dense',
+          fullWidth: true,
+        },
+      },
       MuiTextField: {
+        defaultProps: {
+          size: 'small',
+          margin: 'dense',
+          fullWidth: true,
+        },
         styleOverrides: {
           root: {
             '& .MuiOutlinedInput-root': {
               borderRadius: brandConfig.radius.md,
+              backgroundColor: darkMode ? 'rgba(255,255,255,0.03)' : '#fff',
+              '& fieldset': {
+                borderColor: darkMode ? 'rgba(255,255,255,0.12)' : '#e2e8f0',
+              },
+              '&:hover fieldset': {
+                borderColor: darkMode ? 'rgba(255,255,255,0.24)' : '#94a3b8',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: brandConfig.colors.primary.main,
+              },
             },
           },
         },

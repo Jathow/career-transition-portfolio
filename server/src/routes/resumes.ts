@@ -23,8 +23,8 @@ router.delete('/:resumeId', ResumeController.deleteResume);
 // Resume management routes
 router.post('/:resumeId/default', ResumeController.setDefaultResume);
 
-// Content generation and export routes
+// Content generation route
 router.get('/generate/content', ResumeController.generateResumeContent);
-router.get('/:resumeId/export', ResumeController.exportResume);
+// Export route removed
 
 export default router; 

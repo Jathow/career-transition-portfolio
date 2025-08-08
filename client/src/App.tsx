@@ -10,7 +10,7 @@ import { useTheme } from './contexts/ThemeContext';
 import ModernLayout from './components/layout/ModernLayout';
 import SimpleTour from './components/common/SimpleTour';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
-import ExportDialog from './components/common/ExportDialog';
+// Removed export dialog feature
 import LoadingSpinner from './components/common/LoadingSpinner';
 import PerformanceMonitor from './components/common/PerformanceMonitor';
 import BrandedLanding from './components/common/BrandedLanding';
@@ -28,7 +28,7 @@ const PortfolioPage = React.lazy(() => import('./pages/PortfolioPage'));
 const MotivationPage = React.lazy(() => import('./pages/MotivationPage'));
 const RevenueTrackingPage = React.lazy(() => import('./pages/RevenueTrackingPage'));
 const AdminPage = React.lazy(() => import('./pages/AdminPage'));
-const TemplatesPage = React.lazy(() => import('./pages/TemplatesPage'));
+// Templates page removed
 
 // Loading fallback component for Suspense
 const PageLoadingFallback: React.FC = () => (
@@ -41,7 +41,7 @@ function App() {
   const dispatch = useDispatch<AppDispatch>();
   const { isAuthenticated, isLoading, user } = useSelector((state: RootState) => state.auth);
   const { compactMode } = useTheme();
-  const [showExportDialog, setShowExportDialog] = useState(false);
+  // Removed export dialog state
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(false);
 
   useEffect(() => {
@@ -145,10 +145,7 @@ function App() {
                   path="/admin"
                   element={user?.role === 'ADMIN' ? <AdminPage /> : <Navigate to="/dashboard" />}
                 />
-                <Route
-                  path="/templates"
-                  element={<TemplatesPage />}
-                />
+                {/* Templates route removed */}
 
                 {/* Default redirect */}
                 <Route
@@ -195,10 +192,6 @@ function App() {
           <>
             <SimpleTour isFirstTime={isFirstTimeUser} />
             <KeyboardShortcuts />
-            <ExportDialog
-              open={showExportDialog}
-              onClose={() => setShowExportDialog(false)}
-            />
           </>
         )}
 

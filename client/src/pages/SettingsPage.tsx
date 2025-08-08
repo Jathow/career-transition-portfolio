@@ -34,7 +34,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTutorial } from '../contexts/TutorialContext';
-import ExportDialog from '../components/common/ExportDialog';
+// Removed export dialog
 import KeyboardShortcuts from '../components/common/KeyboardShortcuts';
 import { preferencesAPI } from '../services/api';
 import { autoSaveManager } from '../utils/autoSave';
@@ -44,7 +44,7 @@ const SettingsPage: React.FC = () => {
   const { setDarkMode, setCompactMode } = useTheme();
   const { setShowTutorials } = useTutorial();
   
-  const [showExportDialog, setShowExportDialog] = useState(false);
+  // Removed export dialog state
   const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
@@ -179,9 +179,7 @@ const SettingsPage: React.FC = () => {
     setShowSaveSuccess(true);
   };
 
-  const handleExportData = () => {
-    setShowExportDialog(true);
-  };
+  // Removed export handler
 
   const handleShowKeyboardShortcuts = () => {
     setShowKeyboardShortcuts(true);
@@ -328,14 +326,7 @@ const SettingsPage: React.FC = () => {
                   Quick Actions
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <Button
-                    variant="outlined"
-                    startIcon={<DownloadIcon />}
-                    onClick={handleExportData}
-                    fullWidth
-                  >
-                    Export Data
-                  </Button>
+                  {/* Export removed */}
                   <Button
                     variant="outlined"
                     startIcon={<KeyboardIcon />}
@@ -426,10 +417,7 @@ const SettingsPage: React.FC = () => {
       </Box>
 
       {/* Dialogs */}
-      <ExportDialog
-        open={showExportDialog}
-        onClose={() => setShowExportDialog(false)}
-      />
+      {/* Export dialog removed */}
 
       <Dialog
         open={showKeyboardShortcuts}

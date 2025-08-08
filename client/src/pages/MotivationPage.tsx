@@ -6,11 +6,11 @@ const MotivationPage: React.FC = () => {
   return (
     <Container maxWidth="xl">
       <Box py={3}>
-        <Typography variant="h3" gutterBottom>
+        <Typography variant="h6" gutterBottom>
           Motivation & Progress
         </Typography>
-        <Typography variant="body1" color="textSecondary" paragraph>
-          Track your daily activities, set goals, and stay motivated throughout your career transition journey.
+        <Typography variant="body2" color="textSecondary" paragraph>
+          Track daily activities, set goals, and stay motivated throughout your journey.
         </Typography>
         <div data-tour="progress-tracking">
           <MotivationDashboard />

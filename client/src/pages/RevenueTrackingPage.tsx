@@ -53,11 +53,11 @@ const RevenueTrackingPage: React.FC = () => {
   return (
     <Container maxWidth="xl">
       <Box sx={{ width: '100%' }}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h6" gutterBottom>
           Revenue Tracking & Market Analysis
         </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-          Track your project revenue, analyze market opportunities, and plan monetization strategies.
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Track revenue, analyze markets, and plan monetization strategies
         </Typography>
 
         <Paper elevation={2} data-tour="revenue-tracking">

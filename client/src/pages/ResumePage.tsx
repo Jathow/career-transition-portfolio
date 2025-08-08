@@ -52,12 +52,12 @@ const ResumePage: React.FC = () => {
 
   return (
     <Container maxWidth="xl" sx={{ py: 3 }}>
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="h3" component="h1" gutterBottom>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h6" component="h1">
           Resume Management
         </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Create, edit, and manage your professional resumes for different job applications
+        <Typography variant="body2" color="text.secondary">
+          Create, edit, and manage professional resumes for different applications
         </Typography>
       </Box>
 

@@ -20,6 +20,9 @@ model User {
   role              String   @default("USER")
   targetJobTitle    String?
   jobSearchDeadline DateTime?
+  emailVerified     Boolean  @default(false)
+  verificationToken String?
+  verificationExpires DateTime?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 

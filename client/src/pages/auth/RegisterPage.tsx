@@ -86,7 +86,7 @@ const RegisterPage: React.FC = () => {
             border: '1px solid rgba(255, 255, 255, 0.12)'
           }}
         >
-          <Typography component="h1" variant="h4" align="center" gutterBottom>
+          <Typography component="h1" variant="h6" align="center" gutterBottom>
             Create Account
           </Typography>
           
@@ -195,6 +195,9 @@ const RegisterPage: React.FC = () => {
             >
               {isLoading ? <CircularProgress size={24} /> : 'Create Account'}
             </Button>
+            <Typography variant="caption" color="text.secondary" display="block" textAlign="center" sx={{ mt: 1 }}>
+              You will receive a verification email. Unverified accounts have limited access.
+            </Typography>
             
             <Box textAlign="center">
               <Typography variant="body2">

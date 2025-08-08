@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 interface JwtPayload extends BaseJwtPayload {
   userId: string;
   email: string;
+  emailVerified?: boolean;
 }
 
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
@@ -42,6 +43,9 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
       path: req.path 
     });
     (req as any).user = decoded;
+    if (process.env.REQUIRE_VERIFIED_EMAIL === 'true' && !decoded.emailVerified) {
+      return next(createError('Please verify your email to continue.', 403, 'EMAIL_NOT_VERIFIED'));
+    }
     next();
   } catch (error) {
     logger.error('Token verification failed', { 

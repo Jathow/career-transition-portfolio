@@ -42,8 +42,11 @@ export const register = createAsyncThunk(
   }, { rejectWithValue }) => {
     try {
       const response = await authAPI.register(userData);
-      localStorage.setItem('token', response.data.data.token);
-      return response.data.data;
+      const data = response.data.data;
+      if (data?.token) {
+        localStorage.setItem('token', data.token);
+      }
+      return data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.error?.message || 'Registration failed');
     }
@@ -117,7 +120,7 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.token = action.payload.token || state.token;
         state.isAuthenticated = true;
         state.error = null;
       })

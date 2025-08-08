@@ -10,13 +10,13 @@ const prisma = new PrismaClient({
   log: ['query', 'info', 'warn', 'error'],
 });
 
-const generateToken = (userId: string, email: string): string => {
+const generateToken = (userId: string, email: string, emailVerified?: boolean): string => {
   const jwtSecret = process.env.JWT_SECRET;
   if (!jwtSecret) {
     throw new Error('JWT_SECRET is not defined');
   }
   
-  const payload = { userId, email };
+  const payload = { userId, email, emailVerified: !!emailVerified };
   const options: jwt.SignOptions = { expiresIn: '7d' };
   
   return jwt.sign(payload, jwtSecret, options);
@@ -59,6 +59,8 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     // Create user with database error handling
     let user;
     try {
+      const token = Math.random().toString(36).slice(2) + Date.now().toString(36);
+      const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
       user = await prisma.user.create({
         data: {
           email,
@@ -66,7 +68,10 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
           firstName,
           lastName,
           targetJobTitle,
-          jobSearchDeadline: jobSearchDeadline ? new Date(jobSearchDeadline) : null
+          jobSearchDeadline: jobSearchDeadline ? new Date(jobSearchDeadline) : null,
+          emailVerified: false,
+          verificationToken: token,
+          verificationExpires: expires
         },
         select: {
           id: true,
@@ -76,6 +81,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
           role: true,
           targetJobTitle: true,
           jobSearchDeadline: true,
+          emailVerified: true,
           createdAt: true
         }
       });
@@ -89,17 +95,14 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       return next(createError('Registration failed. Please try again.', 500, 'DATABASE_ERROR'));
     }
 
-    // Generate JWT token
-    const token = generateToken(user.id, user.email);
+    // Generate JWT token (unverified)
+    const token = generateToken(user.id, user.email, false);
 
     logger.info('User registered successfully', { userId: user.id, email: user.email });
 
     res.status(201).json({
       success: true,
-      data: {
-        user,
-        token
-      }
+      data: { user, token, message: 'Verification email sent. Please verify your email to unlock full access.' }
     });
   } catch (error) {
     next(error);
@@ -143,8 +146,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       return next(createError('Invalid email or password', 401, 'INVALID_CREDENTIALS'));
     }
 
-    // Generate JWT token
-    const token = generateToken(user.id, user.email);
+    // Generate JWT token with emailVerified claim
+    const token = generateToken(user.id, user.email, (user as any).emailVerified);
 
     // Return user data without password hash
     const { passwordHash, ...userWithoutPassword } = user;
@@ -158,6 +161,33 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         token
       }
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const verifyEmail = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { token } = req.query as { token?: string };
+    if (!token) {
+      return next(createError('Verification token is required', 400, 'VERIFICATION_TOKEN_REQUIRED'));
+    }
+    const user = await prisma.user.findFirst({ where: { verificationToken: token } });
+    if (!user) {
+      return next(createError('Invalid or expired verification token', 400, 'VERIFICATION_INVALID'));
+    }
+    if (user.verificationExpires && user.verificationExpires < new Date()) {
+      return next(createError('Verification token has expired', 400, 'VERIFICATION_EXPIRED'));
+    }
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        emailVerified: true,
+        verificationToken: null,
+        verificationExpires: null,
+      },
+    });
+    res.json({ success: true, data: { message: 'Email verified successfully.' } });
   } catch (error) {
     next(error);
   }

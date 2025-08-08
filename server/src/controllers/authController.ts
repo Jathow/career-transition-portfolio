@@ -30,7 +30,28 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       return next(createError(error.details[0].message, 400, 'VALIDATION_ERROR'));
     }
 
-    const { email, password, firstName, lastName, targetJobTitle, jobSearchDeadline } = value;
+    const { email, password, firstName, lastName, targetJobTitle, jobSearchDeadline, captchaAnswer } = value;
+
+    // Optional CAPTCHA (dev fallback)
+    if (process.env.CAPTCHA_ENABLED === 'true') {
+      const provider = process.env.CAPTCHA_PROVIDER || 'dev';
+      if (provider === 'dev') {
+        if (captchaAnswer !== '5') {
+          return next(createError('CAPTCHA verification failed', 400, 'CAPTCHA_FAILED'));
+        }
+      }
+      // TODO: Add production providers (Turnstile/hCaptcha) token verification here
+    }
+
+    // Disposable email domain block (simple)
+    const disposableCsv = process.env.DISPOSABLE_DOMAINS || '';
+    if (disposableCsv) {
+      const domain = String(email).split('@')[1]?.toLowerCase();
+      const blocked = disposableCsv.split(',').map(d => d.trim().toLowerCase());
+      if (domain && blocked.includes(domain)) {
+        return next(createError('Email domain is not allowed. Please use a different email.', 400, 'EMAIL_DOMAIN_BLOCKED'));
+      }
+    }
 
     // Check if user already exists with database error handling
     let existingUser;
@@ -99,6 +120,11 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     const token = generateToken(user.id, user.email, false);
 
     logger.info('User registered successfully', { userId: user.id, email: user.email });
+
+    // Provider-ready: log verification link; replace with email provider send
+    const appBase = process.env.APP_BASE_URL || (req.protocol + '://' + req.get('host'));
+    const verifyUrl = `${appBase}/api/auth/verify-email?token=${(await prisma.user.findUnique({ where: { id: user.id }, select: { verificationToken: true } }))?.verificationToken}`;
+    logger.info('Verification link (dev): ' + verifyUrl);
 
     res.status(201).json({
       success: true,

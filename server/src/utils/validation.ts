@@ -52,7 +52,8 @@ export const registerSchema = Joi.object({
     .optional()
     .messages({
       'date.min': 'Job search deadline must be in the future'
-    })
+    }),
+  captchaAnswer: Joi.string().optional().allow('')
 });
 
 export const loginSchema = Joi.object({

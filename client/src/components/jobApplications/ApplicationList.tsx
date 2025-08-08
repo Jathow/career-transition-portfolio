@@ -193,6 +193,13 @@ const ApplicationList: React.FC = () => {
                 Cards
               </Button>
               <Button
+                variant="text"
+                size="small"
+                onClick={() => setShowFilters(true)}
+              >
+                Suggest follow-ups
+              </Button>
+              <Button
                 variant="outlined"
                 startIcon={<FilterIcon />}
                 onClick={() => setShowFilters(!showFilters)}

@@ -31,6 +31,7 @@ import { useAppSelector, useAppDispatch } from '../../store/store';
 import { 
   fetchApplicationsNeedingFollowUp,
   updateApplicationStatus,
+  updateApplication,
   JobApplication 
 } from '../../store/slices/jobApplicationSlice';
 
@@ -60,9 +61,12 @@ const FollowUpReminders: React.FC = () => {
   };
 
   const handleScheduleNewFollowUp = async (application: JobApplication) => {
-    // This would typically open a dialog to schedule a new follow-up date
-    // For now, we'll just mark it as followed up
-    await handleMarkAsFollowedUp(application);
+    // Suggest a follow-up date based on current status
+    const now = new Date();
+    const days = application.status === 'APPLIED' ? 7 : application.status === 'SCREENING' ? 5 : 3;
+    const suggested = new Date(now.getFullYear(), now.getMonth(), now.getDate() + days).toISOString();
+    await dispatch(updateApplication({ id: application.id, data: { followUpDate: suggested } }));
+    dispatch(fetchApplicationsNeedingFollowUp());
   };
 
   const getDaysOverdue = (followUpDate: string) => {

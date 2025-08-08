@@ -11,7 +11,7 @@ Phase 1 — High-impact, no external services
   - Enable compact mode by default; reduce paddings/margins in layout, cards, dialogs, and pages (Resumes, Dashboard)
   - Acceptance: Visual density improved; no layout regressions; lints/tests pass
 
-- [ ] Command Palette discoverability (announce + hints)
+- [x] Command Palette discoverability (announce + hints)
   - First-run snackbar/toast announcing “New: Command Palette (Ctrl+K)” with “Try it” CTA
   - Add subtle hint near top bar search (placeholder: “Search • Press Ctrl+K for commands”)
   - Add a small keyboard icon button with tooltip “Command Palette (Ctrl+K)”
@@ -26,11 +26,11 @@ Phase 1 — High-impact, no external services
   - Table view with sticky header, column toggles; inline edit for status, follow-up date, notes; toggle between table and cards
   - Acceptance: Edits persist; keyboard navigation works; empty state shows CTA
 
-- [ ] Applications: Smart paste (job URL autofill)
+- [x] Applications: Smart paste (job URL autofill)
   - Paste a job posting URL to prefill company, title, source; degrade gracefully if blocked
   - Acceptance: Works with common boards; no crashes on unknown pages; manual override possible
 
-- [ ] Follow-up automation suggestions
+- [x] Follow-up automation suggestions
   - Suggest follow-up dates based on status/last touch; 1‑click schedule + snooze
   - Acceptance: Suggestions appear for items lacking follow-up; actions persist changes
 

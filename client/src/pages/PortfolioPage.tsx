@@ -97,14 +97,21 @@ const PortfolioPage: React.FC = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Portfolio Management
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Create and manage your professional portfolio showcase
-        </Typography>
+    <Container maxWidth="lg" sx={{ py: 3 }}>
+      <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box>
+          <Typography variant="h6" component="h1">
+            Portfolio Management
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Create and manage your professional portfolio showcase
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Button variant="outlined" size="small" onClick={handleToggleVisibility} startIcon={portfolio?.isPublic ? <VisibilityOff /> : <Visibility /> }>
+            {portfolio?.isPublic ? 'Make Private' : 'Make Public'}
+          </Button>
+        </Box>
       </Box>
 
       {error && (
@@ -195,7 +202,7 @@ const PortfolioPage: React.FC = () => {
       </Card>
 
       {/* Navigation Tabs */}
-      <Box sx={{ mb: 3 }}>
+      <Box sx={{ mb: 2 }}>
         <Grid container spacing={1}>
           <Grid item>
             <Button

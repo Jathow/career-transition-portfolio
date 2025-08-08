@@ -71,13 +71,12 @@ const InterviewsPage: React.FC = () => {
 
   return (
     <Container maxWidth="xl">
-      <Box sx={{ py: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
+      <Box sx={{ pt: 3, pb: 2 }}>
+        <Typography variant="h6" component="h1">
           Interview Management
         </Typography>
-        
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-          Schedule interviews, track preparation, and analyze your performance to improve your job search success.
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Schedule interviews, track preparation, and analyze performance
         </Typography>
 
         <Paper sx={{ width: '100%' }} data-tour="interview-schedule">

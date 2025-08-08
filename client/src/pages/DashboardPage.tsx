@@ -135,13 +135,18 @@ const DashboardPage: React.FC = () => {
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Welcome back, {user?.firstName}!
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Track your career transition progress and manage your portfolio projects. Tip: Press Ctrl+K for the Command Palette.
-        </Typography>
+      <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box>
+          <Typography variant="h6" component="h1">
+            Welcome back, {user?.firstName}!
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Track your career transition progress and manage your portfolio projects. Tip: Press Ctrl+K for the Command Palette.
+          </Typography>
+        </Box>
+        <Button variant="contained" startIcon={<AddIcon />} onClick={handleCreateProject}>
+          New Project
+        </Button>
       </Box>
 
       {error && (

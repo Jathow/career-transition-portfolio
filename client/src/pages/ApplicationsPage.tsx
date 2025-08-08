@@ -70,9 +70,14 @@ const ApplicationsPage: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Job Applications
-      </Typography>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h6" component="h1">
+          Job Applications
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Track applications, view analytics, and manage follow-ups
+        </Typography>
+      </Box>
 
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
@@ -90,8 +95,8 @@ const ApplicationsPage: React.FC = () => {
               borderBottom: 1, 
               borderColor: 'divider',
               '& .MuiTab-root': {
-                minHeight: 64,
-                height: 64,
+                minHeight: 48,
+                height: 48,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',

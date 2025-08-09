@@ -16,7 +16,6 @@ RUN cd server && npm ci --include=dev --prefer-offline --no-audit
 
 # Build stage
 FROM base AS builder
-COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/client/node_modules ./client/node_modules
 COPY --from=deps /app/server/node_modules ./server/node_modules
 

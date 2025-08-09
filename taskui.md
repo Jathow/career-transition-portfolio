@@ -78,8 +78,13 @@ Status: baseline applied
 - Refined empty states across Applications, Dashboard, Portfolio, Interviews, Resumes, Revenue, Market Analysis, Timeline, and Notifications
 - Updated action labels (e.g., Create project, Add metric/strategy/research, Create resume)
 
-10) Performance touches
+10) Performance touches ✅
 - Continue route/code prefetch; avoid layout shift; lazy-load heavy visuals
+Status: baseline applied
+- Route prefetch on primary nav hover for faster transitions
+- LazyImage uses content-visibility and intrinsic size to reduce layout shift
+- Accessible loading states with consistent min-height to avoid jank
+- Pages are code-split with Suspense fallbacks; prefetch hints enabled
 
 Execution approach
 - Create “ui-polish” branches per component area (typography, spacing, cards, inputs, dialogs)

@@ -304,7 +304,7 @@ const PortfolioPage: React.FC = () => {
                 {portfolio ? (
                   `Last updated: ${new Date(portfolio.updatedAt).toLocaleString()}`
                 ) : (
-                  'No portfolio created yet. Create your first portfolio to get started.'
+                  'No portfolio yet. Create one to share your work.'
                 )}
               </Typography>
             </CardContent>

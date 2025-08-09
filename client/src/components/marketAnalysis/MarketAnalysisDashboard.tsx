@@ -259,7 +259,7 @@ const MarketAnalysisDashboard: React.FC<MarketAnalysisDashboardProps> = ({ proje
                 startIcon={<Add />}
                 onClick={() => setShowAddForm(true)}
               >
-                Create First Research
+                Add research
               </Button>
               <Button
                 variant="outlined"

@@ -133,14 +133,14 @@ const ResumeList: React.FC<ResumeListProps> = ({ onResumeSelect }) => {
               No resumes yet
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph>
-              Create your first resume to get started with your job search
+              Create a resume tailored to your next role.
             </Typography>
             <Button
               variant="contained"
               startIcon={<AddIcon />}
               onClick={handleCreateResume}
             >
-              Create Your First Resume
+              Create resume
             </Button>
           </Box>
         ) : (

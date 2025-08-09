@@ -302,7 +302,7 @@ const RevenueTrackingDashboard: React.FC<RevenueTrackingDashboardProps> = ({ pro
                 startIcon={<Add />}
                 onClick={() => setShowMetricForm(true)}
               >
-                Add First Metric
+                Add metric
               </Button>
               <Button
                 variant="outlined"
@@ -385,7 +385,7 @@ const RevenueTrackingDashboard: React.FC<RevenueTrackingDashboardProps> = ({ pro
                 startIcon={<Add />}
                 onClick={() => setShowStrategyForm(true)}
               >
-                Create First Strategy
+                Add strategy
               </Button>
               <Button
                 variant="outlined"

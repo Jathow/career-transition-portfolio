@@ -201,7 +201,7 @@ const InterviewList: React.FC<InterviewListProps> = ({ applicationId, onIntervie
         <Card>
           <CardContent>
             <Typography variant="body1" color="text.secondary" textAlign="center">
-              No interviews found. Schedule your first interview to get started.
+              No interviews yet. Schedule one to prepare with confidence.
             </Typography>
           </CardContent>
         </Card>

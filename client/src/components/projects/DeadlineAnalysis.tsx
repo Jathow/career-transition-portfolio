@@ -174,7 +174,7 @@ const DeadlineAnalysis: React.FC = () => {
 
         {deadlines.length === 0 ? (
           <Typography color="textSecondary" align="center">
-            No projects with deadlines found
+            No deadlines yet
           </Typography>
         ) : (
           <List>

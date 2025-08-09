@@ -423,9 +423,9 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
           <Typography variant="h6" sx={{ fontWeight: 600 }}>
             Notifications
           </Typography>
-          <Typography variant="body2" sx={{ opacity: 0.9, mt: 0.5 }}>
-            {notifications.length === 0 ? 'All caught up!' : `${notifications.length} new notifications`}
-          </Typography>
+              <Typography variant="body2" sx={{ opacity: 0.9, mt: 0.5 }}>
+                {notifications.length === 0 ? "You're all caught up" : `${notifications.length} new notifications`}
+              </Typography>
         </Box>
         
         {/* Content */}
@@ -464,7 +464,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
             >
               <NotificationsIcon sx={{ fontSize: 48, opacity: 0.3, mb: 2 }} />
               <Typography variant="body1" sx={{ fontWeight: 500, mb: 1 }}>
-                No notifications yet
+                You're all caught up
               </Typography>
               <Typography variant="body2" sx={{ opacity: 0.7 }}>
                 We'll notify you when something important happens

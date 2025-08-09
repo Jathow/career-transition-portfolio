@@ -259,8 +259,8 @@ const DashboardPage: React.FC = () => {
             ) : projects.length === 0 ? (
               <EmptyState
                 title="No projects yet"
-                description="Start building your portfolio by creating your first project"
-                actionLabel="Create Your First Project"
+                description="Start building your portfolio."
+                actionLabel="Create project"
                 onAction={() => { handleCreateProject(); dispatch(showToast({ message: 'Create your first project', severity: 'info', durationMs: 2000 })); }}
               />
             ) : (

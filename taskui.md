@@ -71,9 +71,12 @@ Status: baseline applied
 - Added ARIA labels/ids to drawers, menus, IconButtons; combobox semantics for global search
 - Responsive paddings for main content in `ModernLayout`
 
-9) Content tone (brand)
+9) Content tone (brand) ✅
 - Use concise, confident copy in titles/tooltips/empty states
 - Replace generic labels with purposeful language
+Status: baseline applied
+- Refined empty states across Applications, Dashboard, Portfolio, Interviews, Resumes, Revenue, Market Analysis, Timeline, and Notifications
+- Updated action labels (e.g., Create project, Add metric/strategy/research, Create resume)
 
 10) Performance touches
 - Continue route/code prefetch; avoid layout shift; lazy-load heavy visuals

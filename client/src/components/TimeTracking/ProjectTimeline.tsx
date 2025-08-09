@@ -46,7 +46,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({ userId }) => {
       const token = localStorage.getItem('token');
       
       if (!token) {
-        setError('No authentication token found');
+        setError('Sign in to view your timeline');
         return;
       }
 
@@ -89,7 +89,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({ userId }) => {
   if (!timelineData || timelineData.labels.length === 0) {
     return (
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
-        <p className="text-gray-600">No projects found. Create your first project to see the timeline.</p>
+        <p className="text-gray-600">No projects yet. Create a project to see your timeline.</p>
       </div>
     );
   }

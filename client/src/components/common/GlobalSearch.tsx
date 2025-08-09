@@ -339,7 +339,7 @@ const GlobalSearch: React.FC = () => {
               ) : searchTerm && !loading ? (
                 <Box sx={{ p: 2, textAlign: 'center' }}>
                   <Typography variant="body2" color="text.secondary">
-                    No results found for "{searchTerm}"
+                    No results for "{searchTerm}"
                   </Typography>
                 </Box>
               ) : null}

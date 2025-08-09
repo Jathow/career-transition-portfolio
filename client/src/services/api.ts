@@ -234,6 +234,11 @@ export const analyticsAPI = {
   ingest: (eventName: string, path: string) => api.post('/analytics/ingest', { eventName, path }),
 };
 
+// Feature flags
+export const flagsAPI = {
+  getFlags: () => api.get('/flags'),
+};
+
 // Templates API endpoints
 // Template import/export routes removed
 

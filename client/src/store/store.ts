@@ -7,6 +7,7 @@ import jobApplicationReducer from './slices/jobApplicationSlice';
 import interviewReducer from './slices/interviewSlice';
 import portfolioReducer from './slices/portfolioSlice';
 import motivationReducer from './slices/motivationSlice';
+import flagsReducer from './slices/flagsSlice';
 import uiReducer, { showToast } from './slices/uiSlice';
 import { isAnyOf } from '@reduxjs/toolkit';
 import { createProject, deleteProject, updateProject } from './slices/projectSlice';
@@ -22,6 +23,7 @@ export const store = configureStore({
     interviews: interviewReducer,
     portfolio: portfolioReducer,
     motivation: motivationReducer,
+    flags: flagsReducer,
     ui: uiReducer,
   },
   middleware: (getDefaultMiddleware) =>

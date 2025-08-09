@@ -6,6 +6,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Box, Container } from '@mui/material';
 import { RootState, AppDispatch } from './store/store';
 import { checkAuthStatus } from './store/slices/authSlice';
+import { fetchFlags } from './store/slices/flagsSlice';
 import { useTheme } from './contexts/ThemeContext';
 import ModernLayout from './components/layout/ModernLayout';
 import SimpleTour from './components/common/SimpleTour';
@@ -44,12 +45,14 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const { isAuthenticated, isLoading, user } = useSelector((state: RootState) => state.auth);
+  const flags = useSelector((state: RootState) => state.flags);
   const { compactMode } = useTheme();
   // Removed export dialog state
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(false);
 
   useEffect(() => {
     dispatch(checkAuthStatus());
+    dispatch(fetchFlags());
 
     // Debug: Log app version to verify deployment
     console.log('🚀 App loaded - Build timestamp:', new Date().toISOString());
@@ -199,13 +202,13 @@ function App() {
         )}
 
         {/* UX Enhancement Components */}
-        {isAuthenticated && (
+        {isAuthenticated && flags.loaded && (
           <>
             <SimpleTour isFirstTime={isFirstTimeUser} />
             <KeyboardShortcuts />
             <CommandPalette />
             <ToastProvider />
-            <FeedbackWidget />
+            {flags.feedbackWidget && <FeedbackWidget />}
           </>
         )}
 

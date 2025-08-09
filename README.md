@@ -210,6 +210,8 @@ career-transition-portfolio/
 
 ## 🔐 Environment Variables
 
+See also `docs/CONFIG_FLAGS.md` for runtime feature toggles (analytics, feedback, payments toggle, quotas).
+
 ### Backend (.env)
 ```bash
 DATABASE_URL="postgresql://user:password@localhost:5432/career_portfolio_dev"

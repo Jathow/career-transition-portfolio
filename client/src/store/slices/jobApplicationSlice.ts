@@ -196,7 +196,7 @@ const jobApplicationSlice = createSlice({
     },
     clearCurrentApplication: (state) => {
       state.currentApplication = null;
-    }
+    },
     // Optimistic reducers
     optimisticUpdateStatus: (state, action: PayloadAction<{ id: string; status: string; previous?: JobApplication }>) => {
       const index = state.applications.findIndex(a => a.id === action.payload.id);

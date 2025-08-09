@@ -1,4 +1,5 @@
 import winston from 'winston';
+import { PrismaClient } from '@prisma/client';
 
 const logFormat = winston.format.combine(
   winston.format.timestamp(),
@@ -29,4 +30,28 @@ if (process.env.NODE_ENV !== 'production') {
       winston.format.simple()
     )
   }));
+}
+
+const prisma = new PrismaClient();
+
+export async function recordAuditEvent(params: {
+  userId?: string;
+  action: string;
+  entityType: string;
+  entityId?: string;
+  metadata?: any;
+}) {
+  try {
+    await prisma.auditEvent.create({
+      data: {
+        userId: params.userId || null,
+        action: params.action,
+        entityType: params.entityType,
+        entityId: params.entityId || null,
+        metadata: params.metadata ? JSON.stringify(params.metadata) : null,
+      }
+    });
+  } catch (e) {
+    logger.warn('Failed to record audit event');
+  }
 }

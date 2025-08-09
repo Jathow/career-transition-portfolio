@@ -251,6 +251,21 @@ model Notification {
   @@map("notifications")
 }
 
+model AuditEvent {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  entityType String
+  entityId   String?
+  metadata   String?
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@map("audit_events")
+}
+
 model Feedback {
   id        String   @id @default(cuid())
   userId    String?

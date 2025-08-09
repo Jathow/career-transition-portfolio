@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { logger } from '../utils/logger';
+import { logger, recordAuditEvent } from '../utils/logger';
 
 const prisma = new PrismaClient();
 
@@ -151,6 +151,7 @@ export const activateUser = async (req: Request, res: Response) => {
     // In a real implementation, you'd update an isActive field
     // For now, we'll just return success
     logger.info(`User ${id} activated`);
+    recordAuditEvent({ userId: (req as any).user?.userId, action: 'USER_ACTIVATE', entityType: 'User', entityId: id });
 
     res.json({
       success: true,
@@ -174,6 +175,7 @@ export const deactivateUser = async (req: Request, res: Response) => {
     // In a real implementation, you'd update an isActive field
     // For now, we'll just return success
     logger.info(`User ${id} deactivated`);
+    recordAuditEvent({ userId: (req as any).user?.userId, action: 'USER_DEACTIVATE', entityType: 'User', entityId: id });
 
     res.json({
       success: true,
@@ -197,6 +199,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     await prisma.user.delete({
       where: { id },
     });
+    recordAuditEvent({ userId: (req as any).user?.userId, action: 'USER_DELETE', entityType: 'User', entityId: id });
 
     res.json({
       success: true,

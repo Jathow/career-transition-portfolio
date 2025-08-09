@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   Container,
   Typography,
@@ -27,7 +27,7 @@ import {
   PlayArrow as PlayArrowIcon,
   Pause as PauseIcon,
 } from '@mui/icons-material';
-import { RootState, AppDispatch } from '../store/store';
+import { RootState } from '../store/store';
 import { fetchProjects, deleteProject, completeProject, updateProjectStatus } from '../store/slices/projectSlice';
 import { ProjectForm } from '../components/projects/ProjectForm';
 import LoadingSpinner from '../components/common/LoadingSpinner';
@@ -36,10 +36,10 @@ import { useAppDispatch } from '../store/store';
 import { showToast } from '../store/slices/uiSlice';
 
 const DashboardPage: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
   const { projects, loading, error } = useSelector((state: RootState) => state.projects);
-  const dispatch = useAppDispatch();
+  
   
   const [projectFormOpen, setProjectFormOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<any>(null);

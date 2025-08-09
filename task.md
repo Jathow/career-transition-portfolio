@@ -57,7 +57,7 @@ Phase 1 — High-impact, no external services
   - Focus outlines, ARIA labels on actions, color contrast checks
   - Acceptance: No serious violations via axe; keyboard-only flows usable
 
-- [ ] Performance pass
+- [x] Performance pass
   - Prefetch next routes, ensure code splitting on heavy pages, reduce layout shifts
   - Acceptance: Lighthouse Performance ≥ 90 on local prod build; LCP < 2.5s
 

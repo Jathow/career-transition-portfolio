@@ -17,19 +17,19 @@ import PerformanceMonitor from './components/common/PerformanceMonitor';
 import BrandedLanding from './components/common/BrandedLanding';
 import ToastProvider from './components/common/ToastProvider';
 
-// Lazy load pages for code splitting
-const LoginPage = React.lazy(() => import('./pages/auth/LoginPage'));
-const RegisterPage = React.lazy(() => import('./pages/auth/RegisterPage'));
-const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
-const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
-const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
-const ResumePage = React.lazy(() => import('./pages/ResumePage'));
-const ApplicationsPage = React.lazy(() => import('./pages/ModernApplicationsPage'));
-const InterviewsPage = React.lazy(() => import('./pages/InterviewsPage'));
-const PortfolioPage = React.lazy(() => import('./pages/PortfolioPage'));
-const MotivationPage = React.lazy(() => import('./pages/MotivationPage'));
-const RevenueTrackingPage = React.lazy(() => import('./pages/RevenueTrackingPage'));
-const AdminPage = React.lazy(() => import('./pages/AdminPage'));
+// Lazy load pages for code splitting (add webpack prefetch hints for common routes)
+const LoginPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/auth/LoginPage'));
+const RegisterPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/auth/RegisterPage'));
+const DashboardPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/DashboardPage'));
+const ProfilePage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/ProfilePage'));
+const SettingsPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/SettingsPage'));
+const ResumePage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/ResumePage'));
+const ApplicationsPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/ModernApplicationsPage'));
+const InterviewsPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/InterviewsPage'));
+const PortfolioPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/PortfolioPage'));
+const MotivationPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/MotivationPage'));
+const RevenueTrackingPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/RevenueTrackingPage'));
+const AdminPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/AdminPage'));
 // Templates page removed
 
 // Loading fallback component for Suspense
@@ -200,7 +200,7 @@ function App() {
         )}
 
         {/* Performance monitoring (development only) */}
-        <PerformanceMonitor />
+        {process.env.NODE_ENV !== 'production' && <PerformanceMonitor />}
       </Box>
     </LocalizationProvider>
   );

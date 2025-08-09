@@ -10,8 +10,7 @@ COPY client/package*.json ./client/
 COPY server/package*.json ./server/
 COPY server/prisma ./server/prisma/
 
-# Install all dependencies
-RUN npm ci --include=dev --prefer-offline --no-audit
+# Install dependencies for client and server only (avoid root dev deps to reduce size/memory)
 RUN cd client && npm ci --include=dev --prefer-offline --no-audit
 RUN cd server && npm ci --include=dev --prefer-offline --no-audit
 
@@ -79,8 +78,7 @@ COPY package*.json ./
 COPY server/package*.json ./server/
 COPY server/prisma ./server/prisma/
 
-# Install only production dependencies
-RUN npm ci --omit=dev --prefer-offline --no-audit
+# Install only production dependencies for server
 RUN cd server && npm ci --omit=dev --prefer-offline --no-audit
 
 # Copy built applications

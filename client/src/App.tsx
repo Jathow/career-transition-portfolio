@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Suspense } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -41,6 +41,7 @@ const PageLoadingFallback: React.FC = () => (
 );
 
 function App() {
+  const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const { isAuthenticated, isLoading, user } = useSelector((state: RootState) => state.auth);
   const { compactMode } = useTheme();
@@ -53,6 +54,13 @@ function App() {
     // Debug: Log app version to verify deployment
     console.log('🚀 App loaded - Build timestamp:', new Date().toISOString());
   }, [dispatch]);
+
+  // Privacy-friendly page_view analytics (config-gated on server)
+  useEffect(() => {
+    import('./services/api').then(({ analyticsAPI }) => {
+      analyticsAPI.ingest('page_view', window.location.pathname).catch(() => {});
+    });
+  }, [location.pathname]);
 
   useEffect(() => {
     // Check if this is a first-time user

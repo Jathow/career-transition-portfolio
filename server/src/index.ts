@@ -20,6 +20,7 @@ import marketAnalysisRoutes from './routes/marketAnalysis';
 import revenueTrackingRoutes from './routes/revenueTracking';
 import adminRoutes from './routes/admin';
 import preferencesRoutes from './routes/preferences';
+import analyticsRoutes from './routes/analytics';
 import feedbackRoutes from './routes/feedback';
 // Templates routes removed
 
@@ -108,6 +109,7 @@ app.use('/api/market-analysis', marketAnalysisRoutes);
 app.use('/api/revenue-tracking', revenueTrackingRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/preferences', preferencesRoutes);
+app.use('/api/analytics', analyticsRoutes);
 app.use('/api/feedback', feedbackRoutes);
 // Template import/export endpoints removed
 

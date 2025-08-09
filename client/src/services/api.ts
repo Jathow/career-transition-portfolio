@@ -229,6 +229,11 @@ export const preferencesAPI = {
   updatePreferences: (preferences: any) => api.put('/preferences', preferences),
 };
 
+// Analytics (privacy-friendly)
+export const analyticsAPI = {
+  ingest: (eventName: string, path: string) => api.post('/analytics/ingest', { eventName, path }),
+};
+
 // Templates API endpoints
 // Template import/export routes removed
 

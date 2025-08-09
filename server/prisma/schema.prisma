@@ -324,6 +324,18 @@ model PortfolioAnalytics {
   @@map("portfolio_analytics")
 }
 
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  day       DateTime
+  path      String
+  eventName String
+  count     Int      @default(0)
+  lastSeenAt DateTime @default(now())
+
+  @@unique([day, path, eventName], name: "day_path_eventName")
+  @@map("analytics_events")
+}
+
 // New models for revenue tracking and market analysis
 
 model MarketResearch {

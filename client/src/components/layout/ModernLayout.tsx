@@ -288,13 +288,19 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
 
           {/* Right: Search, notifications, profile */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <TextField size="small" placeholder="Search • Press Ctrl+K for commands" sx={{ width: { xs: 140, sm: 260 } }}
+            <TextField size="small" placeholder="Search • Press Ctrl+K for commands" aria-label="Global search" sx={{ width: { xs: 140, sm: 260 } }}
               InputProps={{ startAdornment: (
                 <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment>
               ) }}
             />
             <Tooltip title="Command Palette (Ctrl+K)">
-              <IconButton onClick={() => openCommandPalette()} aria-label="Open Command Palette">
+              <IconButton onClick={() => openCommandPalette()} aria-label="Open Command Palette" onMouseEnter={() => {
+                // Prefetch common routes on hover to improve perceived performance
+                import('../../pages/ApplicationsPage');
+                import('../../pages/InterviewsPage');
+                import('../../pages/ResumePage');
+                import('../../pages/DashboardPage');
+              }}>
                 <KeyboardIcon />
               </IconButton>
             </Tooltip>

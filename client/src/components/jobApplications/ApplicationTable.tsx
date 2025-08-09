@@ -108,6 +108,8 @@ const ApplicationTable: React.FC<ApplicationTableProps> = ({ applications, onVie
                     size="small"
                     value={app.status}
                     onChange={(e) => handleStatusChange(app, e.target.value as string)}
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Status' }}
                   >
                     {STATUS_OPTIONS.map((s) => (
                       <MenuItem key={s} value={s}>{s}</MenuItem>
@@ -136,6 +138,7 @@ const ApplicationTable: React.FC<ApplicationTableProps> = ({ applications, onVie
                     value={notesDraft[app.id] ?? (app.notes || '')}
                     onChange={(e) => setNotesDraft((p) => ({ ...p, [app.id]: e.target.value }))}
                     onBlur={() => handleNotesBlur(app)}
+                    inputProps={{ 'aria-label': 'Notes' }}
                     fullWidth
                   />
                 </TableCell>
@@ -147,12 +150,12 @@ const ApplicationTable: React.FC<ApplicationTableProps> = ({ applications, onVie
                 <TableCell align="right">
                   <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'flex-end' }}>
                     <Tooltip title="View details">
-                      <IconButton size="small" onClick={() => onView(app)}>
+                      <IconButton size="small" onClick={() => onView(app)} aria-label="View details">
                         <ViewIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Edit">
-                      <IconButton size="small" onClick={() => onEdit(app)}>
+                      <IconButton size="small" onClick={() => onEdit(app)} aria-label="Edit application">
                         <EditIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>

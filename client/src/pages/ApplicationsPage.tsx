@@ -90,7 +90,7 @@ const ApplicationsPage: React.FC = () => {
           <Tabs
             value={tabValue}
             onChange={handleTabChange}
-            aria-label="applications tabs"
+            aria-label="Applications tabs"
             sx={{ 
               borderBottom: 1, 
               borderColor: 'divider',

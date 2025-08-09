@@ -53,7 +53,7 @@ Phase 1 — High-impact, no external services
   - Non-blocking confirmations for CRUD; optimistic UI for snappy feel with rollback on error
   - Acceptance: Implemented across Projects, Applications, Resumes flows
 
-- [ ] Accessibility pass (A11y)
+- [x] Accessibility pass (A11y)
   - Focus outlines, ARIA labels on actions, color contrast checks
   - Acceptance: No serious violations via axe; keyboard-only flows usable
 

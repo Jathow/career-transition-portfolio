@@ -283,9 +283,9 @@ const ApplicationList: React.FC = () => {
         </Box>
       ) : applications.length === 0 ? (
         <EmptyState
-          title="No applications found"
-          description={searchTerm || Object.keys(filters).length > 0 ? 'Try adjusting your search or filters' : 'Start by creating your first job application. Tip: Press Ctrl+K and type “New Job Application”.'}
-          actionLabel="New Application"
+          title="No applications yet"
+          description={searchTerm || Object.keys(filters).length > 0 ? 'No matches. Tweak your search or filters.' : 'Track your job hunt in one place. Press Ctrl+K and type “New application”.'}
+          actionLabel="Add application"
           onAction={() => { setShowForm(true); dispatch(showToast({ message: 'Create a new application', severity: 'info', durationMs: 2000 })); }}
           showIllustration={false}
         />

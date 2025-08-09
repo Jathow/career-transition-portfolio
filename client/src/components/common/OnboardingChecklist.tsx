@@ -23,8 +23,8 @@ const OnboardingChecklist: React.FC<OnboardingChecklistProps> = ({ status, onCre
   const [dismissed, setDismissed] = useState<boolean>(() => localStorage.getItem(STORAGE_KEY) === 'true');
 
   const items = useMemo(() => ([
-    { key: 'project', label: 'Create your first project', done: status.hasProject, action: onCreateProject },
-    { key: 'application', label: 'Add your first job application', done: status.hasApplication, action: onCreateApplication },
+    { key: 'project', label: 'Add your first project', done: status.hasProject, action: onCreateProject },
+    { key: 'application', label: 'Add your first application', done: status.hasApplication, action: onCreateApplication },
     { key: 'resume', label: 'Create a resume version', done: status.hasResume, action: onCreateResume },
     { key: 'goal', label: 'Set a motivation goal (optional)', done: !!status.hasGoal, action: onCreateGoal },
   ]), [status, onCreateProject, onCreateApplication, onCreateResume, onCreateGoal]);
@@ -45,7 +45,7 @@ const OnboardingChecklist: React.FC<OnboardingChecklistProps> = ({ status, onCre
         <Box display="flex" alignItems="flex-start" justifyContent="space-between" gap={2}>
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-              Get started checklist
+              Get started
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               Complete these quick steps to hit your first “aha.” Remaining: {remaining}
@@ -60,7 +60,7 @@ const OnboardingChecklist: React.FC<OnboardingChecklistProps> = ({ status, onCre
                   </Typography>
                   {!item.done && item.action && (
                     <Button size="small" variant="outlined" onClick={item.action}>
-                      Do it
+                      Start
                     </Button>
                   )}
                 </Box>

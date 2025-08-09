@@ -160,10 +160,10 @@ const NotificationCenter: React.FC = () => {
 
         <DialogContent>
           {loading ? (
-            <Typography>Loading notifications...</Typography>
+            <Typography>Checking for updates…</Typography>
           ) : notifications.length === 0 ? (
             <Typography color="textSecondary" align="center">
-              No notifications
+              You're all caught up
             </Typography>
           ) : (
             <>

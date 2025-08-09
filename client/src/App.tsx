@@ -3,7 +3,7 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Fade } from '@mui/material';
 import { RootState, AppDispatch } from './store/store';
 import { checkAuthStatus } from './store/slices/authSlice';
 import { fetchFlags } from './store/slices/flagsSlice';
@@ -118,7 +118,9 @@ function App() {
         {isAuthenticated ? (
           <ModernLayout>
             <Suspense fallback={<PageLoadingFallback />}>
-              <Routes>
+              <Fade in key={location.pathname} timeout={200}>
+                <Box>
+                  <Routes>
                 {/* Protected routes */}
                 <Route
                   path="/dashboard"
@@ -177,7 +179,9 @@ function App() {
                   path="*"
                   element={<Navigate to="/dashboard" />}
                 />
-              </Routes>
+                  </Routes>
+                </Box>
+              </Fade>
             </Suspense>
           </ModernLayout>
         ) : (

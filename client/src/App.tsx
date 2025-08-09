@@ -193,6 +193,10 @@ function App() {
                 element={<RegisterPage />}
               />
               <Route
+                path="/pricing"
+                element={<PricingPage />}
+              />
+              <Route
                 path="/"
                 element={<BrandedLanding />}
               />

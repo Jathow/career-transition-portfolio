@@ -36,6 +36,7 @@ import {
   Code as PortfolioIcon,
   TrendingUp as MotivationIcon,
   MonetizationOn as RevenueIcon,
+  ShowChart as TrendingUpIcon,
   Person as PersonIcon,
   Logout as LogoutIcon,
   Settings as SettingsIcon,
@@ -79,6 +80,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
     { label: 'Revenue & Market', path: '/revenue-tracking', icon: <RevenueIcon /> },
     // Templates removed
     ...(user?.role === 'ADMIN' ? [{ label: 'Admin', path: '/admin', icon: <SettingsIcon /> }] : []),
+    { label: 'Pricing', path: '/pricing', icon: <TrendingUpIcon /> },
   ];
 
   const handleDrawerToggle = () => {

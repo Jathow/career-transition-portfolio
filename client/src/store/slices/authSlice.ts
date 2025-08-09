@@ -11,6 +11,8 @@ export interface User {
   jobSearchDeadline?: string;
   createdAt: string;
   updatedAt?: string;
+  emailVerified?: boolean;
+  plan?: 'FREE' | 'PRO';
 }
 
 interface AuthState {

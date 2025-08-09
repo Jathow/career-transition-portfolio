@@ -11,13 +11,13 @@ const prisma = new PrismaClient({
   log: ['query', 'info', 'warn', 'error'],
 });
 
-const generateToken = (userId: string, email: string, emailVerified?: boolean): string => {
+const generateToken = (userId: string, email: string, emailVerified?: boolean, plan?: string): string => {
   const jwtSecret = process.env.JWT_SECRET;
   if (!jwtSecret) {
     throw new Error('JWT_SECRET is not defined');
   }
   
-  const payload = { userId, email, emailVerified: !!emailVerified };
+  const payload = { userId, email, emailVerified: !!emailVerified, plan };
   const options: jwt.SignOptions = { expiresIn: '7d' };
   
   return jwt.sign(payload, jwtSecret, options);
@@ -93,7 +93,8 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
           jobSearchDeadline: jobSearchDeadline ? new Date(jobSearchDeadline) : null,
           emailVerified: false,
           verificationToken: token,
-          verificationExpires: expires
+          verificationExpires: expires,
+          plan: 'FREE'
         },
         select: {
           id: true,
@@ -104,6 +105,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
           targetJobTitle: true,
           jobSearchDeadline: true,
           emailVerified: true,
+          plan: true,
           createdAt: true
         }
       });
@@ -118,7 +120,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     }
 
     // Generate JWT token (unverified)
-    const token = generateToken(user.id, user.email, false);
+    const token = generateToken(user.id, user.email, false, (user as any).plan);
 
     logger.info('User registered successfully', { userId: user.id, email: user.email });
 
@@ -182,7 +184,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     }
 
     // Generate JWT token with emailVerified claim
-    const token = generateToken(user.id, user.email, (user as any).emailVerified);
+    const token = generateToken(user.id, user.email, (user as any).emailVerified, (user as any).plan);
 
     // Return user data without password hash
     const { passwordHash, ...userWithoutPassword } = user;

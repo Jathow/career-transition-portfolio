@@ -10,6 +10,7 @@ interface JwtPayload extends BaseJwtPayload {
   userId: string;
   email: string;
   emailVerified?: boolean;
+  plan?: string;
 }
 
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {

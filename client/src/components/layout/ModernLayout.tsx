@@ -9,6 +9,8 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Breadcrumbs,
+  Link as MLink,
   Typography,
   IconButton,
   Avatar,
@@ -160,7 +162,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
       </Box>
 
       {/* Navigation */}
-      <List sx={{ flex: 1, py: 2 }}>
+      <List sx={{ flex: 1, py: 2 }} aria-label="Primary navigation">
         {navigationItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
@@ -175,6 +177,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
                     backgroundColor: isActive ? 'primary.dark' : 'action.hover',
                   },
                 }}
+                aria-current={isActive ? 'page' : undefined}
               >
                 <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
                   {item.icon}
@@ -283,9 +286,24 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
                 <MenuIcon />
               </IconButton>
             )}
-            <Typography variant="subtitle1" sx={{ display: { xs: 'none', sm: 'block' } }}>
-              {navigationItems.find(item => item.path === location.pathname)?.label || 'Dashboard'}
-            </Typography>
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              <Breadcrumbs aria-label="breadcrumbs" separator="/" sx={{ mb: 0.25 }}>
+                <MLink
+                  underline="hover"
+                  color="inherit"
+                  onClick={() => handleNavigation('/dashboard')}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  Home
+                </MLink>
+                <Typography color="text.secondary" variant="caption">
+                  {navigationItems.find(item => item.path === location.pathname)?.label || 'Dashboard'}
+                </Typography>
+              </Breadcrumbs>
+              <Typography variant="subtitle1">
+                {navigationItems.find(item => item.path === location.pathname)?.label || 'Dashboard'}
+              </Typography>
+            </Box>
           </Box>
 
           {/* Right: Search, notifications, profile */}

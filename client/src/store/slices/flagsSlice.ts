@@ -7,6 +7,8 @@ export interface FlagsState {
   onboardingChecklist: boolean;
   interviewPrep: boolean;
   proEntitlements: boolean;
+  paymentsEnabled: boolean;
+  proTrialDays: number;
   loaded: boolean;
 }
 
@@ -16,6 +18,8 @@ const initialState: FlagsState = {
   onboardingChecklist: true,
   interviewPrep: true,
   proEntitlements: false,
+  paymentsEnabled: false,
+  proTrialDays: 0,
   loaded: false,
 };
 

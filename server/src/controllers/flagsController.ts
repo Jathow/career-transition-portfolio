@@ -8,6 +8,8 @@ export const getFlags = (req: Request, res: Response) => {
     interviewPrep: process.env.INTERVIEW_PREP_ENABLED !== 'false',
     // monetization-related
     proEntitlements: process.env.PRO_ENTITLEMENTS_ENABLED === 'true',
+    paymentsEnabled: process.env.PAYMENTS_ENABLED === 'true',
+    proTrialDays: Number(process.env.PRO_TRIAL_DAYS || 0),
   };
 
   res.json({ success: true, data: flags });

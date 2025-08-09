@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import jobApplicationController from '../controllers/jobApplicationController';
 import { authenticateToken } from '../middleware/auth';
+import { enforceDailyApplicationLimit } from '../middleware/limits';
 
 const router = Router();
 
@@ -8,7 +9,7 @@ const router = Router();
 router.use(authenticateToken);
 
 // Create a new job application
-router.post('/', jobApplicationController.createApplication);
+router.post('/', enforceDailyApplicationLimit, jobApplicationController.createApplication);
 
 // Get all applications for the authenticated user
 router.get('/', jobApplicationController.getUserApplications);

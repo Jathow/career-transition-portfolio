@@ -117,8 +117,17 @@ export const searchApplications = createAsyncThunk(
 export const createApplication = createAsyncThunk(
   'jobApplications/createApplication',
   async (applicationData: CreateJobApplicationData) => {
-    const response = await api.post('/applications', applicationData);
-    return response.data.data;
+    try {
+      const response = await api.post('/applications', applicationData);
+      return response.data.data;
+    } catch (err: any) {
+      const code = err?.response?.data?.error?.code;
+      const message = err?.response?.data?.error?.message || 'Failed to create application';
+      if (code === 'PLAN_QUOTA_EXCEEDED') {
+        throw new Error(message);
+      }
+      throw err;
+    }
   }
 );
 

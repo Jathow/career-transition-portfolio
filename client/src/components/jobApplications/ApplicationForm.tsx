@@ -28,6 +28,7 @@ import {
 } from '../../store/slices/jobApplicationSlice';
 import { fetchResumes } from '../../store/slices/resumeSlice';
 import { logger } from '../../utils/logger';
+import { showToast } from '../../store/slices/uiSlice';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 interface ApplicationFormProps {
@@ -208,6 +209,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
       onClose();
     } catch (error) {
       logger.error('Error saving application', error);
+      dispatch(showToast({ severity: 'warning', message: (error as any)?.message || 'Could not save. Check your plan limits.' }));
     }
   };
 

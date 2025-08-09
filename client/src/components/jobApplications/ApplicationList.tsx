@@ -287,6 +287,7 @@ const ApplicationList: React.FC = () => {
           description={searchTerm || Object.keys(filters).length > 0 ? 'Try adjusting your search or filters' : 'Start by creating your first job application. Tip: Press Ctrl+K and type “New Job Application”.'}
           actionLabel="New Application"
           onAction={() => { setShowForm(true); dispatch(showToast({ message: 'Create a new application', severity: 'info', durationMs: 2000 })); }}
+          showIllustration={false}
         />
       ) : (
         useTableView ? (

@@ -7,14 +7,19 @@ interface EmptyStateProps {
   description?: string;
   actionLabel?: string;
   onAction?: () => void;
+  showIllustration?: boolean;
+  illustrationSrc?: string;
+  illustrationHeight?: number;
 }
 
-const EmptyState: React.FC<EmptyStateProps> = ({ title, description, actionLabel, onAction }) => {
+const EmptyState: React.FC<EmptyStateProps> = ({ title, description, actionLabel, onAction, showIllustration = true, illustrationSrc = '/favicon-emoji.svg', illustrationHeight = 120 }) => {
   return (
     <Box textAlign="center" py={3} px={2}>
-      <Box sx={{ maxWidth: 360, mx: 'auto', mb: 1.5 }}>
-        <Image src="/favicon-emoji.svg" alt="Empty state" height={120} effect="opacity" />
-      </Box>
+      {showIllustration && (
+        <Box sx={{ maxWidth: 360, mx: 'auto', mb: 1.5 }}>
+          <Image src={illustrationSrc} alt="Empty state" height={illustrationHeight} effect="opacity" />
+        </Box>
+      )}
       <Typography variant="subtitle1" color="text.secondary" gutterBottom>
         {title}
       </Typography>

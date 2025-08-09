@@ -116,34 +116,47 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
       h1: {
         fontFamily: brandConfig.typography.fontFamily.secondary,
         fontWeight: brandConfig.typography.fontWeight.bold,
+        letterSpacing: 0.2,
+        lineHeight: 1.2,
       },
       h2: {
         fontFamily: brandConfig.typography.fontFamily.secondary,
         fontWeight: brandConfig.typography.fontWeight.semiBold,
+        letterSpacing: 0.15,
+        lineHeight: 1.25,
       },
       h3: {
         fontFamily: brandConfig.typography.fontFamily.secondary,
         fontWeight: brandConfig.typography.fontWeight.semiBold,
+        letterSpacing: 0.1,
+        lineHeight: 1.3,
       },
       h4: {
         fontFamily: brandConfig.typography.fontFamily.secondary,
         fontWeight: brandConfig.typography.fontWeight.medium,
+        letterSpacing: 0.1,
       },
       h5: {
         fontFamily: brandConfig.typography.fontFamily.secondary,
         fontWeight: brandConfig.typography.fontWeight.medium,
+        letterSpacing: 0.05,
       },
       h6: {
         fontFamily: brandConfig.typography.fontFamily.secondary,
         fontWeight: brandConfig.typography.fontWeight.medium,
+        letterSpacing: 0.05,
       },
       body1: {
         fontFamily: brandConfig.typography.fontFamily.primary,
         fontWeight: brandConfig.typography.fontWeight.regular,
+        letterSpacing: 0.05,
+        lineHeight: 1.65,
       },
       body2: {
         fontFamily: brandConfig.typography.fontFamily.primary,
         fontWeight: brandConfig.typography.fontWeight.regular,
+        letterSpacing: 0.03,
+        lineHeight: 1.6,
       },
     },
     shape: { borderRadius: brandConfig.radius.md },
@@ -174,9 +187,14 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
         styleOverrides: {
           body: {
             background: darkMode
-              ? 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)'
+              ? 'radial-gradient(1200px 600px at -10% -10%, rgba(59,130,246,0.15) 0%, rgba(0,0,0,0) 60%), radial-gradient(1000px 500px at 110% -10%, rgba(139,92,246,0.12) 0%, rgba(0,0,0,0) 60%), linear-gradient(180deg, #0b1220 0%, #111827 100%)'
               : 'linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%)',
             minHeight: '100vh',
+            colorScheme: darkMode ? 'dark' : 'light',
+          },
+          '::selection': {
+            backgroundColor: brandConfig.colors.primary.main,
+            color: brandConfig.colors.primary.contrastText,
           },
           '*::-webkit-scrollbar': {
             width: '8px',
@@ -194,10 +212,15 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
       MuiCard: {
         styleOverrides: {
           root: {
-            boxShadow: brandConfig.shadows.md,
+            boxShadow: darkMode ? '0 8px 24px rgba(0,0,0,0.35)' : brandConfig.shadows.md,
             borderRadius: brandConfig.radius.lg,
+            backgroundColor: darkMode ? 'rgba(17, 24, 39, 0.6)' : undefined,
+            backdropFilter: darkMode ? 'saturate(140%) blur(10px)' : undefined,
+            border: `1px solid ${darkMode ? 'rgba(148,163,184,0.12)' : '#e2e8f0'}`,
+            position: 'relative',
+            overflow: 'hidden',
             '&:hover': {
-              boxShadow: brandConfig.shadows.lg,
+              boxShadow: darkMode ? '0 12px 30px rgba(0,0,0,0.45)' : brandConfig.shadows.lg,
             },
           },
         },
@@ -296,16 +319,26 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
             borderRadius: brandConfig.radius.md,
             fontWeight: brandConfig.typography.fontWeight.semiBold,
             textTransform: 'none',
-            boxShadow: brandConfig.shadows.sm,
+            boxShadow: darkMode ? '0 6px 16px rgba(59,130,246,0.18)' : brandConfig.shadows.sm,
             transition: 'all 0.2s ease-in-out',
             '&:hover': {
-              boxShadow: brandConfig.shadows.md,
+              boxShadow: darkMode ? '0 10px 24px rgba(59,130,246,0.25)' : brandConfig.shadows.md,
               transform: 'translateY(-1px)',
               filter: darkMode ? 'brightness(1.05)' : 'none',
             },
             '&:active': {
               transform: 'translateY(0)',
             },
+          },
+          containedPrimary: {
+            backgroundImage: darkMode
+              ? 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)'
+              : undefined,
+            boxShadow: darkMode ? '0 8px 20px rgba(99,102,241,0.35)' : undefined,
+          },
+          outlinedPrimary: {
+            borderColor: darkMode ? 'rgba(148,163,184,0.28)' : undefined,
+            background: darkMode ? 'rgba(255,255,255,0.02)' : undefined,
           },
           startIcon: {
             marginRight: 6,
@@ -390,10 +423,11 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
       MuiPaper: {
         styleOverrides: {
           root: {
-            borderRadius: brandConfig.radius.md,
+            borderRadius: brandConfig.radius.lg,
             backgroundImage: 'none',
-            backgroundColor: darkMode ? 'rgba(2,6,23,0.75)' : '#ffffff',
-            border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : '#e2e8f0'}`,
+            backgroundColor: darkMode ? 'rgba(17, 24, 39, 0.6)' : '#ffffff',
+            backdropFilter: darkMode ? 'saturate(160%) blur(8px)' : undefined,
+            border: `1px solid ${darkMode ? 'rgba(148,163,184,0.12)' : '#e2e8f0'}`,
           },
         },
       },
@@ -408,9 +442,9 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
       MuiAppBar: {
         styleOverrides: {
           root: {
-            background: darkMode ? 'rgba(2,6,23,0.65)' : '#ffffff',
-            backdropFilter: 'saturate(180%) blur(8px)',
-            borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : '#e2e8f0'}`,
+            background: darkMode ? 'linear-gradient(180deg, rgba(2,6,23,0.75) 0%, rgba(2,6,23,0.55) 100%)' : '#ffffff',
+            backdropFilter: 'saturate(180%) blur(10px)',
+            borderBottom: `1px solid ${darkMode ? 'rgba(148,163,184,0.12)' : '#e2e8f0'}`,
           },
         },
       },

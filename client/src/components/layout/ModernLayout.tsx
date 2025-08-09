@@ -85,6 +85,40 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
     { label: 'Pricing', path: '/pricing', icon: <TrendingUpIcon /> },
   ];
 
+  const prefetchRoute = (path: string) => {
+    switch (path) {
+      case '/dashboard':
+        import('../../pages/DashboardPage');
+        break;
+      case '/applications':
+        import('../../pages/ModernApplicationsPage');
+        break;
+      case '/interviews':
+        import('../../pages/InterviewsPage');
+        break;
+      case '/resumes':
+        import('../../pages/ResumePage');
+        break;
+      case '/portfolio':
+        import('../../pages/PortfolioPage');
+        break;
+      case '/motivation':
+        import('../../pages/MotivationPage');
+        break;
+      case '/revenue-tracking':
+        import('../../pages/RevenueTrackingPage');
+        break;
+      case '/pricing':
+        import('../../pages/PricingPage');
+        break;
+      case '/admin':
+        import('../../pages/AdminPage');
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -169,6 +203,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
             <ListItem key={item.path} disablePadding sx={{ px: 2, mb: 0.5 }}>
               <ListItemButton
                 onClick={() => handleNavigation(item.path)}
+                onMouseEnter={() => prefetchRoute(item.path)}
                 sx={{
                   borderRadius: 2,
                   backgroundColor: isActive ? 'primary.main' : 'transparent',

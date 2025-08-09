@@ -20,8 +20,10 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      minHeight="200px"
+      minHeight="160px"
       gap={2}
+      role="status"
+      aria-live="polite"
     >
       <CircularProgress 
         size={size} 

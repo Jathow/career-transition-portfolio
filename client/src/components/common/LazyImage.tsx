@@ -50,6 +50,8 @@ const LazyImage: React.FC<LazyImageProps> = ({
           width: '100%',
           height: 'auto',
           objectFit: 'cover',
+          contentVisibility: 'auto',
+          containIntrinsicSize: typeof height === 'number' ? `${height}px 1px` : undefined,
           ...style,
         }}
         wrapperClassName="lazy-image-wrapper"

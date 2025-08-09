@@ -39,6 +39,7 @@ model User {
   motivationalFeedback MotivationalFeedback[]
   preferences    UserPreferences?
   feedback       Feedback[]
+  auditEvents    AuditEvent[]
 
   @@map("users")
 }

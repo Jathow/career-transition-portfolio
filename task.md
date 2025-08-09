@@ -11,7 +11,7 @@ Phase 1 — High-impact, no external services
   - Enable compact mode by default; reduce paddings/margins in layout, cards, dialogs, and pages (Resumes, Dashboard)
   - Acceptance: Visual density improved; no layout regressions; lints/tests pass
 
-- [ ] Account protection: email verification & anti‑abuse
+- [x] Account protection: email verification & anti‑abuse
   - Email verification flow on registration (signed token, 24h expiry, resend), restrict app access until verified
   - Add optional CAPTCHA (Cloudflare Turnstile/hCaptcha) behind `CAPTCHA_ENABLED` flag on register; fallback to simple challenge in dev
   - Strengthen auth rate limits and add temporary lockout after repeated failures; log and surface friendly messages

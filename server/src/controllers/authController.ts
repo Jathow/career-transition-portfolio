@@ -5,6 +5,7 @@ import { PrismaClient } from '@prisma/client';
 import { registerSchema, loginSchema } from '../utils/validation';
 import { createError } from '../middleware/errorHandler';
 import { logger } from '../utils/logger';
+import { isLockedOut, recordFailure, clearFailures } from '../utils/lockout';
 
 const prisma = new PrismaClient({
   log: ['query', 'info', 'warn', 'error'],
@@ -145,6 +146,12 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
     const { email, password } = value;
 
+    // Check lockout first
+    const { locked, remainingMs } = isLockedOut(email, req.ip);
+    if (locked) {
+      return next(createError(`Too many failed attempts. Try again in ${Math.ceil(remainingMs / 1000)}s.`, 429, 'AUTH_LOCKED'));
+    }
+
     // Find user by email with database error handling
     let user;
     try {
@@ -163,12 +170,14 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     }
 
     if (!user) {
+      recordFailure(email, req.ip);
       return next(createError('Invalid email or password', 401, 'INVALID_CREDENTIALS'));
     }
 
     // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
     if (!isPasswordValid) {
+      recordFailure(email, req.ip);
       return next(createError('Invalid email or password', 401, 'INVALID_CREDENTIALS'));
     }
 
@@ -179,6 +188,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     const { passwordHash, ...userWithoutPassword } = user;
 
     logger.info('User logged in successfully', { userId: user.id, email: user.email });
+    // Clear failures on success
+    clearFailures(email, req.ip);
 
     res.json({
       success: true,

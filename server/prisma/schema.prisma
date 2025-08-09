@@ -249,6 +249,19 @@ model Notification {
   @@map("notifications")
 }
 
+model Feedback {
+  id        String   @id @default(cuid())
+  userId    String?
+  message   String
+  path      String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("feedback")
+}
+
 model Portfolio {
   id                String   @id @default(cuid())
   userId            String   @unique

@@ -16,6 +16,7 @@ import LoadingSpinner from './components/common/LoadingSpinner';
 import PerformanceMonitor from './components/common/PerformanceMonitor';
 import BrandedLanding from './components/common/BrandedLanding';
 import ToastProvider from './components/common/ToastProvider';
+import FeedbackWidget from './components/common/FeedbackWidget';
 
 // Lazy load pages for code splitting (add webpack prefetch hints for common routes)
 const LoginPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/auth/LoginPage'));
@@ -196,6 +197,7 @@ function App() {
             <KeyboardShortcuts />
             <CommandPalette />
             <ToastProvider />
+            <FeedbackWidget />
           </>
         )}
 

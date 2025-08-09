@@ -47,6 +47,8 @@ import ApplicationForm from './ApplicationForm';
 import ApplicationDetail from './ApplicationDetail';
 import ApplicationTable from './ApplicationTable';
 import EmptyState from '../common/EmptyState';
+import UpgradeCTA from '../common/UpgradeCTA';
+import { useAppSelector } from '../../store/store';
 import { showToast } from '../../store/slices/uiSlice';
 
 const ApplicationList: React.FC = () => {
@@ -58,6 +60,7 @@ const ApplicationList: React.FC = () => {
     filters, 
     searchTerm 
   } = useAppSelector((state) => state.jobApplications);
+  const plan = useAppSelector((state) => state.auth.user?.plan || 'FREE');
 
   const [showForm, setShowForm] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState<JobApplication | null>(null);
@@ -270,6 +273,11 @@ const ApplicationList: React.FC = () => {
       )}
 
       {/* Applications List */}
+      {plan === 'FREE' && (
+        <Box sx={{ mb: 2 }}>
+          <UpgradeCTA compact />
+        </Box>
+      )}
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
           <CircularProgress />

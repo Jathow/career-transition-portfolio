@@ -31,6 +31,7 @@ const InterviewsPage = React.lazy(() => import(/* webpackPrefetch: true */ './pa
 const PortfolioPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/PortfolioPage'));
 const MotivationPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/MotivationPage'));
 const RevenueTrackingPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/RevenueTrackingPage'));
+const PricingPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/PricingPage'));
 const AdminPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/AdminPage'));
 // Templates page removed
 
@@ -154,6 +155,10 @@ function App() {
                 <Route
                   path="/revenue-tracking"
                   element={<RevenueTrackingPage />}
+                />
+                <Route
+                  path="/pricing"
+                  element={<PricingPage />}
                 />
                 <Route
                   path="/admin"

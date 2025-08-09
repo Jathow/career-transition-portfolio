@@ -149,6 +149,16 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
     shape: { borderRadius: brandConfig.radius.md },
     spacing: compactMode ? brandConfig.spacing.sm : brandConfig.spacing.md,
     components: {
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: {
+            borderRadius: brandConfig.radius.md,
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              boxShadow: `0 0 0 3px ${darkMode ? 'rgba(59,130,246,0.25)' : 'rgba(59,130,246,0.2)'}`,
+            },
+          },
+        },
+      },
       MuiContainer: {
         defaultProps: {
           maxWidth: 'lg',
@@ -253,6 +263,23 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
           },
         },
       },
+      MuiSelect: {
+        defaultProps: {
+          size: 'small',
+        },
+        styleOverrides: {
+          outlined: {
+            borderRadius: brandConfig.radius.md,
+          },
+        },
+      },
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            fontWeight: brandConfig.typography.fontWeight.medium,
+          },
+        },
+      },
       MuiFormHelperText: {
         styleOverrides: {
           root: {
@@ -303,6 +330,12 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
           },
           outlined: {
             borderColor: darkMode ? 'rgba(148,163,184,0.24)' : '#cbd5e1',
+          },
+          icon: {
+            marginLeft: 6,
+          },
+          deleteIcon: {
+            marginRight: 4,
           },
         },
       },
@@ -364,12 +397,38 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
           },
         },
       },
+      MuiMenu: {
+        styleOverrides: {
+          paper: {
+            borderRadius: brandConfig.radius.lg,
+            border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : '#e2e8f0'}`,
+          },
+        },
+      },
       MuiAppBar: {
         styleOverrides: {
           root: {
             background: darkMode ? 'rgba(2,6,23,0.65)' : '#ffffff',
             backdropFilter: 'saturate(180%) blur(8px)',
             borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : '#e2e8f0'}`,
+          },
+        },
+      },
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            borderRadius: brandConfig.radius.md,
+          },
+        },
+      },
+      MuiDialog: {
+        defaultProps: {
+          fullWidth: true,
+          maxWidth: 'sm',
+        },
+        styleOverrides: {
+          paper: {
+            borderRadius: brandConfig.radius.lg,
           },
         },
       },

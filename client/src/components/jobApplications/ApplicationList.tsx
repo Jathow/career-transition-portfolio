@@ -48,7 +48,6 @@ import ApplicationDetail from './ApplicationDetail';
 import ApplicationTable from './ApplicationTable';
 import EmptyState from '../common/EmptyState';
 import UpgradeCTA from '../common/UpgradeCTA';
-import { useAppSelector } from '../../store/store';
 import { showToast } from '../../store/slices/uiSlice';
 
 const ApplicationList: React.FC = () => {

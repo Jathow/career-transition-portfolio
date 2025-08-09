@@ -148,6 +148,17 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
     shape: { borderRadius: brandConfig.radius.md },
     spacing: compactMode ? brandConfig.spacing.sm : brandConfig.spacing.md,
     components: {
+      MuiContainer: {
+        defaultProps: {
+          maxWidth: 'lg',
+        },
+        styleOverrides: {
+          root: {
+            paddingTop: compactMode ? brandConfig.spacing.md : brandConfig.spacing.lg,
+            paddingBottom: compactMode ? brandConfig.spacing.md : brandConfig.spacing.lg,
+          },
+        },
+      },
       MuiCssBaseline: {
         styleOverrides: {
           body: {
@@ -186,7 +197,7 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
       MuiCardContent: {
         styleOverrides: {
           root: {
-            padding: compactMode ? 12 : 16,
+            padding: compactMode ? 12 : 20,
           },
         },
       },
@@ -271,23 +282,29 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
       MuiDialogTitle: {
         styleOverrides: {
           root: {
-            padding: compactMode ? 12 : 16,
+            padding: compactMode ? 12 : 18,
           },
         },
       },
       MuiDialogContent: {
         styleOverrides: {
           root: {
-            padding: compactMode ? 12 : 16,
+            padding: compactMode ? 12 : 18,
           },
         },
       },
       MuiDialogActions: {
         styleOverrides: {
           root: {
-            padding: compactMode ? 10 : 14,
+            padding: compactMode ? 10 : 16,
           },
         },
+      },
+      MuiGrid: {
+        defaultProps: {
+          // Apply a sensible default spacing across the app
+          spacing: compactMode ? 2 : 3,
+        } as any,
       },
       MuiPaper: {
         styleOverrides: {

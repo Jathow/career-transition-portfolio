@@ -34,6 +34,7 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import EmptyState from '../components/common/EmptyState';
 import { useAppDispatch } from '../store/store';
 import { showToast } from '../store/slices/uiSlice';
+import OnboardingChecklist from '../components/common/OnboardingChecklist';
 
 const DashboardPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -139,6 +140,10 @@ const DashboardPage: React.FC = () => {
 
   return (
     <Container maxWidth="lg">
+      <OnboardingChecklist
+        status={{ hasProject: projects.length > 0, hasApplication: false, hasResume: false }}
+        onCreateProject={handleCreateProject}
+      />
       <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Box>
           <Typography variant="h6" component="h1">

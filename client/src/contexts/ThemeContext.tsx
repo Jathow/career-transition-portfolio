@@ -109,6 +109,7 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
         default: darkMode ? brandConfig.colors.grey[50] : brandConfig.colors.grey[100],
         paper: darkMode ? brandConfig.colors.grey[100] : '#ffffff',
       },
+      divider: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.12)'
     },
     typography: {
       fontFamily: brandConfig.typography.fontFamily.primary,
@@ -252,6 +253,7 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
             '&:hover': {
               boxShadow: brandConfig.shadows.md,
               transform: 'translateY(-1px)',
+              filter: darkMode ? 'brightness(1.05)' : 'none',
             },
             '&:active': {
               transform: 'translateY(0)',
@@ -310,6 +312,31 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
         styleOverrides: {
           root: {
             borderRadius: brandConfig.radius.md,
+            backgroundImage: 'none',
+            backgroundColor: darkMode ? 'rgba(2,6,23,0.75)' : '#ffffff',
+            border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : '#e2e8f0'}`,
+          },
+        },
+      },
+      MuiAppBar: {
+        styleOverrides: {
+          root: {
+            background: darkMode ? 'rgba(2,6,23,0.65)' : '#ffffff',
+            backdropFilter: 'saturate(180%) blur(8px)',
+            borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : '#e2e8f0'}`,
+          },
+        },
+      },
+      MuiListItemButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: brandConfig.radius.md,
+            '&.Mui-selected': {
+              backgroundColor: darkMode ? 'rgba(59,130,246,0.16)' : 'rgba(59,130,246,0.08)',
+            },
+            '&:hover': {
+              backgroundColor: darkMode ? 'rgba(148,163,184,0.08)' : 'rgba(15,23,42,0.04)',
+            },
           },
         },
       },

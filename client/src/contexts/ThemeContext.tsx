@@ -195,6 +195,19 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
           elevation: 1,
         },
       },
+      MuiCardHeader: {
+        styleOverrides: {
+          root: {
+            padding: compactMode ? 12 : 20,
+          },
+          title: {
+            fontWeight: brandConfig.typography.fontWeight.semiBold,
+          },
+          subheader: {
+            opacity: 0.8,
+          },
+        },
+      },
       MuiCardContent: {
         styleOverrides: {
           root: {
@@ -234,8 +247,16 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
               },
               '&.Mui-focused fieldset': {
                 borderColor: brandConfig.colors.primary.main,
+                borderWidth: 1.5,
               },
             },
+          },
+        },
+      },
+      MuiFormHelperText: {
+        styleOverrides: {
+          root: {
+            marginTop: 4,
           },
         },
       },
@@ -259,6 +280,12 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
               transform: 'translateY(0)',
             },
           },
+          startIcon: {
+            marginRight: 6,
+          },
+          endIcon: {
+            marginLeft: 6,
+          },
         },
       },
       MuiIconButton: {
@@ -269,6 +296,14 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
       MuiChip: {
         defaultProps: {
           size: 'small',
+        },
+        styleOverrides: {
+          root: {
+            borderRadius: brandConfig.radius.md,
+          },
+          outlined: {
+            borderColor: darkMode ? 'rgba(148,163,184,0.24)' : '#cbd5e1',
+          },
         },
       },
       MuiListItem: {
@@ -299,6 +334,8 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
         styleOverrides: {
           root: {
             padding: compactMode ? 10 : 16,
+            gap: 8,
+            justifyContent: 'flex-end',
           },
         },
       },
@@ -307,6 +344,15 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
           // Apply a sensible default spacing across the app
           spacing: compactMode ? 2 : 3,
         } as any,
+      },
+      MuiTableRow: {
+        styleOverrides: {
+          root: {
+            '&:hover': {
+              backgroundColor: darkMode ? 'rgba(148,163,184,0.06)' : 'rgba(15,23,42,0.03)',
+            },
+          },
+        },
       },
       MuiPaper: {
         styleOverrides: {

@@ -45,6 +45,7 @@ import {
   Search as SearchIcon,
   Notifications as NotificationsIcon,
   Menu as MenuIcon,
+  ChevronLeft as ChevronLeftIcon,
   // Removed Templates icon
   Keyboard as KeyboardIcon,
 } from '@mui/icons-material';
@@ -53,7 +54,7 @@ import { logout } from '../../store/slices/authSlice';
 import { AppDispatch } from '../../store/store';
 import { openCommandPalette } from '../common/CommandPalette';
 
-const DRAWER_WIDTH = 208;
+const DRAWER_WIDTH = 256;
 
 interface ModernLayoutProps {
   children: React.ReactNode;
@@ -68,6 +69,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [notificationAnchor, setNotificationAnchor] = useState<null | HTMLElement>(null);
   const [showCmdHint, setShowCmdHint] = useState(false);
@@ -178,7 +180,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
   const drawer = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} aria-label="Sidebar navigation">
       {/* Logo/Brand */}
-      <Box sx={{ p: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
+      <Box sx={{ p: 2.5, borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'space-between', gap: 1 }}>
         <Typography 
           variant="h6" 
           sx={{ 
@@ -188,11 +190,13 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
           }}
           onClick={() => handleNavigation('/dashboard')}
         >
-          Career Portfolio
+          {sidebarCollapsed ? 'CP' : 'Career Portfolio'}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Build your future
-        </Typography>
+        {!sidebarCollapsed && (
+          <Typography variant="body2" color="text.secondary">
+            Build your future
+          </Typography>
+        )}
       </Box>
 
       {/* Navigation */}
@@ -211,19 +215,22 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
                   '&:hover': {
                     backgroundColor: isActive ? 'primary.dark' : 'action.hover',
                   },
+                  justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
                 }}
                 aria-current={isActive ? 'page' : undefined}
               >
-                <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
+                <ListItemIcon sx={{ color: 'inherit', minWidth: sidebarCollapsed ? 0 : 40, justifyContent: 'center' }}>
                   {item.icon}
                 </ListItemIcon>
-                <ListItemText 
-                  primary={item.label}
-                  primaryTypographyProps={{
-                    fontSize: '0.875rem',
-                    fontWeight: isActive ? 600 : 400
-                  }}
-                />
+                {!sidebarCollapsed && (
+                  <ListItemText 
+                    primary={item.label}
+                    primaryTypographyProps={{
+                      fontSize: '0.925rem',
+                      fontWeight: isActive ? 700 : 500
+                    }}
+                  />
+                )}
               </ListItemButton>
             </ListItem>
           );
@@ -236,20 +243,26 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
           <Avatar sx={{ width: 40, height: 40, fontSize: '0.9rem' }}>
             {user?.firstName?.[0]}{user?.lastName?.[0]}
           </Avatar>
-          <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'center', maxWidth: '100%' }}>
-            {user?.firstName} {user?.lastName}
-          </Typography>
-          <Typography 
-            variant="caption" 
-            color="text.secondary" 
-            sx={{ textAlign: 'center', maxWidth: '100%', overflowWrap: 'anywhere' }}
-          >
-            {user?.email}
-          </Typography>
+          {!sidebarCollapsed && (
+            <>
+              <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'center', maxWidth: '100%' }}>
+                {user?.firstName} {user?.lastName}
+              </Typography>
+              <Typography 
+                variant="caption" 
+                color="text.secondary" 
+                sx={{ textAlign: 'center', maxWidth: '100%', overflowWrap: 'anywhere' }}
+              >
+                {user?.email}
+              </Typography>
+            </>
+          )}
         </Box>
-        <Typography variant="caption" color="text.secondary" sx={{ mt: 1, textAlign: 'center', opacity: 0.7 }}>
-          Demo – not for commercial use
-        </Typography>
+        {!sidebarCollapsed && (
+          <Typography variant="caption" color="text.secondary" sx={{ mt: 1, textAlign: 'center', opacity: 0.7 }}>
+            Demo – not for commercial use
+          </Typography>
+        )}
       </Box>
     </Box>
   );
@@ -257,10 +270,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
       {/* Sidebar */}
-      <Box
-        component="nav"
-        sx={{ width: { md: DRAWER_WIDTH }, flexShrink: { md: 0 } }}
-      >
+      <Box component="nav" sx={{ width: { md: sidebarCollapsed ? 72 : DRAWER_WIDTH }, flexShrink: { md: 0 } }}>
         {/* Mobile drawer */}
         <Drawer
           variant="temporary"
@@ -287,7 +297,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
             display: { xs: 'none', md: 'block' },
             '& .MuiDrawer-paper': { 
               boxSizing: 'border-box', 
-              width: DRAWER_WIDTH,
+              width: sidebarCollapsed ? 72 : DRAWER_WIDTH,
               backgroundColor: 'background.paper',
               borderRight: '1px solid',
               borderColor: 'divider'
@@ -313,7 +323,9 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
             py: 1.25,
             borderRadius: 0,
             borderBottom: '1px solid',
-            borderColor: 'divider'
+             borderColor: 'divider',
+             background: theme.palette.mode === 'dark' ? 'linear-gradient(180deg, rgba(2,6,23,0.75) 0%, rgba(2,6,23,0.55) 100%)' : undefined,
+             backdropFilter: theme.palette.mode === 'dark' ? 'blur(10px)' : undefined,
           }}
           component="header"
           role="banner"
@@ -353,6 +365,13 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
 
           {/* Right: Search, notifications, profile */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {!isMobile && (
+              <Tooltip title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}>
+                <IconButton onClick={() => setSidebarCollapsed(v => !v)} aria-label="Toggle sidebar width">
+                  <ChevronLeftIcon sx={{ transform: sidebarCollapsed ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                </IconButton>
+              </Tooltip>
+            )}
             <TextField size="small" placeholder="Search • Press Ctrl+K for commands" aria-label="Global search" sx={{ width: { xs: 140, sm: 260 } }}
               InputProps={{ startAdornment: (
                 <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment>
@@ -393,6 +412,24 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
             </IconButton>
           </Box>
         </Paper>
+
+        {/* Hero Page Header */}
+        <Box sx={{ px: { xs: 2, md: 3 }, py: 2, borderBottom: '1px solid', borderColor: 'divider', background:
+          theme.palette.mode === 'dark' ? 'radial-gradient(800px 300px at 0% 0%, rgba(59,130,246,0.12) 0%, rgba(0,0,0,0) 60%), radial-gradient(600px 240px at 100% 0%, rgba(139,92,246,0.10) 0%, rgba(0,0,0,0) 60%)' : 'transparent'
+        }}>
+          <Typography variant="h5" sx={{ fontWeight: 800 }}>
+            {navigationItems.find(item => item.path === location.pathname)?.label || 'Dashboard'}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {location.pathname === '/dashboard' && 'Overview of your portfolio, progress, and upcoming actions.'}
+            {location.pathname === '/applications' && 'Track your applications and keep momentum.'}
+            {location.pathname === '/interviews' && 'Prepare and reflect to perform your best.'}
+            {location.pathname === '/resumes' && 'Craft role-targeted resumes with clarity.'}
+            {location.pathname === '/portfolio' && 'Curate projects that tell your story.'}
+            {location.pathname === '/motivation' && 'Build consistent habits and celebrate wins.'}
+            {location.pathname === '/revenue-tracking' && 'Measure what matters to grow impact.'}
+          </Typography>
+        </Box>
 
         {/* Page content */}
         <Box sx={{ flexGrow: 1, p: { xs: 2, md: 3 }, overflow: 'auto' }} component="main" role="main" aria-label="Page content">

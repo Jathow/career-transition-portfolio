@@ -18,6 +18,7 @@ import PerformanceMonitor from './components/common/PerformanceMonitor';
 import BrandedLanding from './components/common/BrandedLanding';
 import ToastProvider from './components/common/ToastProvider';
 import FeedbackWidget from './components/common/FeedbackWidget';
+import AuroraBackground from './components/common/AuroraBackground';
 
 // Lazy load pages for code splitting (add webpack prefetch hints for common routes)
 const LoginPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/auth/LoginPage'));
@@ -113,8 +114,10 @@ function App() {
         '& *': {
           scrollbarWidth: 'thin',
           scrollbarColor: 'rgba(0,0,0,0.2) transparent',
-        }
+        },
+        position: 'relative'
       }}>
+        <AuroraBackground />
         {isAuthenticated ? (
           <ModernLayout>
             <Suspense fallback={<PageLoadingFallback />}>

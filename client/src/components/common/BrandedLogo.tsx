@@ -43,18 +43,19 @@ const BrandedLogo: React.FC<BrandedLogoProps> = ({
   };
 
   const LogoIcon = () => (
-    <SvgIcon
+    <Box
       sx={{
-        fontSize: 'inherit',
-        ...getColorStyles(),
+        width: 28,
+        height: 28,
+        borderRadius: '28%',
+        background: 'conic-gradient(from 180deg at 50% 50%, #60a5fa, #a78bfa, #60a5fa)',
+        boxShadow: '0 12px 32px rgba(0,0,0,0.35)',
+        display: 'grid',
+        placeItems: 'center',
       }}
-      viewBox="0 0 24 24"
     >
-      <path
-        fill="currentColor"
-        d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
-      />
-    </SvgIcon>
+      <Box sx={{ width: '46%', height: '46%', borderRadius: '18%', backgroundColor: 'white', opacity: 0.95 }} />
+    </Box>
   );
 
   const renderLogo = () => {
@@ -86,11 +87,13 @@ const BrandedLogo: React.FC<BrandedLogoProps> = ({
                 variant="h6"
                 component="div"
                 sx={{
-                  fontWeight: brandConfig.typography.fontWeight.bold,
+                  fontWeight: 800,
                   lineHeight: 1.1,
                   margin: 0,
                   padding: 0,
-                  ...getColorStyles(),
+                  background: 'linear-gradient(135deg, #c7d2fe, #93c5fd, #c4b5fd)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
                 }}
               >
                 {brandConfig.name}

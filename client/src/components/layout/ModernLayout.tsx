@@ -142,7 +142,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
 
   // Sidebar content
   const drawer = (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} aria-label="Sidebar navigation">
       {/* Logo/Brand */}
       <Box sx={{ p: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
         <Typography 
@@ -240,6 +240,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
               backgroundColor: 'background.paper'
             },
           }}
+          PaperProps={{ id: 'primary-navigation-drawer', 'aria-label': 'Mobile navigation' }}
         >
           {drawer}
         </Drawer>
@@ -258,6 +259,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
             },
           }}
           open
+          PaperProps={{ 'aria-label': 'Sidebar navigation' }}
         >
           {drawer}
         </Drawer>
@@ -278,11 +280,19 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
             borderBottom: '1px solid',
             borderColor: 'divider'
           }}
+          component="header"
+          role="banner"
+          aria-label="Top bar"
         >
           {/* Left: Mobile menu button */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             {isMobile && (
-              <IconButton onClick={handleDrawerToggle}>
+              <IconButton 
+                onClick={handleDrawerToggle}
+                aria-label="Open navigation menu"
+                aria-controls="primary-navigation-drawer"
+                aria-expanded={mobileOpen ? 'true' : undefined}
+              >
                 <MenuIcon />
               </IconButton>
             )}
@@ -325,13 +335,23 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
               </IconButton>
             </Tooltip>
             
-            <IconButton onClick={handleNotificationClick}>
+            <IconButton 
+              onClick={handleNotificationClick}
+              aria-label="Notifications"
+              aria-haspopup="menu"
+              aria-controls={Boolean(notificationAnchor) ? 'notifications-menu' : undefined}
+            >
               <Badge badgeContent={notifications.length || null} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
 
-            <IconButton onClick={handleMenu}>
+            <IconButton 
+              onClick={handleMenu}
+              aria-label="Open profile menu"
+              aria-haspopup="menu"
+              aria-controls={Boolean(anchorEl) ? 'profile-menu' : undefined}
+            >
               <Avatar sx={{ width: 32, height: 32, fontSize: '0.875rem' }}>
                 {user?.firstName?.[0]}{user?.lastName?.[0]}
               </Avatar>
@@ -340,7 +360,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
         </Paper>
 
         {/* Page content */}
-        <Box sx={{ flexGrow: 1, p: 3, overflow: 'auto' }}>
+        <Box sx={{ flexGrow: 1, p: { xs: 2, md: 3 }, overflow: 'auto' }} component="main" role="main" aria-label="Page content">
           {children}
         </Box>
       </Box>
@@ -352,6 +372,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
         onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        id="profile-menu"
       >
         <MenuItem onClick={handleProfile}>
           <ListItemIcon><PersonIcon fontSize="small" /></ListItemIcon>
@@ -377,6 +398,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
         onClose={handleNotificationClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        id="notifications-menu"
         PaperProps={{
           sx: { 
             width: 380, 

@@ -159,7 +159,13 @@ const GridNavbar: React.FC = () => {
           {/* Grid Item 1: Logo */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             {isMobile && (
-              <IconButton onClick={handleDrawerToggle} size="small">
+              <IconButton 
+                onClick={handleDrawerToggle} 
+                size="small"
+                aria-label="Open navigation menu"
+                aria-controls="grid-navbar-drawer"
+                aria-expanded={mobileOpen ? 'true' : undefined}
+              >
                 <MenuIcon />
               </IconButton>
             )}
@@ -226,12 +232,18 @@ const GridNavbar: React.FC = () => {
           />
 
           {/* Grid Item 4: Notifications */}
-          <IconButton size="small">
+          <IconButton size="small" aria-label="Notifications">
             <NotificationsIcon />
           </IconButton>
 
           {/* Grid Item 5: Profile */}
-          <IconButton onClick={handleMenu} size="small">
+          <IconButton 
+            onClick={handleMenu} 
+            size="small"
+            aria-label="Open profile menu"
+            aria-haspopup="menu"
+            aria-controls={Boolean(anchorEl) ? 'grid-navbar-profile-menu' : undefined}
+          >
             <Avatar sx={{ width: 32, height: 32, fontSize: '0.875rem' }}>
               {user?.firstName?.[0]}{user?.lastName?.[0]}
             </Avatar>
@@ -246,6 +258,7 @@ const GridNavbar: React.FC = () => {
         onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        id="grid-navbar-profile-menu"
       >
         <MenuItem onClick={handleProfile}>
           <ListItemIcon><PersonIcon fontSize="small" /></ListItemIcon>
@@ -271,6 +284,7 @@ const GridNavbar: React.FC = () => {
         onClose={handleDrawerToggle}
         ModalProps={{ keepMounted: true }}
         sx={{ display: { xs: 'block', md: 'none' } }}
+        PaperProps={{ id: 'grid-navbar-drawer', 'aria-label': 'Mobile navigation' }}
       >
         {drawer}
       </Drawer>

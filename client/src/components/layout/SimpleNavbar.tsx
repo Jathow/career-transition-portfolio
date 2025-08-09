@@ -147,7 +147,12 @@ const SimpleNavbar: React.FC = () => {
           {/* Left: Menu + Logo */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, height: '100%' }}>
             {isMobile && (
-              <IconButton onClick={handleDrawerToggle}>
+              <IconButton 
+                onClick={handleDrawerToggle}
+                aria-label="Open navigation menu"
+                aria-controls="simple-navbar-drawer"
+                aria-expanded={mobileOpen ? 'true' : undefined}
+              >
                 <MenuIcon />
               </IconButton>
             )}
@@ -202,11 +207,16 @@ const SimpleNavbar: React.FC = () => {
               />
             )}
             
-            <IconButton>
+            <IconButton aria-label="Notifications">
               <NotificationsIcon />
             </IconButton>
 
-            <IconButton onClick={handleMenu}>
+            <IconButton 
+              onClick={handleMenu}
+              aria-label="Open profile menu"
+              aria-haspopup="menu"
+              aria-controls={Boolean(anchorEl) ? 'simple-navbar-profile-menu' : undefined}
+            >
               <Avatar sx={{ width: 32, height: 32, fontSize: '0.875rem' }}>
                 {user?.firstName?.[0]}{user?.lastName?.[0]}
               </Avatar>
@@ -222,6 +232,7 @@ const SimpleNavbar: React.FC = () => {
         onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        id="simple-navbar-profile-menu"
       >
         <MenuItem onClick={handleProfile}>
           <ListItemIcon><PersonIcon fontSize="small" /></ListItemIcon>
@@ -247,6 +258,7 @@ const SimpleNavbar: React.FC = () => {
         onClose={handleDrawerToggle}
         ModalProps={{ keepMounted: true }}
         sx={{ display: { xs: 'block', md: 'none' } }}
+        PaperProps={{ id: 'simple-navbar-drawer', 'aria-label': 'Mobile navigation' }}
       >
         {drawer}
       </Drawer>

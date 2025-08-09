@@ -214,6 +214,12 @@ const GlobalSearch: React.FC = () => {
         onChange={handleSearchChange}
         onKeyDown={handleKeyDown}
         onFocus={() => setOpen(true)}
+        inputProps={{
+          role: 'combobox',
+          'aria-expanded': open ? 'true' : 'false',
+          'aria-controls': open ? 'global-search-results' : undefined,
+          'aria-autocomplete': 'list',
+        }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -230,6 +236,7 @@ const GlobalSearch: React.FC = () => {
                 size="small"
                 onClick={handleClear}
                 edge="end"
+                aria-label="Clear search"
               >
                 <ClearIcon />
               </IconButton>
@@ -254,6 +261,7 @@ const GlobalSearch: React.FC = () => {
         anchorEl={anchorRef.current}
         placement="bottom-start"
         style={{ zIndex: 1300, width: anchorRef.current?.offsetWidth }}
+        id="global-search-results"
         transition
       >
         {({ TransitionProps }) => (

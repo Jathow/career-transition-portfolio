@@ -224,7 +224,13 @@ const Navbar: React.FC = () => {
           {/* Left: Logo */}
           <Stack direction="row" alignItems="center" spacing={2}>
             {isMobile && (
-              <IconButton onClick={handleDrawerToggle} sx={{ color: 'text.primary' }}>
+              <IconButton 
+                onClick={handleDrawerToggle} 
+                sx={{ color: 'text.primary' }}
+                aria-label="Open navigation menu"
+                aria-controls="navbar-mobile-drawer"
+                aria-expanded={mobileOpen ? 'true' : undefined}
+              >
                 <MenuIcon />
               </IconButton>
             )}
@@ -260,6 +266,7 @@ const Navbar: React.FC = () => {
                         backgroundColor: 'action.hover',
                       },
                     }}
+                    aria-label={item.label}
                   >
                     {item.icon}
                   </IconButton>
@@ -275,7 +282,13 @@ const Navbar: React.FC = () => {
             {/* Debug: Navbar alignment fix applied */}
             {!isMobile && (
               <Tooltip title={`${user?.firstName} ${user?.lastName}`} arrow>
-                <IconButton onClick={handleMenu} sx={{ color: 'text.primary' }}>
+                <IconButton 
+                  onClick={handleMenu} 
+                  sx={{ color: 'text.primary' }}
+                  aria-label="Open profile menu"
+                  aria-haspopup="menu"
+                  aria-controls={Boolean(anchorEl) ? 'navbar-profile-menu' : undefined}
+                >
                   <Avatar 
                     sx={{ 
                       width: 32, 
@@ -301,6 +314,7 @@ const Navbar: React.FC = () => {
         onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        id="navbar-profile-menu"
         slotProps={{
           paper: {
             sx: {
@@ -354,6 +368,7 @@ const Navbar: React.FC = () => {
             backgroundColor: 'background.paper',
           },
         }}
+        PaperProps={{ id: 'navbar-mobile-drawer', 'aria-label': 'Mobile navigation' }}
       >
         {drawer}
       </Drawer>

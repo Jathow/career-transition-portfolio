@@ -84,9 +84,6 @@ function App() {
     return <LoadingSpinner />;
   }
 
-  // Keep Suspense boundaries mounted per path to avoid unmount cost
-  const suspenseKey = useMemo(() => location.pathname.split('/')[1] || 'root', [location.pathname]);
-
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box sx={{
@@ -127,7 +124,7 @@ function App() {
         <AuroraBackground />
         {isAuthenticated ? (
           <ModernLayout>
-            <Suspense fallback={<PageLoadingFallback />} key={suspenseKey}>
+            <Suspense fallback={<PageLoadingFallback />}>
               <Fade in key={location.pathname} timeout={200}>
                 <Box>
                   <Routes>

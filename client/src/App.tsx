@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState, Suspense, useMemo } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -36,10 +36,14 @@ const PricingPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages
 const AdminPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/AdminPage'));
 // Templates page removed
 
-// Loading fallback component for Suspense
+// Loading fallback component for Suspense (skeletal, compact)
 const PageLoadingFallback: React.FC = () => (
-  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
-    <LoadingSpinner />
+  <Box sx={{ px: 3, py: 2 }}>
+    <Box sx={{ height: 8, width: 180, bgcolor: 'action.hover', borderRadius: 1, mb: 2 }} />
+    <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' } }}>
+      <Box sx={{ height: 160, bgcolor: 'action.hover', borderRadius: 2 }} />
+      <Box sx={{ height: 160, bgcolor: 'action.hover', borderRadius: 2 }} />
+    </Box>
   </Box>
 );
 
@@ -79,6 +83,9 @@ function App() {
   if (isLoading) {
     return <LoadingSpinner />;
   }
+
+  // Keep Suspense boundaries mounted per path to avoid unmount cost
+  const suspenseKey = useMemo(() => location.pathname.split('/')[1] || 'root', [location.pathname]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -120,7 +127,7 @@ function App() {
         <AuroraBackground />
         {isAuthenticated ? (
           <ModernLayout>
-            <Suspense fallback={<PageLoadingFallback />}>
+            <Suspense fallback={<PageLoadingFallback />} key={suspenseKey}>
               <Fade in key={location.pathname} timeout={200}>
                 <Box>
                   <Routes>

@@ -380,7 +380,7 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
             <Tooltip title="Command Palette (Ctrl+K)">
               <IconButton onClick={() => openCommandPalette()} aria-label="Open Command Palette" onMouseEnter={() => {
                 // Prefetch common routes on hover to improve perceived performance
-                import('../../pages/ApplicationsPage');
+                import('../../pages/ModernApplicationsPage');
                 import('../../pages/InterviewsPage');
                 import('../../pages/ResumePage');
                 import('../../pages/DashboardPage');

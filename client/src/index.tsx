@@ -45,3 +45,5 @@ root.render(
 // Disable service worker temporarily to fix login issues
 // TODO: Re-enable after fixing CSP and caching issues
 serviceWorker.unregister();
+// Warm routes after idle for faster first navigations
+serviceWorker.warmRoutes();

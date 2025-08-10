@@ -139,3 +139,21 @@ export function unregister() {
       });
   }
 } 
+
+// Warm common routes in background after idle for snappier navigation
+export function warmRoutes() {
+  const warm = () => {
+    try {
+      import('./pages/DashboardPage');
+      import('./pages/ModernApplicationsPage');
+      import('./pages/InterviewsPage');
+      import('./pages/ResumePage');
+      import('./pages/PortfolioPage');
+    } catch {}
+  };
+  if ('requestIdleCallback' in window) {
+    (window as any).requestIdleCallback(warm);
+  } else {
+    setTimeout(warm, 1200);
+  }
+}

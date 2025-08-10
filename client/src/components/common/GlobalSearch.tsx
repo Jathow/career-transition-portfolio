@@ -150,7 +150,7 @@ const GlobalSearch: React.FC = () => {
     if (searchTerm.trim()) {
       searchTimeoutRef.current = setTimeout(() => {
         performSearch(searchTerm);
-      }, 300);
+      }, 180);
     } else {
       setResults([]);
       setLoading(false);

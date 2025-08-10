@@ -162,6 +162,13 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
     shape: { borderRadius: brandConfig.radius.md },
     spacing: compactMode ? brandConfig.spacing.sm : brandConfig.spacing.md,
     components: {
+      MuiButtonBase: {
+        defaultProps: {
+          disableRipple: true,
+          disableTouchRipple: true,
+          focusRipple: false,
+        },
+      },
       MuiOutlinedInput: {
         styleOverrides: {
           root: {
@@ -320,11 +327,10 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
             fontWeight: brandConfig.typography.fontWeight.semiBold,
             textTransform: 'none',
             boxShadow: darkMode ? '0 6px 16px rgba(59,130,246,0.18)' : brandConfig.shadows.sm,
-            transition: 'all 0.2s ease-in-out',
+            transition: 'background-color 120ms ease, box-shadow 120ms ease, transform 120ms ease',
             '&:hover': {
               boxShadow: darkMode ? '0 10px 24px rgba(59,130,246,0.25)' : brandConfig.shadows.md,
               transform: 'translateY(-1px)',
-              filter: darkMode ? 'brightness(1.05)' : 'none',
             },
             '&:active': {
               transform: 'translateY(0)',
@@ -351,6 +357,7 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
       MuiIconButton: {
         defaultProps: {
           size: 'small',
+          disableRipple: true,
         },
       },
       MuiChip: {
@@ -432,6 +439,9 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
         },
       },
       MuiMenu: {
+        defaultProps: {
+          transitionDuration: 120,
+        },
         styleOverrides: {
           paper: {
             borderRadius: brandConfig.radius.lg,
@@ -449,6 +459,11 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
         },
       },
       MuiTooltip: {
+        defaultProps: {
+          enterDelay: 0,
+          enterNextDelay: 0,
+          leaveDelay: 0,
+        },
         styleOverrides: {
           tooltip: {
             borderRadius: brandConfig.radius.md,
@@ -459,6 +474,7 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
         defaultProps: {
           fullWidth: true,
           maxWidth: 'sm',
+          transitionDuration: 120,
         },
         styleOverrides: {
           paper: {
@@ -467,6 +483,9 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
         },
       },
       MuiListItemButton: {
+        defaultProps: {
+          disableRipple: true,
+        },
         styleOverrides: {
           root: {
             borderRadius: brandConfig.radius.md,
@@ -476,7 +495,13 @@ export const AppThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => 
             '&:hover': {
               backgroundColor: darkMode ? 'rgba(148,163,184,0.08)' : 'rgba(15,23,42,0.04)',
             },
+            transition: 'background-color 120ms ease',
           },
+        },
+      },
+      MuiDrawer: {
+        defaultProps: {
+          transitionDuration: 120,
         },
       },
     },

@@ -66,6 +66,14 @@ const PortfolioPreview: React.FC<PortfolioPreviewProps> = ({ contentOverride, hi
     return techStack.split(',').map(tech => tech.trim());
   };
 
+  const getLink = (raw?: string) => {
+    if (!raw) return undefined;
+    const trimmed = raw.trim();
+    if (!trimmed) return undefined;
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed;
+    return `https://${trimmed}`;
+  };
+
   if (loading && !contentData) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
@@ -322,20 +330,30 @@ const PortfolioPreview: React.FC<PortfolioPreviewProps> = ({ contentOverride, hi
                     Connect
                   </Typography>
                   <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button
-                      size="small"
-                      startIcon={<LinkedIn />}
-                      variant="outlined"
-                    >
-                      LinkedIn
-                    </Button>
-                    <Button
-                      size="small"
-                      startIcon={<GitHub />}
-                      variant="outlined"
-                    >
-                      GitHub
-                    </Button>
+                    {getLink(contentData.resume?.content?.personalInfo?.linkedin) && (
+                      <Button
+                        size="small"
+                        startIcon={<LinkedIn />}
+                        variant="outlined"
+                        href={getLink(contentData.resume?.content?.personalInfo?.linkedin)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        LinkedIn
+                      </Button>
+                    )}
+                    {getLink(contentData.resume?.content?.personalInfo?.github) && (
+                      <Button
+                        size="small"
+                        startIcon={<GitHub />}
+                        variant="outlined"
+                        href={getLink(contentData.resume?.content?.personalInfo?.github)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        GitHub
+                      </Button>
+                    )}
                   </Box>
                 </Paper>
               </Grid>

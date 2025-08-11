@@ -88,37 +88,29 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
   ];
 
   const prefetchRoute = (path: string) => {
-    switch (path) {
-      case '/dashboard':
-        import('../../pages/DashboardPage');
-        break;
-      case '/applications':
-        import('../../pages/ModernApplicationsPage');
-        break;
-      case '/interviews':
-        import('../../pages/InterviewsPage');
-        break;
-      case '/resumes':
-        import('../../pages/ResumePage');
-        break;
-      case '/portfolio':
-        import('../../pages/PortfolioPage');
-        break;
-      case '/motivation':
-        import('../../pages/MotivationPage');
-        break;
-      case '/revenue-tracking':
-        import('../../pages/RevenueTrackingPage');
-        break;
-      case '/pricing':
-        import('../../pages/PricingPage');
-        break;
-      case '/admin':
-        import('../../pages/AdminPage');
-        break;
-      default:
-        break;
-    }
+    // Start dynamic imports but without awaiting them; browser will cache for snappy navigation
+    try {
+      switch (path) {
+        case '/dashboard':
+          import(/* webpackPrefetch: true */ '../../pages/DashboardPage'); break;
+        case '/applications':
+          import(/* webpackPrefetch: true */ '../../pages/ModernApplicationsPage'); break;
+        case '/interviews':
+          import(/* webpackPrefetch: true */ '../../pages/InterviewsPage'); break;
+        case '/resumes':
+          import(/* webpackPrefetch: true */ '../../pages/ResumePage'); break;
+        case '/portfolio':
+          import(/* webpackPrefetch: true */ '../../pages/PortfolioPage'); break;
+        case '/motivation':
+          import(/* webpackPrefetch: true */ '../../pages/MotivationPage'); break;
+        case '/revenue-tracking':
+          import(/* webpackPrefetch: true */ '../../pages/RevenueTrackingPage'); break;
+        case '/pricing':
+          import(/* webpackPrefetch: true */ '../../pages/PricingPage'); break;
+        case '/admin':
+          import(/* webpackPrefetch: true */ '../../pages/AdminPage'); break;
+      }
+    } catch {}
   };
 
   const handleDrawerToggle = () => {
@@ -372,10 +364,10 @@ const ModernLayout: React.FC<ModernLayoutProps> = ({ children }) => {
                 </IconButton>
               </Tooltip>
             )}
-            <TextField size="small" placeholder="Search • Press Ctrl+K for commands" aria-label="Global search" sx={{ width: { xs: 140, sm: 260 } }}
+            <TextField size="small" placeholder="Search" aria-label="Global search" sx={{ width: { xs: 100, sm: 220 } }}
               InputProps={{ startAdornment: (
                 <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment>
-              ) }}
+              ), inputProps: { 'aria-label': 'Search' } }}
             />
             <Tooltip title="Command Palette (Ctrl+K)">
               <IconButton onClick={() => openCommandPalette()} aria-label="Open Command Palette" onPointerEnter={() => {

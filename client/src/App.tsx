@@ -34,6 +34,7 @@ const MotivationPage = React.lazy(() => import(/* webpackPrefetch: true */ './pa
 const RevenueTrackingPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/RevenueTrackingPage'));
 const PricingPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/PricingPage'));
 const AdminPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/AdminPage'));
+const PortfolioPublicPage = React.lazy(() => import(/* webpackPrefetch: true */ './pages/PortfolioPublicPage'));
 // Templates page removed
 
 // Loading fallback component for Suspense (skeletal, compact)
@@ -175,7 +176,7 @@ function App() {
                 />
                 {/* Templates route removed */}
 
-                {/* Default redirect */}
+                 {/* Default redirect */}
                 <Route
                   path="/"
                   element={<Navigate to="/dashboard" />}
@@ -206,6 +207,11 @@ function App() {
               <Route
                 path="/pricing"
                 element={<PricingPage />}
+              />
+              {/* Public portfolio route for sharing */}
+              <Route
+                path="/portfolio/public/:userId"
+                element={<PortfolioPublicPage />}
               />
               <Route
                 path="/"

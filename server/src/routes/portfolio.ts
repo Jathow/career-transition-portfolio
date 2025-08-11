@@ -21,5 +21,6 @@ router.get('/analytics', authenticateToken, portfolioController.getPortfolioAnal
 
 // Public portfolio route (no authentication required)
 router.get('/public/:userId', portfolioController.getPublicPortfolio);
+router.get('/public/:userId/content', portfolioController.getPublicPortfolioContent);
 
 export default router; 

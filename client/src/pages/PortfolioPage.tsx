@@ -40,7 +40,7 @@ const PortfolioPage: React.FC = () => {
   const { portfolio, loading, error, analytics } = useAppSelector((state) => state.portfolio);
   const { user } = useAppSelector((state) => state.auth);
 
-  const [activeTab, setActiveTab] = useState<'overview' | 'settings' | 'analytics' | 'preview'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'settings' | 'analytics' | 'preview'>('preview');
   const [isEditing, setIsEditing] = useState(false);
   const [portfolioData, setPortfolioData] = useState<Partial<Portfolio>>({});
 

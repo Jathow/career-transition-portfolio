@@ -114,6 +114,39 @@ export class PortfolioController {
   }
 
   /**
+   * Get public portfolio content (no authentication required)
+   */
+  async getPublicPortfolioContent(req: Request, res: Response) {
+    try {
+      const { userId } = req.params;
+
+      const content = await portfolioService.generatePublicPortfolioContent(userId, {
+        includeCompletedProjects: true,
+        includeResume: true,
+        includeAnalytics: false,
+      });
+
+      if (!content) {
+        return res.status(404).json({
+          success: false,
+          error: { message: 'Portfolio not found or not public' }
+        });
+      }
+
+      res.status(200).json({ success: true, data: content });
+    } catch (error) {
+      logger.error('Error in getPublicPortfolioContent:', error);
+      res.status(500).json({
+        success: false,
+        error: {
+          message: 'Failed to fetch public portfolio content',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      });
+    }
+  }
+
+  /**
    * Generate portfolio content
    */
   async generatePortfolioContent(req: Request, res: Response) {

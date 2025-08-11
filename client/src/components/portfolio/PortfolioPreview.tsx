@@ -126,10 +126,10 @@ const PortfolioPreview: React.FC = () => {
         sx={{
           width: getPreviewWidth(),
           mx: 'auto',
-          border: '1px solid #e0e0e0',
+          border: (theme) => `1px solid ${theme.palette.divider}`,
           borderRadius: 2,
           overflow: 'hidden',
-          bgcolor: 'white',
+          bgcolor: (theme) => theme.palette.background.paper,
           minHeight: '600px',
         }}
       >
@@ -137,7 +137,7 @@ const PortfolioPreview: React.FC = () => {
         <Box
           sx={{
             bgcolor: 'primary.main',
-            color: 'white',
+            color: 'primary.contrastText',
             p: 3,
             textAlign: 'center',
           }}
@@ -293,7 +293,7 @@ const PortfolioPreview: React.FC = () => {
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <Paper sx={{ p: 2 }}>
+                  <Paper sx={{ p: 2 }}>
                   <Typography variant="h6" gutterBottom>
                     Get in Touch
                   </Typography>
@@ -307,7 +307,7 @@ const PortfolioPreview: React.FC = () => {
                 </Paper>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Paper sx={{ p: 2 }}>
+                  <Paper sx={{ p: 2 }}>
                   <Typography variant="h6" gutterBottom>
                     Connect
                   </Typography>
@@ -336,10 +336,10 @@ const PortfolioPreview: React.FC = () => {
         {/* Footer */}
         <Box
           sx={{
-            bgcolor: 'grey.100',
+            bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.06)' : 'grey.100',
             p: 2,
             textAlign: 'center',
-            borderTop: '1px solid #e0e0e0',
+            borderTop: (theme) => `1px solid ${theme.palette.divider}`,
           }}
         >
           <Typography variant="body2" color="text.secondary">

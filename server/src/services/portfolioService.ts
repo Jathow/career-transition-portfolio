@@ -230,6 +230,81 @@ export class PortfolioService {
   }
 
   /**
+   * Generate public portfolio content (for shared page)
+   */
+  async generatePublicPortfolioContent(userId: string, options: PortfolioGenerationOptions = {}): Promise<any | null> {
+    try {
+      const portfolio = await this.getPublicPortfolio(userId);
+      if (!portfolio) {
+        return null;
+      }
+
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        include: {
+          projects: {
+            where: options.includeCompletedProjects ? { status: 'COMPLETED' } : {},
+            orderBy: { actualEndDate: 'desc' }
+          },
+          resumes: {
+            where: { isDefault: true }
+          }
+        }
+      });
+
+      if (!user) {
+        return null;
+      }
+
+      const content = {
+        user: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          targetJobTitle: user.targetJobTitle,
+          email: user.email
+        },
+        portfolio: {
+          title: portfolio.title,
+          subtitle: portfolio.subtitle,
+          description: portfolio.description,
+          theme: portfolio.theme
+        },
+        projects: user.projects.map(project => ({
+          id: project.id,
+          title: project.title,
+          description: project.description,
+          techStack: project.techStack,
+          repositoryUrl: project.repositoryUrl,
+          liveUrl: project.liveUrl,
+          startDate: project.startDate,
+          actualEndDate: project.actualEndDate,
+          revenueTracking: project.revenueTracking,
+          marketResearch: project.marketResearch
+        })),
+        resume: options.includeResume && user.resumes.length > 0 ? {
+          content: JSON.parse(user.resumes[0].content)
+        } : null,
+        seo: {
+          title: portfolio.seoTitle,
+          description: portfolio.seoDescription,
+          keywords: portfolio.seoKeywords
+        },
+        analytics: false
+      };
+
+      await prisma.portfolio.update({
+        where: { userId },
+        data: { lastGenerated: new Date() }
+      });
+
+      return content;
+    } catch (error) {
+      logger.error('Error generating public portfolio content:', error);
+      throw new Error('Failed to generate public portfolio content');
+    }
+  }
+
+  /**
    * Add asset to portfolio
    */
   async addPortfolioAsset(portfolioId: string, assetData: Partial<PortfolioAssetData>): Promise<PortfolioAssetData> {

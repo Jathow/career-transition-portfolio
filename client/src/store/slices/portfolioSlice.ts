@@ -237,6 +237,18 @@ export const fetchPublicPortfolio = createAsyncThunk(
   }
 );
 
+export const fetchPublicPortfolioContent = createAsyncThunk(
+  'portfolio/fetchPublicPortfolioContent',
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/portfolio/public/${userId}/content`);
+      return response.data.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.error?.message || 'Failed to fetch public portfolio content');
+    }
+  }
+);
+
 const portfolioSlice = createSlice({
   name: 'portfolio',
   initialState,
@@ -382,6 +394,19 @@ const portfolioSlice = createSlice({
         state.publicPortfolio = action.payload;
       })
       .addCase(fetchPublicPortfolio.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // Fetch public portfolio content
+      .addCase(fetchPublicPortfolioContent.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchPublicPortfolioContent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.publicContent = action.payload;
+      })
+      .addCase(fetchPublicPortfolioContent.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

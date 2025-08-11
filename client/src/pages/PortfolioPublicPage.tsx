@@ -40,7 +40,7 @@ const PortfolioPublicPage: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 3 }}>
       <Box>
-        <PortfolioPreview contentOverride={publicContent} hideControls />
+        <PortfolioPreview contentOverride={publicContent} hideControls suppressAutoGenerate />
       </Box>
     </Container>
   );

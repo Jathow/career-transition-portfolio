@@ -24,22 +24,30 @@ import {
   LinkedIn,
 } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { generatePortfolioContent } from '../../store/slices/portfolioSlice';
+import { generatePortfolioContent, PortfolioContent } from '../../store/slices/portfolioSlice';
 
-const PortfolioPreview: React.FC = () => {
+interface PortfolioPreviewProps {
+  contentOverride?: PortfolioContent | null;
+  hideControls?: boolean;
+  suppressAutoGenerate?: boolean;
+}
+
+const PortfolioPreview: React.FC<PortfolioPreviewProps> = ({ contentOverride, hideControls = false, suppressAutoGenerate = false }) => {
   const dispatch = useAppDispatch();
   const { content, loading } = useAppSelector((state) => state.portfolio);
   const [previewMode, setPreviewMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
 
   useEffect(() => {
-    if (!content) {
+    if (!suppressAutoGenerate && !content && !contentOverride) {
       dispatch(generatePortfolioContent({
         includeCompletedProjects: true,
         includeResume: true,
         includeAnalytics: false,
       }));
     }
-  }, [dispatch, content]);
+  }, [dispatch, content, contentOverride, suppressAutoGenerate]);
+
+  const contentData = contentOverride || content;
 
   const getPreviewWidth = () => {
     switch (previewMode) {
@@ -58,7 +66,7 @@ const PortfolioPreview: React.FC = () => {
     return techStack.split(',').map(tech => tech.trim());
   };
 
-  if (loading && !content) {
+  if (loading && !contentData) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
         <CircularProgress />
@@ -66,7 +74,7 @@ const PortfolioPreview: React.FC = () => {
     );
   }
 
-  if (!content) {
+  if (!contentData) {
     return (
       <Card>
         <CardContent>
@@ -84,6 +92,7 @@ const PortfolioPreview: React.FC = () => {
   return (
     <Box>
       {/* Preview Controls */}
+      {!hideControls && (
       <Card sx={{ mb: 3 }}>
         <CardContent>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
@@ -120,6 +129,7 @@ const PortfolioPreview: React.FC = () => {
           </Typography>
         </CardContent>
       </Card>
+      )}
 
       {/* Portfolio Preview */}
       <Box
@@ -143,16 +153,16 @@ const PortfolioPreview: React.FC = () => {
           }}
         >
           <Typography variant="h3" gutterBottom>
-            {content.portfolio.title}
+            {contentData.portfolio.title}
           </Typography>
-          {content.portfolio.subtitle && (
+          {contentData.portfolio.subtitle && (
             <Typography variant="h6" sx={{ mb: 2 }}>
-              {content.portfolio.subtitle}
+              {contentData.portfolio.subtitle}
             </Typography>
           )}
-          {content.portfolio.description && (
+          {contentData.portfolio.description && (
             <Typography variant="body1" sx={{ mb: 2 }}>
-              {content.portfolio.description}
+              {contentData.portfolio.description}
             </Typography>
           )}
           <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
@@ -160,7 +170,7 @@ const PortfolioPreview: React.FC = () => {
               variant="outlined"
               color="inherit"
               startIcon={<Email />}
-              href={`mailto:${content.user.email}`}
+              href={`mailto:${contentData.user.email}`}
             >
               Contact
             </Button>
@@ -182,9 +192,9 @@ const PortfolioPreview: React.FC = () => {
               About
             </Typography>
             <Typography variant="body1" sx={{ mb: 2 }}>
-              Hi, I'm {content.user.firstName} {content.user.lastName}
-              {content.user.targetJobTitle && (
-                <span>, a {content.user.targetJobTitle}</span>
+              Hi, I'm {contentData.user.firstName} {contentData.user.lastName}
+              {contentData.user.targetJobTitle && (
+                <span>, a {contentData.user.targetJobTitle}</span>
               )}
               . I'm passionate about creating innovative solutions and building impactful applications.
             </Typography>
@@ -196,7 +206,7 @@ const PortfolioPreview: React.FC = () => {
               Projects
             </Typography>
             <Grid container spacing={3}>
-              {content.projects.map((project) => (
+              {contentData.projects.map((project) => (
                 <Grid item xs={12} md={6} key={project.id}>
                   <Card sx={{ height: '100%' }}>
                     <CardContent>
@@ -268,13 +278,13 @@ const PortfolioPreview: React.FC = () => {
           </Box>
 
           {/* Skills Section */}
-          {content.resume?.content?.skills && (
+          {contentData.resume?.content?.skills && (
             <Box sx={{ mb: 4 }}>
               <Typography variant="h4" gutterBottom>
                 Skills
               </Typography>
               <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                {content.resume.content.skills.map((skill: string, index: number) => (
+                {contentData.resume.content.skills.map((skill: string, index: number) => (
                   <Chip
                     key={index}
                     label={skill}
@@ -299,7 +309,7 @@ const PortfolioPreview: React.FC = () => {
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
                     <Email sx={{ fontSize: 16, mr: 1, verticalAlign: 'middle' }} />
-                    {content.user.email}
+                    {contentData.user.email}
                   </Typography>
                   <Typography variant="body2">
                     I'm always open to discussing new opportunities and collaborations.
@@ -343,7 +353,7 @@ const PortfolioPreview: React.FC = () => {
           }}
         >
           <Typography variant="body2" color="text.secondary">
-            © {new Date().getFullYear()} {content.user.firstName} {content.user.lastName}. 
+            © {new Date().getFullYear()} {contentData.user.firstName} {contentData.user.lastName}. 
             All rights reserved.
           </Typography>
         </Box>

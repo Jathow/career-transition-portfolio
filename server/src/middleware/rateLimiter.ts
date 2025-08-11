@@ -10,10 +10,22 @@ const noOpMiddleware = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
+// Read overrides from environment for easy tuning without code changes
+const toInt = (value: string | undefined, fallback: number): number => {
+  const parsed = parseInt(String(value || ''), 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+};
+
+const API_WINDOW_MS = toInt(process.env.API_RATE_LIMIT_WINDOW_MS, 15 * 60 * 1000);
+const API_MAX = toInt(process.env.API_RATE_LIMIT_MAX, 100);
+
+const AUTH_WINDOW_MS = toInt(process.env.AUTH_RATE_LIMIT_WINDOW_MS, 15 * 60 * 1000);
+const AUTH_MAX = toInt(process.env.AUTH_RATE_LIMIT_MAX, 100);
+
 // Production rate limiters
 const productionApiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
+  windowMs: API_WINDOW_MS,
+  max: API_MAX,
   message: {
     success: false,
     error: {
@@ -42,8 +54,21 @@ const productionApiLimiter = rateLimit({
 });
 
 const productionAuthLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 20,
+  windowMs: AUTH_WINDOW_MS,
+  max: AUTH_MAX,
+  // Do not count successful auth calls (e.g., profile checks, successful logins)
+  skipSuccessfulRequests: true,
+  // Use email when available to avoid one IP throttling multiple users on shared networks
+  keyGenerator: (req) => {
+    try {
+      const email = (req.body as any)?.email || (req.query as any)?.email;
+      if (typeof email === 'string' && email.trim().length > 0) {
+        return `email:${email.trim().toLowerCase()}`;
+      }
+    } catch {}
+    const ua = req.get('User-Agent') || '';
+    return `ip:${req.ip}|ua:${ua}`;
+  },
   message: {
     success: false,
     error: {

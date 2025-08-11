@@ -37,8 +37,13 @@ api.interceptors.response.use(
       const currentPath = window.location.pathname;
       const isAuthEndpoint = error.config?.url?.includes('/auth/');
       const isLoginPage = currentPath === '/login' || currentPath === '/register';
+      // Allow unauthenticated access to explicitly public routes (no redirect)
+      const isPublicRoute =
+        currentPath.startsWith('/portfolio/public') ||
+        currentPath === '/' ||
+        currentPath.startsWith('/pricing');
       
-      if (!isLoginPage && !isAuthEndpoint) {
+      if (!isLoginPage && !isAuthEndpoint && !isPublicRoute) {
         // Clear token and redirect to login
         localStorage.removeItem('token');
         window.location.href = '/login';

@@ -1,5 +1,7 @@
 # Local task tracker
 task.md
+ui.md
+taskui.md
 # Dependencies
 node_modules/
 */node_modules/

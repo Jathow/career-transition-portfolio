@@ -154,13 +154,6 @@ export const createProjectSchema = Joi.object({
     .required()
     .custom((value, helpers) => {
       const startDate = helpers.state.ancestors[0].startDate || new Date();
-      const maxEndDate = new Date(startDate);
-      maxEndDate.setDate(maxEndDate.getDate() + 7);
-      
-      if (value > maxEndDate) {
-        return helpers.error('date.max');
-      }
-      
       if (value <= startDate) {
         return helpers.error('date.min');
       }
@@ -169,7 +162,6 @@ export const createProjectSchema = Joi.object({
     })
     .messages({
       'date.base': 'Please provide a valid target end date',
-      'date.max': 'Target end date cannot exceed 1 week from start date',
       'date.min': 'Target end date must be after start date',
       'any.required': 'Target end date is required'
     }),

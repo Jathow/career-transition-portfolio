@@ -77,14 +77,28 @@ describe('ProjectService', () => {
       expect(result).toEqual(mockProject);
     });
 
-    it('should throw error when target end date exceeds 1 week', async () => {
-      const invalidProjectData = {
+    it('should allow long-term target end dates beyond 1 week', async () => {
+      const longTermProjectData = {
         ...validProjectData,
-        targetEndDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // 10 days from now
+        targetEndDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+      } as CreateProjectData;
+
+      const mockProject = {
+        id: 'project-long-term',
+        userId: mockUserId,
+        ...longTermProjectData,
+        techStack: 'React, TypeScript',
+        startDate: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
 
-      await expect(projectService.createProject(mockUserId, invalidProjectData))
-        .rejects.toThrow('Project target end date cannot exceed 1 week from start date');
+      const { PrismaClient } = require('@prisma/client');
+      const mockPrisma = new PrismaClient();
+      mockPrisma.project.create.mockResolvedValue(mockProject);
+
+      const result = await projectService.createProject(mockUserId, longTermProjectData);
+      expect(result).toEqual(mockProject);
     });
   });
 

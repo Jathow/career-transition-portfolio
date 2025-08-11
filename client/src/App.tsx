@@ -158,6 +158,11 @@ function App() {
                   path="/portfolio"
                   element={<PortfolioPage />}
                 />
+                {/* Public portfolio should be reachable even when authenticated */}
+                <Route
+                  path="/portfolio/public/:userId"
+                  element={<PortfolioPublicPage />}
+                />
                 <Route
                   path="/motivation"
                   element={<MotivationPage />}

@@ -367,8 +367,8 @@ This project showcases my ability to:
 ### 📞 **Let's Connect**
 I'm actively seeking full-stack developer opportunities where I can contribute my skills and continue growing. 
 
-- **Portfolio**: [https://career-transition-portfolio-production.up.railway.app](https://careerportfolio.dev/portfolio/public/cmdxrc9tp0000p9c00w1wahzc)
-- **LinkedIn**: [[Your LinkedIn Profile]](https://www.linkedin.com/in/justin-howell-30013237a/)
+- **Portfolio**: [Portfolio page on careerportfolio.dev - live demo](https://careerportfolio.dev/portfolio/public/cmdxrc9tp0000p9c00w1wahzc)
+- **LinkedIn**: [LinkedIn Profile](https://www.linkedin.com/in/justin-howell-30013237a/)
 
 
 ---
